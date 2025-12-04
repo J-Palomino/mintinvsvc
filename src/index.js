@@ -1,4 +1,8 @@
-require('dotenv').config();
+// Only load .env file in development (Railway/production sets env vars directly)
+const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+if (!isProduction) {
+  require('dotenv').config();
+}
 
 const InventorySyncService = require('./services/inventorySync');
 const StoreConfigService = require('./services/storeConfig');
