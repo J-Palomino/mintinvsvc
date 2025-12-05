@@ -61,6 +61,7 @@ class StoreConfigService {
         id: String(dutchieInfo.locationId),
         name: store.name,
         apiKey: store.dutchieApiKey,
+        retailerId: store.DutchieStoreID, // For Plus GraphQL API
         dutchieLocationName: dutchieInfo.locationName,
         city: dutchieInfo.city,
         state: dutchieInfo.state,

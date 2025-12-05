@@ -5,32 +5,49 @@ if (!isProduction) {
 }
 
 const InventorySyncService = require('./services/inventorySync');
+const ProductEnrichmentService = require('./services/productEnrichment');
 const StoreConfigService = require('./services/storeConfig');
 
-const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 5;
+const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 10;
 const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 
-async function syncAllLocations(syncServices) {
-  console.log(`\n--- Starting sync for ${syncServices.length} location(s) ---`);
+async function syncAllLocations(inventoryServices, enrichmentServices) {
+  console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
   const startTime = Date.now();
 
-  const results = [];
-  for (const service of syncServices) {
+  // Phase 1: Inventory sync from POS API
+  console.log('\n--- Phase 1: Inventory Sync (POS API) ---');
+  let totalSynced = 0;
+  let totalErrors = 0;
+
+  for (const service of inventoryServices) {
     try {
       const result = await service.syncInventory();
-      results.push(result);
+      totalSynced += result.synced || 0;
+      totalErrors += result.errors || 0;
     } catch (error) {
-      console.error(`Sync failed for location:`, error.message);
-      results.push({ error: error.message });
+      console.error(`Inventory sync failed:`, error.message);
+      totalErrors++;
     }
   }
 
-  const totalSynced = results.reduce((sum, r) => sum + (r.synced || 0), 0);
-  const totalErrors = results.reduce((sum, r) => sum + (r.errors || 0), 0);
-  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
-  console.log(`--- Sync complete: ${totalSynced} items synced, ${totalErrors} errors (${duration} min) ---\n`);
+  // Phase 2: Product enrichment from Plus GraphQL API
+  console.log('\n--- Phase 2: Product Enrichment (Plus API) ---');
+  let totalEnriched = 0;
 
-  return results;
+  for (const service of enrichmentServices) {
+    try {
+      const result = await service.enrichProducts();
+      totalEnriched += result.enriched || 0;
+    } catch (error) {
+      console.error(`Enrichment failed:`, error.message);
+    }
+  }
+
+  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
+  console.log(`\n=== Sync complete: ${totalSynced} synced, ${totalEnriched} enriched, ${totalErrors} errors (${duration} min) ===\n`);
+
+  return { totalSynced, totalEnriched, totalErrors, duration };
 }
 
 async function main() {
@@ -54,17 +71,24 @@ async function main() {
   }
 
   console.log(`\nLocations to sync:`);
-  locationConfigs.forEach(loc => console.log(`  - [${loc.id}] ${loc.name} (${loc.city}, ${loc.state})`));
+  locationConfigs.forEach(loc => {
+    const retailerStatus = loc.retailerId ? '✓' : '✗';
+    console.log(`  - [${loc.id}] ${loc.name} (${loc.city}, ${loc.state}) [Plus API: ${retailerStatus}]`);
+  });
 
   // Create sync services for each location
-  const syncServices = locationConfigs.map(
+  const inventoryServices = locationConfigs.map(
     loc => new InventorySyncService(loc.id, loc.name, loc.apiKey)
+  );
+
+  const enrichmentServices = locationConfigs.map(
+    loc => new ProductEnrichmentService(loc.id, loc.name, loc.retailerId)
   );
 
   // Run initial sync
   console.log('\n');
   try {
-    await syncAllLocations(syncServices);
+    await syncAllLocations(inventoryServices, enrichmentServices);
   } catch (error) {
     console.error('Initial sync failed:', error.message);
   }
@@ -72,7 +96,7 @@ async function main() {
   // Schedule recurring syncs
   setInterval(async () => {
     try {
-      await syncAllLocations(syncServices);
+      await syncAllLocations(inventoryServices, enrichmentServices);
     } catch (error) {
       console.error('Scheduled sync failed:', error.message);
     }
