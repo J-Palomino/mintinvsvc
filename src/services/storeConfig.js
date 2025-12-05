@@ -8,7 +8,8 @@ class StoreConfigService {
   async fetchStores() {
     try {
       console.log('Fetching store configurations...');
-      const response = await axios.get(STORES_API_URL);
+      // Add pagination limit to get all stores (Strapi defaults to 25)
+      const response = await axios.get(`${STORES_API_URL}?pagination[limit]=100`);
 
       const stores = response.data.data || response.data;
       console.log(`Found ${stores.length} stores in backend`);

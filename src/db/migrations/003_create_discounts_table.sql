@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS discounts (
 
   -- Thresholds and limits
   threshold_type VARCHAR(100),
-  minimum_items_required INTEGER,
-  maximum_items_allowed INTEGER,
-  maximum_usage_count INTEGER,
+  minimum_items_required DECIMAL(10, 2),
+  maximum_items_allowed DECIMAL(10, 2),
+  maximum_usage_count DECIMAL(10, 2),
 
   -- Options
   include_non_cannabis BOOLEAN DEFAULT false,
