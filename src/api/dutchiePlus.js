@@ -40,9 +40,7 @@ query MenuQuery($retailerId: ID!) {
 
 class DutchiePlusClient {
   constructor() {
-    if (!DUTCHIE_PLUS_API_KEY) {
-      console.warn('Warning: DUTCHIE_PLUS_API_KEY not set - Plus API enrichment will be skipped');
-    }
+    this.apiKeySet = !!DUTCHIE_PLUS_API_KEY;
 
     this.client = axios.create({
       baseURL: DUTCHIE_PLUS_URL,

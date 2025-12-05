@@ -12,8 +12,13 @@ class ProductEnrichmentService {
     const startTime = Date.now();
     console.log(`Starting product enrichment for ${this.locationName}...`);
 
+    if (!this.plusClient.apiKeySet) {
+      console.log(`  Skipping ${this.locationName} - DUTCHIE_PLUS_API_KEY not set`);
+      return { enriched: 0, errors: 0, skipped: true };
+    }
+
     if (!this.locationId) {
-      console.log(`  Skipping - no location ID configured`);
+      console.log(`  Skipping ${this.locationName} - no location ID configured`);
       return { enriched: 0, errors: 0, skipped: true };
     }
 
