@@ -2,24 +2,23 @@ const db = require('../db');
 const DutchiePlusClient = require('../api/dutchiePlus');
 
 class ProductEnrichmentService {
-  constructor(locationId, locationName, retailerId) {
-    this.locationId = locationId;
+  constructor(locationId, locationName) {
+    this.locationId = locationId; // DutchieStoreID - used as both location_id and retailerId
     this.locationName = locationName;
-    this.retailerId = retailerId;
     this.plusClient = new DutchiePlusClient();
   }
 
   async enrichProducts() {
     const startTime = Date.now();
-    console.log(`Starting product enrichment for ${this.locationName} (retailer: ${this.retailerId})...`);
+    console.log(`Starting product enrichment for ${this.locationName}...`);
 
-    if (!this.retailerId) {
-      console.log(`  Skipping - no retailer ID configured`);
+    if (!this.locationId) {
+      console.log(`  Skipping - no location ID configured`);
       return { enriched: 0, errors: 0, skipped: true };
     }
 
     try {
-      const products = await this.plusClient.getMenuProducts(this.retailerId);
+      const products = await this.plusClient.getMenuProducts(this.locationId);
 
       if (!products || products.length === 0) {
         console.log('  No products received from menu');

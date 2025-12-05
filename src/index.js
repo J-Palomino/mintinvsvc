@@ -72,17 +72,17 @@ async function main() {
 
   console.log(`\nLocations to sync:`);
   locationConfigs.forEach(loc => {
-    const retailerStatus = loc.retailerId ? '✓' : '✗';
-    console.log(`  - [${loc.id}] ${loc.name} (${loc.city}, ${loc.state}) [Plus API: ${retailerStatus}]`);
+    console.log(`  - [${loc.id}] ${loc.name} (${loc.city}, ${loc.state})`);
   });
 
   // Create sync services for each location
+  // loc.id is now the DutchieStoreID (UUID) used for both inventory and enrichment
   const inventoryServices = locationConfigs.map(
     loc => new InventorySyncService(loc.id, loc.name, loc.apiKey)
   );
 
   const enrichmentServices = locationConfigs.map(
-    loc => new ProductEnrichmentService(loc.id, loc.name, loc.retailerId)
+    loc => new ProductEnrichmentService(loc.id, loc.name)
   );
 
   // Run initial sync

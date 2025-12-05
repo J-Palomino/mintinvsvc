@@ -58,10 +58,10 @@ class StoreConfigService {
       }
 
       configs.push({
-        id: String(dutchieInfo.locationId),
+        id: store.DutchieStoreID, // Use DutchieStoreID as location_id
         name: store.name,
         apiKey: store.dutchieApiKey,
-        retailerId: store.DutchieStoreID, // For Plus GraphQL API
+        posLocationId: dutchieInfo.locationId, // Numeric POS location ID (for reference)
         dutchieLocationName: dutchieInfo.locationName,
         city: dutchieInfo.city,
         state: dutchieInfo.state,
@@ -69,7 +69,7 @@ class StoreConfigService {
         slug: store.slug
       });
 
-      console.log(`  ✓ ${store.name} -> Location ${dutchieInfo.locationId}`);
+      console.log(`  ✓ ${store.name} -> ${store.DutchieStoreID}`);
     }
 
     console.log(`\nConfigured ${configs.length} locations for sync`);
