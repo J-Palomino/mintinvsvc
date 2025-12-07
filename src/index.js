@@ -7,12 +7,14 @@ if (!isProduction) {
 const InventorySyncService = require('./services/inventorySync');
 const ProductEnrichmentService = require('./services/productEnrichment');
 const DiscountSyncService = require('./services/discountSync');
+const CacheSyncService = require('./services/cacheSync');
 const StoreConfigService = require('./services/storeConfig');
+const { startServer } = require('./api/server');
 
 const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 10;
 const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 
-async function syncAllLocations(inventoryServices, enrichmentServices, discountServices) {
+async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
   const startTime = Date.now();
 
@@ -58,10 +60,19 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
     }
   }
 
-  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
-  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalDiscounts} discounts, ${totalErrors} errors (${duration} min) ===\n`);
+  // Phase 4: Refresh Redis cache
+  let totalCached = 0;
+  try {
+    const cacheResult = await cacheSyncService.refreshAllCaches(locationConfigs);
+    totalCached = cacheResult.totalInventory || 0;
+  } catch (error) {
+    console.error(`Cache refresh failed:`, error.message);
+  }
 
-  return { totalSynced, totalEnriched, totalDiscounts, totalErrors, duration };
+  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
+  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalDiscounts} discounts, ${totalCached} cached, ${totalErrors} errors (${duration} min) ===\n`);
+
+  return { totalSynced, totalEnriched, totalDiscounts, totalCached, totalErrors, duration };
 }
 
 async function main() {
@@ -103,10 +114,15 @@ async function main() {
     loc => new DiscountSyncService(loc.id, loc.name, loc.apiKey)
   );
 
+  const cacheSyncService = new CacheSyncService();
+
+  // Start API server
+  await startServer();
+
   // Run initial sync
   console.log('\n');
   try {
-    await syncAllLocations(inventoryServices, enrichmentServices, discountServices);
+    await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
   } catch (error) {
     console.error('Initial sync failed:', error.message);
   }
@@ -114,7 +130,7 @@ async function main() {
   // Schedule recurring syncs
   setInterval(async () => {
     try {
-      await syncAllLocations(inventoryServices, enrichmentServices, discountServices);
+      await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
     } catch (error) {
       console.error('Scheduled sync failed:', error.message);
     }
