@@ -2,6 +2,7 @@ const axios = require('axios');
 const DutchiePlusClient = require('../api/dutchiePlus');
 
 const STORES_API_URL = process.env.STORES_API_URL || 'https://mintdealsbackend-production.up.railway.app/api/stores';
+const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
 class BannerSyncService {
   constructor(locationId, locationName, storeId) {
@@ -30,6 +31,11 @@ class BannerSyncService {
       return { updated: false, skipped: true };
     }
 
+    if (!STRAPI_API_TOKEN) {
+      console.log(`  Skipping ${this.locationName} - STRAPI_API_TOKEN not set`);
+      return { updated: false, skipped: true };
+    }
+
     try {
       const bannerHtml = await this.plusClient.getRetailerBanner(this.locationId);
 
@@ -37,6 +43,11 @@ class BannerSyncService {
       const response = await axios.put(`${STORES_API_URL}/${this.storeId}`, {
         data: {
           tickertape: bannerHtml
+        }
+      }, {
+        headers: {
+          'Authorization': `Bearer ${STRAPI_API_TOKEN}`,
+          'Content-Type': 'application/json'
         }
       });
 
@@ -50,7 +61,8 @@ class BannerSyncService {
         return { updated: false, duration, locationId: this.locationId };
       }
     } catch (error) {
-      console.error(`  Banner sync failed for ${this.locationName}:`, error.message);
+      const errorDetails = error.response?.data || error.message;
+      console.error(`  Banner sync failed for ${this.locationName}:`, JSON.stringify(errorDetails));
       return { updated: false, error: error.message, locationId: this.locationId };
     }
   }
