@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS locations (
     id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    tickertape TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

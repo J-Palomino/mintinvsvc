@@ -7,6 +7,7 @@ if (!isProduction) {
 const InventorySyncService = require('./services/inventorySync');
 const ProductEnrichmentService = require('./services/productEnrichment');
 const DiscountSyncService = require('./services/discountSync');
+const BannerSyncService = require('./services/bannerSync');
 const CacheSyncService = require('./services/cacheSync');
 const StoreConfigService = require('./services/storeConfig');
 const { startServer } = require('./api/server');
@@ -14,7 +15,7 @@ const { startServer } = require('./api/server');
 const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 10;
 const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 
-async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs) {
+async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, bannerServices, cacheSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
   const startTime = Date.now();
 
@@ -47,8 +48,23 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
     }
   }
 
-  // Phase 3: Discount sync from POS API
-  console.log('\n--- Phase 3: Discount Sync (POS API) ---');
+  // Phase 3: Banner sync from Plus GraphQL API
+  console.log('\n--- Phase 3: Banner Sync (Plus API) ---');
+  let totalBanners = 0;
+
+  for (const service of bannerServices) {
+    try {
+      const result = await service.syncBanner();
+      if (result.updated && result.hasContent) {
+        totalBanners++;
+      }
+    } catch (error) {
+      console.error(`Banner sync failed:`, error.message);
+    }
+  }
+
+  // Phase 4: Discount sync from POS API
+  console.log('\n--- Phase 4: Discount Sync (POS API) ---');
   let totalDiscounts = 0;
 
   for (const service of discountServices) {
@@ -60,7 +76,7 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
     }
   }
 
-  // Phase 4: Refresh Redis cache
+  // Phase 5: Refresh Redis cache
   let totalCached = 0;
   try {
     const cacheResult = await cacheSyncService.refreshAllCaches(locationConfigs);
@@ -70,9 +86,9 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
   }
 
   const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
-  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalDiscounts} discounts, ${totalCached} cached, ${totalErrors} errors (${duration} min) ===\n`);
+  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalBanners} banners, ${totalDiscounts} discounts, ${totalCached} cached, ${totalErrors} errors (${duration} min) ===\n`);
 
-  return { totalSynced, totalEnriched, totalDiscounts, totalCached, totalErrors, duration };
+  return { totalSynced, totalEnriched, totalBanners, totalDiscounts, totalCached, totalErrors, duration };
 }
 
 async function main() {
@@ -114,6 +130,10 @@ async function main() {
     loc => new DiscountSyncService(loc.id, loc.name, loc.apiKey)
   );
 
+  const bannerServices = locationConfigs.map(
+    loc => new BannerSyncService(loc.id, loc.name)
+  );
+
   const cacheSyncService = new CacheSyncService();
 
   // Start API server
@@ -122,7 +142,7 @@ async function main() {
   // Run initial sync
   console.log('\n');
   try {
-    await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
+    await syncAllLocations(inventoryServices, enrichmentServices, discountServices, bannerServices, cacheSyncService, locationConfigs);
   } catch (error) {
     console.error('Initial sync failed:', error.message);
   }
@@ -130,7 +150,7 @@ async function main() {
   // Schedule recurring syncs
   setInterval(async () => {
     try {
-      await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
+      await syncAllLocations(inventoryServices, enrichmentServices, discountServices, bannerServices, cacheSyncService, locationConfigs);
     } catch (error) {
       console.error('Scheduled sync failed:', error.message);
     }

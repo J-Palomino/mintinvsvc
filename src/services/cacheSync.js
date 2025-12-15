@@ -42,19 +42,32 @@ class CacheSyncService {
 
   // Refresh cache for all locations
   async refreshAllCaches(locationConfigs) {
-    console.log('\n--- Phase 4: Refreshing Redis Cache ---');
+    console.log('\n--- Phase 5: Refreshing Redis Cache ---');
     const startTime = Date.now();
 
     let totalInventory = 0;
     let totalDiscounts = 0;
 
-    // Cache locations list
+    // Fetch tickertape data from database for all locations
+    const locationIds = locationConfigs.map(loc => loc.id);
+    const tickertapeResult = await db.query(`
+      SELECT id, tickertape FROM locations WHERE id = ANY($1)
+    `, [locationIds]);
+
+    // Create a map of location id to tickertape
+    const tickertapeMap = {};
+    for (const row of tickertapeResult.rows) {
+      tickertapeMap[row.id] = row.tickertape;
+    }
+
+    // Cache locations list with tickertape
     const locationsData = locationConfigs.map(loc => ({
       id: loc.id,
       name: loc.name,
       city: loc.city,
       state: loc.state,
-      slug: loc.slug
+      slug: loc.slug,
+      tickertape: tickertapeMap[loc.id] || null
     }));
     await cache.cacheLocations(locationsData);
 

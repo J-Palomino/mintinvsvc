@@ -38,6 +38,16 @@ query MenuQuery($retailerId: ID!) {
 }
 `;
 
+const RETAILER_BANNER_QUERY = `
+query RetailerBannerQuery($retailerId: ID!) {
+  retailer(id: $retailerId) {
+    banner {
+      html
+    }
+  }
+}
+`;
+
 class DutchiePlusClient {
   constructor() {
     this.apiKeySet = !!DUTCHIE_PLUS_API_KEY;
@@ -79,6 +89,41 @@ class DutchiePlusClient {
         console.error('  Dutchie Plus API Error:', error.message);
       }
       return [];
+    }
+  }
+
+  async getRetailerBanner(retailerId) {
+    if (!DUTCHIE_PLUS_API_KEY) {
+      return null;
+    }
+
+    try {
+      console.log(`  Fetching banner for retailer: ${retailerId}`);
+
+      const response = await this.client.post('', {
+        query: RETAILER_BANNER_QUERY,
+        variables: { retailerId }
+      });
+
+      if (response.data.errors) {
+        console.error('  GraphQL errors:', response.data.errors[0]?.message);
+        return null;
+      }
+
+      const bannerHtml = response.data.data?.retailer?.banner?.html || null;
+      if (bannerHtml) {
+        console.log(`  Fetched banner for retailer ${retailerId}`);
+      } else {
+        console.log(`  No banner found for retailer ${retailerId}`);
+      }
+      return bannerHtml;
+    } catch (error) {
+      if (error.response) {
+        console.error('  Dutchie Plus API Error:', error.response.status);
+      } else {
+        console.error('  Dutchie Plus API Error:', error.message);
+      }
+      return null;
     }
   }
 }
