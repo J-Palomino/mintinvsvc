@@ -7,10 +7,10 @@ class CacheSyncService {
     console.log(`  Caching data for ${locationName}...`);
 
     try {
-      // Get inventory from Postgres
+      // Get inventory from Postgres (treat NULL is_active as true)
       const inventoryResult = await db.query(`
         SELECT * FROM inventory
-        WHERE location_id = $1 AND is_active = true
+        WHERE location_id = $1 AND (is_active = true OR is_active IS NULL)
         ORDER BY product_name
       `, [locationId]);
 
