@@ -1,5 +1,6 @@
--- Create discounts table
-CREATE TABLE IF NOT EXISTS discounts (
+-- Create discounts table (drop first to ensure clean state)
+DROP TABLE IF EXISTS discounts;
+CREATE TABLE discounts (
   id VARCHAR(255) PRIMARY KEY, -- locationId_discountId
   location_id VARCHAR(255) NOT NULL,
   discount_id INTEGER NOT NULL,
