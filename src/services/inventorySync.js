@@ -166,6 +166,11 @@ class InventorySyncService {
     // Add location_id
     transformed.location_id = this.locationId;
 
+    // Default is_active to true if not provided (Dutchie API doesn't always return this)
+    if (transformed.is_active === undefined || transformed.is_active === null) {
+      transformed.is_active = true;
+    }
+
     // Generate unique id: locationId_inventoryId
     if (transformed.inventory_id) {
       transformed.id = `${this.locationId}_${transformed.inventory_id}`;
