@@ -1,5 +1,5 @@
 -- Create discounts table (drop first to ensure clean state)
-DROP TABLE IF EXISTS discounts;
+DROP TABLE IF EXISTS discounts CASCADE;
 CREATE TABLE discounts (
   id VARCHAR(255) PRIMARY KEY, -- locationId_discountId
   location_id VARCHAR(255) NOT NULL,
