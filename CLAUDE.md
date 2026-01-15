@@ -31,7 +31,7 @@ The main entry point (`src/index.js`) orchestrates sync in phases every 10 minut
 4. **Phase 4 - Cache Refresh:** Syncs PostgreSQL data to Redis
 
 **Daily Scheduled Tasks:**
-- **9:00 AM** - GL Journal Export: Generates accounting journal entries for previous day's transactions
+- **8:00 AM** - GL Journal Export: Generates accounting journal entries for previous day's transactions
 - **5:00 AM** - Banner Sync: Updates Strapi tickertape from Dutchie Plus retailer banner
 
 ## Key Services

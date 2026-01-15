@@ -16,7 +16,7 @@ const { startServer } = require('./api/server');
 const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 10;
 const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 const BANNER_SYNC_HOUR = 5; // 5 AM daily
-const GL_EXPORT_HOUR = 9; // 9 AM daily
+const GL_EXPORT_HOUR = 8; // 8 AM daily
 
 async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
