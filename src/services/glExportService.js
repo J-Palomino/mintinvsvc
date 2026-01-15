@@ -121,7 +121,7 @@ class GLExportService {
   aggregateTransactions(transactions) {
     const totals = {
       grossSales: 0,
-      discounts: 0,
+      discounts: 0,        // Non-loyalty discounts only (totalDiscount - loyaltySpent)
       loyaltySpent: 0,
       returns: 0,
       tax: 0,
@@ -142,14 +142,17 @@ class GLExportService {
         totals.returns += Math.abs(t.total || 0);
       } else {
         totals.grossSales += t.subtotal || 0;
-        totals.discounts += t.totalDiscount || 0;
+        // loyaltySpent is already included in totalDiscount, so subtract to avoid double-counting
+        const loyaltyAmount = t.loyaltySpent || 0;
+        const totalDiscount = t.totalDiscount || 0;
+        totals.discounts += totalDiscount - loyaltyAmount;  // Non-loyalty discounts only
+        totals.loyaltySpent += loyaltyAmount;
         totals.tax += t.tax || 0;
         totals.cashPaid += t.cashPaid || 0;
         totals.debitPaid += t.debitPaid || 0;
         totals.creditPaid += t.creditPaid || 0;
         totals.totalPaid += t.paid || 0;
         totals.changeDue += t.changeDue || 0;
-        totals.loyaltySpent += t.loyaltySpent || 0;
       }
 
       if (t.items) {

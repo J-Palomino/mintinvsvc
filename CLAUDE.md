@@ -43,7 +43,8 @@ The main entry point (`src/index.js`) orchestrates sync in phases every 10 minut
 | ProductEnrichmentService | `src/services/productEnrichment.js` | GraphQL enrichment (effects, images, potency) |
 | BannerSyncService | `src/services/bannerSync.js` | Daily retailer banner → Strapi tickertape |
 | CacheSyncService | `src/services/cacheSync.js` | PostgreSQL → Redis cache |
-| GLExportService | `src/services/glExportService.js` | Daily GL journal export for Accumatica (3 AM) |
+| GLExportService | `src/services/glExportService.js` | Daily GL journal export for Accumatica (8 AM) |
+| HourlySalesService | `src/services/hourlySalesService.js` | Weekly hourly sales aggregation by store |
 | StoreConfigService | `src/services/storeConfig.js` | Fetches location configs from Strapi backend |
 
 ## API Endpoints
@@ -57,6 +58,12 @@ All inventory/discount endpoints are location-scoped:
 - `GET /api/locations/:locationId/brands` - Unique brands
 - `GET /api/locations/:locationId/discounts` - Active discounts
 - `GET /api/locations/:locationId/sync-status` - Last sync timestamp
+
+Reports:
+- `GET /api/reports/daily-sales?date=YYYY-MM-DD` - Generate GL journal export for a specific date
+- `GET /api/reports/daily-sales?date=YYYY-MM-DD&email=true` - Generate and email GL journal export
+- `GET /api/reports/hourly-sales?startDate=YYYY-MM-DD` - Weekly hourly sales by store (7 days)
+- `GET /api/reports/hourly-sales?startDate=...&endDate=...&view=aggregated|detailed|both` - Custom date range
 
 ## Database
 
@@ -89,6 +96,7 @@ Optional:
 - `STORES_API_URL` - Backend URL (default: production Railway URL)
 - `SYNC_INTERVAL_MINUTES` - Sync frequency (default: 10)
 - `PORT` / `API_PORT` - Server port (default: 3000)
+- `API_KEY` - API key for `/api/*` endpoints (default: `7d176bcd2ea77429918fa50c85ebfa5ee5c09cde2ff72850660d81c4a4b40bb3`)
 
 GL Export Email (optional):
 - `SMTP_HOST` - SMTP server hostname
