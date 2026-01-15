@@ -55,6 +55,78 @@ class DiscountSyncService {
     this.locationId = locationId;
     this.locationName = locationName;
     this.dutchieClient = new DutchieClient(null, apiKey);
+    this.inventoryCache = null; // Cache inventory for product lookups
+  }
+
+  /**
+   * Load inventory data for product enrichment lookups
+   * Creates a map of product_id -> product details
+   */
+  async loadInventoryCache() {
+    if (this.inventoryCache) return this.inventoryCache;
+
+    const result = await db.query(`
+      SELECT product_id, product_name, brand_name, category, image_url, unit_price
+      FROM inventory
+      WHERE location_id = $1 AND is_active = true
+    `, [this.locationId]);
+
+    this.inventoryCache = new Map();
+    for (const row of result.rows) {
+      this.inventoryCache.set(row.product_id, {
+        product_name: row.product_name,
+        brand_name: row.brand_name,
+        category: row.category,
+        image_url: row.image_url,
+        unit_price: row.unit_price
+      });
+    }
+
+    return this.inventoryCache;
+  }
+
+  /**
+   * Enrich discount with product details from inventory
+   * For discounts with specific product restrictions, populate product fields
+   */
+  async enrichWithProductData(transformed, restrictions) {
+    if (!restrictions?.Product) return transformed;
+
+    const productRestriction = restrictions.Product;
+    const productIds = productRestriction.restrictionIds || [];
+    const isExclusion = productRestriction.isExclusion || false;
+
+    // Only enrich if this is an inclusion (not exclusion) with specific products
+    if (isExclusion || productIds.length === 0) return transformed;
+
+    await this.loadInventoryCache();
+
+    // Collect details for all applicable products
+    const productDetails = [];
+    for (const productId of productIds) {
+      const product = this.inventoryCache.get(String(productId));
+      if (product) {
+        productDetails.push({
+          product_id: productId,
+          ...product
+        });
+      }
+    }
+
+    if (productDetails.length > 0) {
+      // Set primary product fields from first matching product
+      const primary = productDetails[0];
+      transformed.product_name = primary.product_name;
+      transformed.brand_name = primary.brand_name;
+      transformed.category = primary.category;
+      transformed.image_url = primary.image_url;
+      transformed.unit_price = primary.unit_price;
+
+      // Store all product details as JSONB
+      transformed.product_details = JSON.stringify(productDetails);
+    }
+
+    return transformed;
   }
 
   /**
@@ -197,12 +269,17 @@ class DiscountSyncService {
             continue;
           }
 
-          const transformed = this.transformItem(item);
+          let transformed = this.transformItem(item);
 
           if (!transformed.id) {
             console.warn('  Skipping discount without discount_id');
             errors++;
             continue;
+          }
+
+          // Enrich with product data from inventory
+          if (item.reward?.restrictions) {
+            transformed = await this.enrichWithProductData(transformed, item.reward.restrictions);
           }
 
           const { query, values } = this.buildUpsertQuery(transformed);
