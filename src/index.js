@@ -9,12 +9,14 @@ const ProductEnrichmentService = require('./services/productEnrichment');
 const DiscountSyncService = require('./services/discountSync');
 const BannerSyncService = require('./services/bannerSync');
 const CacheSyncService = require('./services/cacheSync');
+const GLExportService = require('./services/glExportService');
 const StoreConfigService = require('./services/storeConfig');
 const { startServer } = require('./api/server');
 
 const SYNC_INTERVAL_MINUTES = parseInt(process.env.SYNC_INTERVAL_MINUTES, 10) || 10;
 const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 const BANNER_SYNC_HOUR = 5; // 5 AM daily
+const GL_EXPORT_HOUR = 3; // 3 AM daily
 
 async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
@@ -117,6 +119,48 @@ function scheduleDailyBannerSync(bannerServices) {
   console.log(`Banner sync scheduled daily at ${BANNER_SYNC_HOUR}:00 AM`);
 }
 
+async function runGLExport(glExportService) {
+  console.log('\n=== Starting daily GL journal export ===');
+  const startTime = Date.now();
+
+  try {
+    const result = await glExportService.exportAndEmail();
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+
+    if (result.success) {
+      console.log(`=== GL export complete: ${result.stores} stores, $${glExportService.formatNumber(result.totalSales)} (${duration}s) ===`);
+      if (result.email?.sent) {
+        console.log(`=== Email sent to: ${result.email.recipients.join(', ')} ===\n`);
+      }
+    } else {
+      console.error(`=== GL export completed with errors (${duration}s) ===\n`);
+    }
+
+    return result;
+  } catch (error) {
+    console.error('GL export failed:', error.message);
+    return { success: false, error: error.message };
+  }
+}
+
+function scheduleDailyGLExport(glExportService) {
+  const checkAndRunGLExport = async () => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
+    // Run at 3:00 AM (within the first minute of the hour)
+    if (hours === GL_EXPORT_HOUR && minutes === 0) {
+      console.log(`\n[${now.toISOString()}] Running scheduled daily GL export...`);
+      await runGLExport(glExportService);
+    }
+  };
+
+  // Check every minute
+  setInterval(checkAndRunGLExport, 60 * 1000);
+  console.log(`GL journal export scheduled daily at ${GL_EXPORT_HOUR}:00 AM`);
+}
+
 async function main() {
   console.log('Mint Inventory Sync Service starting...');
   console.log(`Sync interval: ${SYNC_INTERVAL_MINUTES} minutes\n`);
@@ -161,6 +205,7 @@ async function main() {
   );
 
   const cacheSyncService = new CacheSyncService();
+  const glExportService = new GLExportService(locationConfigs);
 
   // Start API server
   await startServer();
@@ -191,6 +236,9 @@ async function main() {
 
   // Schedule daily banner sync at 5 AM
   scheduleDailyBannerSync(bannerServices);
+
+  // Schedule daily GL export at 3 AM
+  scheduleDailyGLExport(glExportService);
 
   console.log('Service running. Press Ctrl+C to stop.');
 }
