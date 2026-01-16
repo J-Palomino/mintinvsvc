@@ -42,6 +42,9 @@ class ProductEnrichmentService {
             continue;
           }
 
+          // Extract primary image URL from images array
+          const imageUrl = product.images?.[0]?.url || null;
+
           // Update inventory records matching this SKU and location
           const result = await db.query(`
             UPDATE inventory SET
@@ -54,6 +57,7 @@ class ProductEnrichmentService {
               potency_thc_formatted = $7,
               description = COALESCE(NULLIF($8, ''), description),
               description_html = COALESCE(NULLIF($9, ''), description_html),
+              image_url = COALESCE($12, image_url),
               synced_at = CURRENT_TIMESTAMP
             WHERE location_id = $10
               AND sku = $11
@@ -68,7 +72,8 @@ class ProductEnrichmentService {
             product.description || '',
             product.descriptionHtml || '',
             this.locationId,
-            posSku
+            posSku,
+            imageUrl
           ]);
 
           if (result.rowCount > 0) {
