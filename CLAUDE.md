@@ -7,9 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm start          # Run migrations then start the service
 npm run migrate    # Run database migrations only
+npm test           # Run Jest test suite
 ```
 
-No test suite is currently configured.
+Tests are located in `tests/` and use Jest with mocking for database and API clients.
 
 ## Architecture Overview
 
