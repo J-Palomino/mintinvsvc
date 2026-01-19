@@ -10,6 +10,7 @@ const DiscountSyncService = require('./services/discountSync');
 const BannerSyncService = require('./services/bannerSync');
 const CacheSyncService = require('./services/cacheSync');
 const GLExportService = require('./services/glExportService');
+const HourlySalesSyncService = require('./services/hourlySalesSync');
 const StoreConfigService = require('./services/storeConfig');
 const { startServer } = require('./api/server');
 
@@ -161,6 +162,27 @@ function scheduleDailyGLExport(glExportService) {
   console.log(`GL journal export scheduled daily at ${GL_EXPORT_HOUR}:00 AM`);
 }
 
+function scheduleHourlySalesSync(hourlySalesSyncService) {
+  const runHourlySalesSync = async () => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+
+    // Run at the start of each hour (within first minute)
+    if (minutes === 0) {
+      console.log(`\n[${now.toISOString()}] Running hourly sales sync...`);
+      try {
+        await hourlySalesSyncService.syncHourlySales();
+      } catch (error) {
+        console.error('Hourly sales sync failed:', error.message);
+      }
+    }
+  };
+
+  // Check every minute
+  setInterval(runHourlySalesSync, 60 * 1000);
+  console.log('Hourly sales sync scheduled at the top of each hour');
+}
+
 async function main() {
   console.log('Mint Inventory Sync Service starting...');
   console.log(`Sync interval: ${SYNC_INTERVAL_MINUTES} minutes\n`);
@@ -206,6 +228,7 @@ async function main() {
 
   const cacheSyncService = new CacheSyncService();
   const glExportService = new GLExportService(locationConfigs);
+  const hourlySalesSyncService = new HourlySalesSyncService(locationConfigs);
 
   // Start API server
   await startServer();
@@ -237,8 +260,11 @@ async function main() {
   // Schedule daily banner sync at 5 AM
   scheduleDailyBannerSync(bannerServices);
 
-  // Schedule daily GL export at 3 AM
+  // Schedule daily GL export at 8 AM
   scheduleDailyGLExport(glExportService);
+
+  // Schedule hourly sales sync
+  scheduleHourlySalesSync(hourlySalesSyncService);
 
   console.log('Service running. Press Ctrl+C to stop.');
 }

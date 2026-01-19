@@ -3,10 +3,11 @@ const axios = require('axios');
 const DUTCHIE_PLUS_URL = 'https://plus.dutchie.com/plus/2021-07/graphql';
 const DUTCHIE_PLUS_API_KEY = process.env.DUTCHIE_PLUS_API_KEY;
 
+// Request up to 500 products per menu (pagination supported via first/after)
 const MENU_QUERY = `
-query MenuQuery($retailerId: ID!) {
+query MenuQuery($retailerId: ID!, $first: Int) {
   menu(retailerId: $retailerId) {
-    products {
+    products(first: $first) {
       id
       name
       slug
@@ -61,7 +62,7 @@ class DutchiePlusClient {
     });
   }
 
-  async getMenuProducts(retailerId) {
+  async getMenuProducts(retailerId, limit = 500) {
     if (!DUTCHIE_PLUS_API_KEY) {
       return [];
     }
@@ -71,7 +72,7 @@ class DutchiePlusClient {
 
       const response = await this.client.post('', {
         query: MENU_QUERY,
-        variables: { retailerId }
+        variables: { retailerId, first: limit }
       });
 
       if (response.data.errors) {

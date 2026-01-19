@@ -45,6 +45,11 @@ class ProductEnrichmentService {
           // Extract primary image URL from images array
           const imageUrl = product.images?.[0]?.url || null;
 
+          // Normalize strain type (API returns UPPERCASE, we want Title Case)
+          const strainType = product.strainType
+            ? product.strainType.charAt(0).toUpperCase() + product.strainType.slice(1).toLowerCase()
+            : null;
+
           // Update inventory records matching this SKU and location
           const result = await db.query(`
             UPDATE inventory SET
@@ -58,6 +63,7 @@ class ProductEnrichmentService {
               description = COALESCE(NULLIF($8, ''), description),
               description_html = COALESCE(NULLIF($9, ''), description_html),
               image_url = COALESCE($12, image_url),
+              strain_type = COALESCE($13, strain_type),
               synced_at = CURRENT_TIMESTAMP
             WHERE location_id = $10
               AND sku = $11
@@ -73,7 +79,8 @@ class ProductEnrichmentService {
             product.descriptionHtml || '',
             this.locationId,
             posSku,
-            imageUrl
+            imageUrl,
+            strainType
           ]);
 
           if (result.rowCount > 0) {
