@@ -11,6 +11,7 @@ const BannerSyncService = require('./services/bannerSync');
 const CacheSyncService = require('./services/cacheSync');
 const GLExportService = require('./services/glExportService');
 const HourlySalesSyncService = require('./services/hourlySalesSync');
+const OdooSyncService = require('./services/odooSync');
 const StoreConfigService = require('./services/storeConfig');
 const { startServer } = require('./api/server');
 
@@ -19,7 +20,7 @@ const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 const BANNER_SYNC_HOUR = 5; // 5 AM daily
 const GL_EXPORT_HOUR = 8; // 8 AM daily
 
-async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs) {
+async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, odooSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
   const startTime = Date.now();
 
@@ -74,10 +75,21 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
     console.error(`Cache refresh failed:`, error.message);
   }
 
-  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
-  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalDiscounts} discounts, ${totalCached} cached, ${totalErrors} errors (${duration} min) ===\n`);
+  // Phase 5: Sync to Odoo (if configured)
+  let totalOdoo = 0;
+  if (odooSyncService && odooSyncService.isEnabled()) {
+    try {
+      const odooResult = await odooSyncService.syncAllLocations(locationConfigs);
+      totalOdoo = odooResult.total || 0;
+    } catch (error) {
+      console.error(`Odoo sync failed:`, error.message);
+    }
+  }
 
-  return { totalSynced, totalEnriched, totalDiscounts, totalCached, totalErrors, duration };
+  const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
+  console.log(`\n=== Sync complete: ${totalSynced} inventory, ${totalEnriched} enriched, ${totalDiscounts} discounts, ${totalCached} cached, ${totalOdoo} to Odoo, ${totalErrors} errors (${duration} min) ===\n`);
+
+  return { totalSynced, totalEnriched, totalDiscounts, totalCached, totalOdoo, totalErrors, duration };
 }
 
 async function syncBanners(bannerServices) {
@@ -229,6 +241,15 @@ async function main() {
   const cacheSyncService = new CacheSyncService();
   const glExportService = new GLExportService(locationConfigs);
   const hourlySalesSyncService = new HourlySalesSyncService(locationConfigs);
+  const odooSyncService = new OdooSyncService();
+
+  // Initialize Odoo sync if configured
+  if (odooSyncService.isEnabled()) {
+    console.log('\nOdoo sync enabled - initializing...');
+    await odooSyncService.initialize();
+  } else {
+    console.log('\nOdoo sync disabled (set ODOO_URL, ODOO_USERNAME, ODOO_API_KEY to enable)');
+  }
 
   // Start API server
   await startServer();
@@ -236,7 +257,7 @@ async function main() {
   // Run initial sync
   console.log('\n');
   try {
-    await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
+    await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, odooSyncService, locationConfigs);
   } catch (error) {
     console.error('Initial sync failed:', error.message);
   }
@@ -251,7 +272,7 @@ async function main() {
   // Schedule recurring inventory/discount syncs
   setInterval(async () => {
     try {
-      await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, locationConfigs);
+      await syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, odooSyncService, locationConfigs);
     } catch (error) {
       console.error('Scheduled sync failed:', error.message);
     }
