@@ -179,11 +179,9 @@ class OdooSyncService {
         product_name,
         brand_name,
         category,
-        subcategory,
         strain,
         strain_type,
         description,
-        description_html,
         price,
         price_rec,
         price_med,
@@ -237,18 +235,23 @@ class OdooSyncService {
       return this.warehouseCache.get(locationId);
     }
 
-    // Search for existing warehouse by code
+    // Generate a unique warehouse code from location name + id
+    // Use first 3 chars of name + first 5 chars of id = 8 chars max
+    const namePrefix = locationName.replace(/[^A-Za-z]/g, '').substring(0, 3).toUpperCase();
+    const idSuffix = locationId.replace(/-/g, '').substring(0, 5).toUpperCase();
+    const warehouseCode = (namePrefix + idSuffix).substring(0, 8);
+
+    // Search for existing warehouse by name (more reliable than code)
     const existing = await this.odoo.search('stock.warehouse', [
-      ['code', '=', locationId.substring(0, 5).toUpperCase()]
+      ['name', '=', locationName]
     ], { limit: 1 });
 
-    if (existing && existing.length > 0) {
+    if (existing && Array.isArray(existing) && existing.length > 0) {
       this.warehouseCache.set(locationId, existing[0]);
       return existing[0];
     }
 
     // Create new warehouse
-    const warehouseCode = locationId.substring(0, 5).toUpperCase();
     const newId = await this.odoo.create('stock.warehouse', {
       name: locationName,
       code: warehouseCode,
@@ -290,7 +293,6 @@ class OdooSyncService {
       x_strain_id: strainId,
       x_strain_type: this.mapStrainType(item.strain_type),
       x_product_category: item.category,
-      x_product_subcategory: item.subcategory,
       x_effects: item.effects ? JSON.stringify(item.effects) : null,
       x_tags: item.tags ? JSON.stringify(item.tags) : null,
       x_staff_pick: item.staff_pick || false,
@@ -298,7 +300,6 @@ class OdooSyncService {
       x_special_sale: item.special_sale || false,
       x_slug: item.slug,
       description_sale: item.description,
-      x_description_html: item.description_html,
       x_synced_at: new Date().toISOString(),
       x_sync_source: 'dutchie_pos',
     };
