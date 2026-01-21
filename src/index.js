@@ -20,6 +20,10 @@ const SYNC_INTERVAL_MS = SYNC_INTERVAL_MINUTES * 60 * 1000;
 const BANNER_SYNC_HOUR = 5; // 5 AM daily
 const GL_EXPORT_HOUR = 8; // 8 AM daily
 
+// TEMPORARILY DISABLED: Odoo sync has variant lookup issues causing duplicate key errors
+// Re-enable once XML-RPC searchRead response parsing is fixed
+const ODOO_SYNC_ENABLED = false;
+
 async function syncAllLocations(inventoryServices, enrichmentServices, discountServices, cacheSyncService, odooSyncService, locationConfigs) {
   console.log(`\n=== Starting sync for ${inventoryServices.length} location(s) ===`);
   const startTime = Date.now();
@@ -77,7 +81,7 @@ async function syncAllLocations(inventoryServices, enrichmentServices, discountS
 
   // Phase 5: Sync to Odoo (if configured)
   let totalOdoo = 0;
-  if (odooSyncService && odooSyncService.isEnabled()) {
+  if (ODOO_SYNC_ENABLED && odooSyncService && odooSyncService.isEnabled()) {
     try {
       const odooResult = await odooSyncService.syncAllLocations(locationConfigs);
       totalOdoo = odooResult.total || 0;
@@ -244,9 +248,11 @@ async function main() {
   const odooSyncService = new OdooSyncService();
 
   // Initialize Odoo sync if configured
-  if (odooSyncService.isEnabled()) {
+  if (ODOO_SYNC_ENABLED && odooSyncService.isEnabled()) {
     console.log('\nOdoo sync enabled - initializing...');
     await odooSyncService.initialize();
+  } else if (!ODOO_SYNC_ENABLED) {
+    console.log('\nOdoo sync TEMPORARILY DISABLED (debugging variant lookup issue)');
   } else {
     console.log('\nOdoo sync disabled (set ODOO_URL, ODOO_USERNAME, ODOO_API_KEY to enable)');
   }
