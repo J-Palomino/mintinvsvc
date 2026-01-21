@@ -346,28 +346,42 @@ class OdooSyncService {
     // We need to find and update it rather than creating duplicates
     let variantResult;
 
+    // Helper to normalize search results (may return int or array)
+    const normalizeSearchResult = (result) => {
+      if (result === null || result === undefined || result === false) return [];
+      if (typeof result === 'number') return [result];
+      if (Array.isArray(result)) return result;
+      return [];
+    };
+
     // First, try to find existing variant by our custom fields
-    const existingVariant = await this.odoo.search('product.product', [
+    const existingVariantRaw = await this.odoo.search('product.product', [
       ['x_dutchie_sku', '=', item.sku],
       ['x_dutchie_location_id', '=', item.location_id]
     ], { limit: 1 });
+    const existingVariant = normalizeSearchResult(existingVariantRaw);
 
-    if (existingVariant && existingVariant.length > 0) {
+    // Prepare update values (exclude product_tmpl_id for updates - it's already set)
+    const updateVals = { ...variantVals };
+    delete updateVals.product_tmpl_id;
+
+    if (existingVariant.length > 0) {
       // Update existing variant
-      await this.odoo.write('product.product', existingVariant[0], variantVals);
+      await this.odoo.write('product.product', existingVariant[0], updateVals);
       variantResult = { id: existingVariant[0], created: false };
     } else {
       // No variant with our SKU/location - find the auto-created variant for this template
-      const templateVariants = await this.odoo.search('product.product', [
+      const templateVariantsRaw = await this.odoo.search('product.product', [
         ['product_tmpl_id', '=', templateResult.id]
       ], { limit: 1 });
+      const templateVariants = normalizeSearchResult(templateVariantsRaw);
 
-      if (templateVariants && templateVariants.length > 0) {
+      if (templateVariants.length > 0) {
         // Update the auto-created variant with our data
-        await this.odoo.write('product.product', templateVariants[0], variantVals);
+        await this.odoo.write('product.product', templateVariants[0], updateVals);
         variantResult = { id: templateVariants[0], created: false };
       } else {
-        // No variant exists at all (shouldn't happen) - create one
+        // No variant exists at all (shouldn't happen normally) - create one
         const newId = await this.odoo.create('product.product', variantVals);
         variantResult = { id: newId, created: true };
       }
