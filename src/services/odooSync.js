@@ -287,7 +287,7 @@ class OdooSyncService {
       x_special_sale: item.special_sale || false,
       x_slug: item.slug,
       description_sale: item.description,
-      x_synced_at: new Date().toISOString(),
+      x_synced_at: new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ''),
       x_sync_source: 'dutchie_pos',
     };
 
@@ -326,7 +326,7 @@ class OdooSyncService {
       x_images: item.images ? JSON.stringify(item.images) : null,
       x_quantity_available: item.quantity_available,
       x_quantity_reserved: item.allocated_quantity,
-      x_synced_at: new Date().toISOString(),
+      x_synced_at: new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ''),
     };
 
     // Set warehouse reference for store filtering
