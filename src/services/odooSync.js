@@ -319,15 +319,25 @@ class OdooSyncService {
       x_net_weight: item.net_weight,
       x_weight_unit: item.net_weight_unit,
       x_size: item.size,
-      x_batch_id: item.batch_id,
-      x_package_id: item.package_id,
-      x_expiration_date: item.expiration_date,
-      x_image_url: item.image_url,
-      x_images: item.images ? JSON.stringify(item.images) : null,
-      x_quantity_available: item.quantity_available,
-      x_quantity_reserved: item.allocated_quantity,
+      x_batch_id: item.batch_id || null,
+      x_package_id: item.package_id || null,
+      x_image_url: item.image_url || null,
+      x_quantity_available: item.quantity_available || 0,
+      x_quantity_reserved: item.allocated_quantity || 0,
       x_synced_at: new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ''),
     };
+
+    // Set optional fields only if they have valid values
+    if (item.expiration_date && item.expiration_date instanceof Date) {
+      variantVals.x_expiration_date = item.expiration_date.toISOString().split('T')[0];
+    } else if (item.expiration_date && typeof item.expiration_date === 'string' && item.expiration_date.length >= 10) {
+      variantVals.x_expiration_date = item.expiration_date.substring(0, 10);
+    }
+
+    // Only set images if it's a non-empty array
+    if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+      variantVals.x_images = JSON.stringify(item.images);
+    }
 
     // Set warehouse reference for store filtering
     variantVals.x_warehouse_id = warehouseId;
