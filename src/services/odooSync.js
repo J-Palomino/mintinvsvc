@@ -366,7 +366,7 @@ class OdooSyncService {
     delete updateVals.product_tmpl_id;
 
     if (existingVariant.length > 0) {
-      // Update existing variant
+      // Update existing variant by SKU/location
       await this.odoo.write('product.product', existingVariant[0], updateVals);
       variantResult = { id: existingVariant[0], created: false };
     } else {
@@ -376,14 +376,31 @@ class OdooSyncService {
       ], { limit: 1 });
       const templateVariants = normalizeSearchResult(templateVariantsRaw);
 
+      console.log(`      DEBUG: Template ${templateResult.id} variants search returned:`, JSON.stringify(templateVariantsRaw), `normalized:`, templateVariants);
+
       if (templateVariants.length > 0) {
         // Update the auto-created variant with our data
         await this.odoo.write('product.product', templateVariants[0], updateVals);
         variantResult = { id: templateVariants[0], created: false };
       } else {
-        // No variant exists at all (shouldn't happen normally) - create one
-        const newId = await this.odoo.create('product.product', variantVals);
-        variantResult = { id: newId, created: true };
+        // This should NOT happen if Odoo auto-creates variants
+        console.error(`      WARNING: No variant found for template ${templateResult.id}, attempting create (may fail)`);
+        try {
+          const newId = await this.odoo.create('product.product', variantVals);
+          variantResult = { id: newId, created: true };
+        } catch (createError) {
+          // If create fails, try reading the template's variants directly
+          console.error(`      Create failed, trying read on template:`, createError.message);
+          const readResult = await this.odoo.read('product.template', [templateResult.id], ['product_variant_ids']);
+          console.log(`      Template read result:`, JSON.stringify(readResult));
+          if (readResult && readResult[0] && readResult[0].product_variant_ids && readResult[0].product_variant_ids.length > 0) {
+            const variantId = readResult[0].product_variant_ids[0];
+            await this.odoo.write('product.product', variantId, updateVals);
+            variantResult = { id: variantId, created: false };
+          } else {
+            throw createError;
+          }
+        }
       }
     }
 
