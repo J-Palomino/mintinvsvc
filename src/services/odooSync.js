@@ -375,31 +375,42 @@ class OdooSyncService {
       await this.odoo.write('product.product', existingVariant[0], updateVals);
       variantResult = { id: existingVariant[0], created: false };
     } else {
-      // No variant with our SKU/location - find the template's variant using searchRead
-      // searchRead returns the data in a consistent format
+      // Find the template's variant with retry logic
       let variantId = null;
+      let retries = 0;
+      const maxRetries = 3;
 
-      // Use searchRead to find the variant directly
-      const variants = await this.odoo.searchRead(
-        'product.product',
-        [['product_tmpl_id', '=', templateResult.id]],
-        ['id'],
-        { limit: 1 }
-      );
+      while (!variantId && retries < maxRetries) {
+        if (retries > 0) {
+          // Wait before retry (100ms, 200ms, 400ms)
+          await new Promise(r => setTimeout(r, 100 * Math.pow(2, retries - 1)));
+        }
 
-      if (variants && Array.isArray(variants) && variants.length > 0) {
-        const v = variants[0];
-        variantId = typeof v === 'number' ? v : (v && typeof v.id === 'number' ? v.id : null);
+        const variants = await this.odoo.searchRead(
+          'product.product',
+          [['product_tmpl_id', '=', templateResult.id]],
+          ['id'],
+          { limit: 1 }
+        );
+
+        if (variants && Array.isArray(variants) && variants.length > 0) {
+          const v = variants[0];
+          if (typeof v === 'object' && v !== null && typeof v.id === 'number') {
+            variantId = v.id;
+          } else if (typeof v === 'number') {
+            variantId = v;
+          }
+        }
+        retries++;
       }
 
       if (variantId && typeof variantId === 'number' && variantId > 0) {
         await this.odoo.write('product.product', variantId, updateVals);
         variantResult = { id: variantId, created: false };
       } else {
-        // Last resort: create new variant
-        console.error(`      No variant found for template ${templateResult.id}, creating new`);
-        const newId = await this.odoo.create('product.product', variantVals);
-        variantResult = { id: newId, created: true };
+        // All retries failed - skip this product instead of creating duplicate
+        console.error(`      Skipping ${item.sku}: No variant found for template ${templateResult.id} after ${maxRetries} retries`);
+        throw new Error(`No variant found for template ${templateResult.id}`);
       }
     }
 
