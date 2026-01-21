@@ -1,0 +1,95 @@
+# GL Journal Export Discrepancy Report
+# Generated: 2026-01-17T00:35:24.738Z
+# Comparing our Dutchie API exports vs Auditor Excel files
+
+========================================
+DATE: January 06, 2026
+========================================
+
+SALES TOTALS:
+  Auditor Excel: $425758.40
+  Our Report:    $425913.43
+  Difference:    $-155.03
+
+DISCREPANCIES (Sales differences >= $1):
+  FLD-O10615: Excel $3230.00 vs Ours $3325.00 (diff: $-95.00)
+  MI-GB2: Excel $10890.66 vs Ours $10910.66 (diff: $-20.00)
+  MID-NB: Excel $3668.89 vs Ours $3708.89 (diff: $-40.00)
+
+MISSING IN OUR REPORT: MID-MT
+
+========================================
+DATE: January 07, 2026
+========================================
+
+SALES TOTALS:
+  Auditor Excel: $473514.04
+  Our Report:    $473469.03
+  Difference:    $45.01
+
+DISCREPANCIES (Sales differences >= $1):
+  AZV-SWT: Excel $72012.20 vs Ours $71967.19 (diff: $45.01)
+
+MISSING IN OUR REPORT: MID-MT
+
+========================================
+DATE: January 08, 2026
+========================================
+
+SALES TOTALS:
+  Auditor Excel: $544840.68
+  Our Report:    $544988.56
+  Difference:    $-147.88
+
+DISCREPANCIES (Sales differences >= $1):
+  FLD-BONITA: Excel $3589.00 vs Ours $3639.00 (diff: $-50.00)
+  MID-KALAMA: Excel $4264.87 vs Ours $4271.77 (diff: $-6.90)
+  MOD-MO4: Excel $25574.50 vs Ours $25665.50 (diff: $-91.00)
+
+MISSING IN OUR REPORT: MID-MT
+
+========================================
+DATE: January 09, 2026
+========================================
+
+SALES TOTALS:
+  Auditor Excel: $874145.38
+  Our Report:    $874226.41
+  Difference:    $-81.03
+
+DISCREPANCIES (Sales differences >= $1):
+  AZD-4245IN: Excel $101638.50 vs Ours $101643.50 (diff: $-5.00)
+  AZV-GTL: Excel $58315.50 vs Ours $58329.50 (diff: $-14.00)
+  FLD-DELRAY: Excel $3290.00 vs Ours $3340.00 (diff: $-50.00)
+  MOD-MO4: Excel $40325.96 vs Ours $40337.96 (diff: $-12.00)
+
+MISSING IN OUR REPORT: MID-MT
+
+========================================
+DATE: January 10, 2026
+========================================
+
+SALES TOTALS:
+  Auditor Excel: $634996.99
+  Our Report:    $635054.46
+  Difference:    $-57.47
+
+DISCREPANCIES (Sales differences >= $1):
+  MID-COLDWA: Excel $33759.54 vs Ours $33817.03 (diff: $-57.49)
+
+MISSING IN OUR REPORT: MID-MT
+
+========================================
+GRAND TOTALS (Jan 6-10)
+========================================
+Auditor Excel: $2953255.49
+Our Reports:   $2953651.89
+Total Diff:    $-396.40
+Variance:      -0.0134%
+
+========================================
+NOTES
+========================================
+- Small differences (<$100) are typically boundary transactions at midnight
+- MID-MT store is in auditor reports but not in our Strapi backend (needs API key)
+- Debit card breakdown unavailable for non-Florida stores (POS config issue)

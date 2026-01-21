@@ -129,64 +129,161 @@ class OdooClient {
   }
 
   /**
-   * Extract value from XML
+   * Extract value from XML using a simple recursive parser
    */
   extractValue(xml) {
+    const trimmed = xml.trim();
+
     // Boolean
-    const boolMatch = xml.match(/<boolean>(\d)<\/boolean>/);
-    if (boolMatch) return boolMatch[1] === '1';
+    if (trimmed.includes('<boolean>')) {
+      const match = trimmed.match(/<boolean>(\d)<\/boolean>/);
+      if (match) return match[1] === '1';
+    }
 
     // Integer
-    const intMatch = xml.match(/<int>(-?\d+)<\/int>/) || xml.match(/<i4>(-?\d+)<\/i4>/);
-    if (intMatch) return parseInt(intMatch[1], 10);
+    if (trimmed.includes('<int>') || trimmed.includes('<i4>')) {
+      const match = trimmed.match(/<int>(-?\d+)<\/int>/) || trimmed.match(/<i4>(-?\d+)<\/i4>/);
+      if (match) return parseInt(match[1], 10);
+    }
 
     // Double
-    const doubleMatch = xml.match(/<double>(-?[\d.]+)<\/double>/);
-    if (doubleMatch) return parseFloat(doubleMatch[1]);
-
-    // String
-    const stringMatch = xml.match(/<string>([^<]*)<\/string>/);
-    if (stringMatch) {
-      return stringMatch[1]
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&');
-    }
-
-    // Array
-    const arrayMatch = xml.match(/<array><data>([\s\S]*?)<\/data><\/array>/);
-    if (arrayMatch) {
-      const values = [];
-      const valueRegex = /<value>([\s\S]*?)<\/value>/g;
-      let match;
-      while ((match = valueRegex.exec(arrayMatch[1])) !== null) {
-        values.push(this.extractValue(match[1]));
-      }
-      return values;
-    }
-
-    // Struct
-    const structMatch = xml.match(/<struct>([\s\S]*?)<\/struct>/);
-    if (structMatch) {
-      const obj = {};
-      const memberRegex = /<member><name>([^<]+)<\/name><value>([\s\S]*?)<\/value><\/member>/g;
-      let match;
-      while ((match = memberRegex.exec(structMatch[1])) !== null) {
-        obj[match[1]] = this.extractValue(match[2]);
-      }
-      return obj;
+    if (trimmed.includes('<double>')) {
+      const match = trimmed.match(/<double>(-?[\d.]+)<\/double>/);
+      if (match) return parseFloat(match[1]);
     }
 
     // Nil/None
-    if (xml.includes('<nil/>') || xml.includes('<nil />')) {
+    if (trimmed.includes('<nil/>') || trimmed.includes('<nil />')) {
       return null;
     }
 
-    // Default: try to extract any value
-    const valueMatch = xml.match(/<value>([^<]+)<\/value>/);
+    // String - check before array/struct since those may contain strings
+    if (trimmed.startsWith('<string>') || (trimmed.includes('<string>') && !trimmed.includes('<array>') && !trimmed.includes('<struct>'))) {
+      const match = trimmed.match(/<string>([\s\S]*?)<\/string>/);
+      if (match) {
+        return match[1]
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&');
+      }
+    }
+
+    // Array - parse recursively
+    if (trimmed.includes('<array>')) {
+      const arrayStart = trimmed.indexOf('<data>');
+      const arrayEnd = trimmed.lastIndexOf('</data>');
+      if (arrayStart !== -1 && arrayEnd !== -1) {
+        const dataContent = trimmed.substring(arrayStart + 6, arrayEnd);
+        return this.parseArrayValues(dataContent);
+      }
+    }
+
+    // Struct - parse recursively
+    if (trimmed.includes('<struct>')) {
+      const structStart = trimmed.indexOf('<struct>');
+      const structEnd = trimmed.lastIndexOf('</struct>');
+      if (structStart !== -1 && structEnd !== -1) {
+        const structContent = trimmed.substring(structStart + 8, structEnd);
+        return this.parseStructMembers(structContent);
+      }
+    }
+
+    // Try to extract raw value
+    const valueMatch = trimmed.match(/<value>([^<]+)<\/value>/);
     if (valueMatch) return valueMatch[1];
 
     return null;
+  }
+
+  /**
+   * Parse array values from XML data content
+   */
+  parseArrayValues(dataContent) {
+    const values = [];
+    let depth = 0;
+    let valueStart = -1;
+    let i = 0;
+
+    while (i < dataContent.length) {
+      if (dataContent.substring(i, i + 7) === '<value>') {
+        if (depth === 0) valueStart = i + 7;
+        depth++;
+        i += 7;
+      } else if (dataContent.substring(i, i + 8) === '</value>') {
+        depth--;
+        if (depth === 0 && valueStart !== -1) {
+          const valueContent = dataContent.substring(valueStart, i);
+          values.push(this.extractValue(valueContent));
+          valueStart = -1;
+        }
+        i += 8;
+      } else {
+        i++;
+      }
+    }
+
+    return values;
+  }
+
+  /**
+   * Parse struct members from XML struct content
+   */
+  parseStructMembers(structContent) {
+    const obj = {};
+    let i = 0;
+
+    while (i < structContent.length) {
+      const memberStart = structContent.indexOf('<member>', i);
+      if (memberStart === -1) break;
+
+      const memberEnd = this.findClosingTag(structContent, memberStart, 'member');
+      if (memberEnd === -1) break;
+
+      const memberContent = structContent.substring(memberStart + 8, memberEnd);
+
+      // Extract name
+      const nameMatch = memberContent.match(/<name>([^<]+)<\/name>/);
+      if (nameMatch) {
+        const name = nameMatch[1];
+
+        // Extract value
+        const valueStart = memberContent.indexOf('<value>');
+        const valueEnd = memberContent.lastIndexOf('</value>');
+        if (valueStart !== -1 && valueEnd !== -1) {
+          const valueContent = memberContent.substring(valueStart + 7, valueEnd);
+          obj[name] = this.extractValue(valueContent);
+        }
+      }
+
+      i = memberEnd + 9;
+    }
+
+    return obj;
+  }
+
+  /**
+   * Find the closing tag position accounting for nesting
+   */
+  findClosingTag(xml, start, tagName) {
+    const openTag = `<${tagName}>`;
+    const closeTag = `</${tagName}>`;
+    let depth = 1;
+    let i = start + openTag.length;
+
+    while (i < xml.length && depth > 0) {
+      if (xml.substring(i, i + openTag.length) === openTag) {
+        depth++;
+        i += openTag.length;
+      } else if (xml.substring(i, i + closeTag.length) === closeTag) {
+        depth--;
+        if (depth === 0) return i;
+        i += closeTag.length;
+      } else {
+        i++;
+      }
+    }
+
+    return -1;
   }
 
   /**

@@ -1,0 +1,227 @@
+Branch,Account,Description,Subaccount,Ref. Number,Quantity,UOM,Debit Amount,Credit Amount,Transaction Description,Customer/Vendor
+MIC-KALMZO,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,657.6799999999997,EA,,5959.01,Daily Sales,Various
+MIC-KALMZO,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1667.58,,Daily Discounts,Various
+MIC-KALMZO,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,184.28,,Loyalty Redeemed,Various
+MIC-KALMZO,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,709.19,Sales Tax Collected,State Tax Authority
+MIC-KALMZO,10000,Cash on Hand,00-00,2026-01-13 DS,,,4891.38,,Cash Received,Various
+MIC-KALMZO,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,2571.08,,Cost of Goods Sold,Various
+MIC-KALMZO,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,2571.08,Inventory Reduction,Various
+MIC-KALMZO,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,75.04,Balancing Entry,Internal
+NVD-SPRVAL,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,244,EA,,5826.01,Daily Sales,Various
+NVD-SPRVAL,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2212.22,,Daily Discounts,Various
+NVD-SPRVAL,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,660.58,Sales Tax Collected,State Tax Authority
+NVD-SPRVAL,10000,Cash on Hand,00-00,2026-01-13 DS,,,3689.33,,Cash Received,Various
+NVD-SPRVAL,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,2409.83,,Cost of Goods Sold,Various
+NVD-SPRVAL,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,2409.83,Inventory Reduction,Various
+NVD-SPRVAL,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,585.04,,Balancing Entry,Internal
+MOS-STPETE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,708,EA,,23222.07,Daily Sales,Various
+MOS-STPETE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,7843.28,,Daily Discounts,Various
+MOS-STPETE,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,2536.59,Sales Tax Collected,State Tax Authority
+MOS-STPETE,10000,Cash on Hand,00-00,2026-01-13 DS,,,16772.77,,Cash Received,Various
+MOS-STPETE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,11389.44,,Cost of Goods Sold,Various
+MOS-STPETE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,11389.44,Inventory Reduction,Various
+MOS-STPETE,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,1142.61,,Balancing Entry,Internal
+AZN-MESA,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1455,EA,,33647.00,Daily Sales,Various
+AZN-MESA,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,12244.05,,Daily Discounts,Various
+AZN-MESA,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,4791.52,Sales Tax Collected,State Tax Authority
+AZN-MESA,10000,Cash on Hand,00-00,2026-01-13 DS,,,25832.30,,Cash Received,Various
+AZN-MESA,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,10016.64,,Cost of Goods Sold,Various
+AZN-MESA,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,10016.64,Inventory Reduction,Various
+AZN-MESA,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,362.17,,Balancing Entry,Internal
+FLD-JACKSON,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,74,EA,,2929.99,Daily Sales,Various
+FLD-JACKSON,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1444.14,,Daily Discounts,Various
+FLD-JACKSON,10000,Cash on Hand,00-00,2026-01-13 DS,,,1001.85,,Cash Received,Various
+FLD-JACKSON,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,400.00,,Debit Payments,Various
+FLD-JACKSON,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,655.43,,Cost of Goods Sold,Various
+FLD-JACKSON,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,655.43,Inventory Reduction,Various
+FLD-JACKSON,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,84.00,,Balancing Entry,Internal
+FLD-DELRAY,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,58,EA,,3001.00,Daily Sales,Various
+FLD-DELRAY,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1623.75,,Daily Discounts,Various
+FLD-DELRAY,10000,Cash on Hand,00-00,2026-01-13 DS,,,592.75,,Cash Received,Various
+FLD-DELRAY,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,620.00,,Debit Payments,Various
+FLD-DELRAY,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,682.83,,Cost of Goods Sold,Various
+FLD-DELRAY,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,682.83,Inventory Reduction,Various
+FLD-DELRAY,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,164.50,,Balancing Entry,Internal
+FLD-SARSTA,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,265,EA,,9309.99,Daily Sales,Various
+FLD-SARSTA,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,5085.04,,Daily Discounts,Various
+FLD-SARSTA,10000,Cash on Hand,00-00,2026-01-13 DS,,,2062.95,,Cash Received,Various
+FLD-SARSTA,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,1820.00,,Debit Payments,Various
+FLD-SARSTA,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,1400.68,,Cost of Goods Sold,Various
+FLD-SARSTA,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,1400.68,Inventory Reduction,Various
+FLD-SARSTA,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,342.00,,Balancing Entry,Internal
+FLD-STUART,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,96,EA,,4263.00,Daily Sales,Various
+FLD-STUART,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2198.25,,Daily Discounts,Various
+FLD-STUART,10000,Cash on Hand,00-00,2026-01-13 DS,,,1014.75,,Cash Received,Various
+FLD-STUART,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,770.00,,Debit Payments,Various
+FLD-STUART,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,1164.07,,Cost of Goods Sold,Various
+FLD-STUART,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,1164.07,Inventory Reduction,Various
+FLD-STUART,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,280.00,,Balancing Entry,Internal
+FLD-BONITA,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,48,EA,,2563.00,Daily Sales,Various
+FLD-BONITA,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1465.00,,Daily Discounts,Various
+FLD-BONITA,10000,Cash on Hand,00-00,2026-01-13 DS,,,877.00,,Cash Received,Various
+FLD-BONITA,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,176.00,,Debit Payments,Various
+FLD-BONITA,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,613.17,,Cost of Goods Sold,Various
+FLD-BONITA,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,613.17,Inventory Reduction,Various
+FLD-BONITA,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,45.00,,Balancing Entry,Internal
+FLD-BRADEN,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,71,EA,,2441.00,Daily Sales,Various
+FLD-BRADEN,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1249.91,,Daily Discounts,Various
+FLD-BRADEN,10000,Cash on Hand,00-00,2026-01-13 DS,,,450.09,,Cash Received,Various
+FLD-BRADEN,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,630.00,,Debit Payments,Various
+FLD-BRADEN,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,586.46,,Cost of Goods Sold,Various
+FLD-BRADEN,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,586.46,Inventory Reduction,Various
+FLD-BRADEN,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,111.00,,Balancing Entry,Internal
+FLD-MIAMI,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,33,EA,,1722.00,Daily Sales,Various
+FLD-MIAMI,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1037.95,,Daily Discounts,Various
+FLD-MIAMI,10000,Cash on Hand,00-00,2026-01-13 DS,,,314.05,,Cash Received,Various
+FLD-MIAMI,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,330.00,,Debit Payments,Various
+FLD-MIAMI,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,361.67,,Cost of Goods Sold,Various
+FLD-MIAMI,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,361.67,Inventory Reduction,Various
+FLD-MIAMI,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,40.00,,Balancing Entry,Internal
+FLD-ORLANDO,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,72,EA,,3771.00,Daily Sales,Various
+FLD-ORLANDO,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2244.20,,Daily Discounts,Various
+FLD-ORLANDO,10000,Cash on Hand,00-00,2026-01-13 DS,,,1156.80,,Cash Received,Various
+FLD-ORLANDO,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,370.00,,Debit Payments,Various
+FLD-ORLANDO,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,891.49,,Cost of Goods Sold,Various
+FLD-ORLANDO,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,891.49,Inventory Reduction,Various
+AZN-BELLRD,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,2371,EA,,29851.98,Daily Sales,Various
+AZN-BELLRD,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,10563.48,,Daily Discounts,Various
+AZN-BELLRD,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,4482.66,Sales Tax Collected,State Tax Authority
+AZN-BELLRD,10000,Cash on Hand,00-00,2026-01-13 DS,,,23770.38,,Cash Received,Various
+AZN-BELLRD,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,24233.38,,Cost of Goods Sold,Various
+AZN-BELLRD,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,24233.38,Inventory Reduction,Various
+AZN-BELLRD,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,0.78,,Balancing Entry,Internal
+MIC-PORTGE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1158.7299999999998,EA,,10379.97,Daily Sales,Various
+MIC-PORTGE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2361.01,,Daily Discounts,Various
+MIC-PORTGE,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,272.89,,Loyalty Redeemed,Various
+MIC-PORTGE,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,1324.90,Sales Tax Collected,State Tax Authority
+MIC-PORTGE,10000,Cash on Hand,00-00,2026-01-13 DS,,,9182.02,,Cash Received,Various
+MIC-PORTGE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,4828.54,,Cost of Goods Sold,Various
+MIC-PORTGE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,4828.54,Inventory Reduction,Various
+MIC-PORTGE,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,111.05,Balancing Entry,Internal
+AZN-75TH,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,921,EA,,21954.50,Daily Sales,Various
+AZN-75TH,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,8995.13,,Daily Discounts,Various
+AZN-75TH,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,3028.93,Sales Tax Collected,State Tax Authority
+AZN-75TH,10000,Cash on Hand,00-00,2026-01-13 DS,,,15287.18,,Cash Received,Various
+AZN-75TH,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,7667.00,,Cost of Goods Sold,Various
+AZN-75TH,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,7667.00,Inventory Reduction,Various
+AZN-75TH,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,701.12,,Balancing Entry,Internal
+MIC-ROSEVL,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,928.1699999999997,EA,,7827.88,Daily Sales,Various
+MIC-ROSEVL,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1953.79,,Daily Discounts,Various
+MIC-ROSEVL,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,187.33,,Loyalty Redeemed,Various
+MIC-ROSEVL,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,974.50,Sales Tax Collected,State Tax Authority
+MIC-ROSEVL,10000,Cash on Hand,00-00,2026-01-13 DS,,,6611.23,,Cash Received,Various
+MIC-ROSEVL,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,3589.88,,Cost of Goods Sold,Various
+MIC-ROSEVL,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,3589.88,Inventory Reduction,Various
+MIC-ROSEVL,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,50.03,,Balancing Entry,Internal
+AZN-BCKYE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1939,EA,,49273.50,Daily Sales,Various
+AZN-BCKYE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,16187.03,,Daily Discounts,Various
+AZN-BCKYE,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,7318.65,Sales Tax Collected,State Tax Authority
+AZN-BCKYE,10000,Cash on Hand,00-00,2026-01-13 DS,,,40404.95,,Cash Received,Various
+AZN-BCKYE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,24613.80,,Cost of Goods Sold,Various
+AZN-BCKYE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,24613.80,Inventory Reduction,Various
+AZN-BCKYE,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,0.17,,Balancing Entry,Internal
+FLD-CAPE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,81,EA,,3561.00,Daily Sales,Various
+FLD-CAPE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1884.75,,Daily Discounts,Various
+FLD-CAPE,10000,Cash on Hand,00-00,2026-01-13 DS,,,1196.25,,Cash Received,Various
+FLD-CAPE,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,480.00,,Debit Payments,Various
+FLD-CAPE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,858.02,,Cost of Goods Sold,Various
+FLD-CAPE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,858.02,Inventory Reduction,Various
+AZN-ELMIRG,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1858,EA,,13978.00,Daily Sales,Various
+AZN-ELMIRG,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,5413.07,,Daily Discounts,Various
+AZN-ELMIRG,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,2158.56,Sales Tax Collected,State Tax Authority
+AZN-ELMIRG,10000,Cash on Hand,00-00,2026-01-13 DS,,,10723.59,,Cash Received,Various
+AZN-ELMIRG,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,27218.21,,Cost of Goods Sold,Various
+AZN-ELMIRG,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,27218.21,Inventory Reduction,Various
+AZN-ELMIRG,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,0.10,Balancing Entry,Internal
+NVD-STRIP,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,842,EA,,19965.77,Daily Sales,Various
+NVD-STRIP,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,6823.18,,Daily Discounts,Various
+NVD-STRIP,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,2394.95,Sales Tax Collected,State Tax Authority
+NVD-STRIP,10000,Cash on Hand,00-00,2026-01-13 DS,,,14817.35,,Cash Received,Various
+NVD-STRIP,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,7236.51,,Cost of Goods Sold,Various
+NVD-STRIP,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,7236.51,Inventory Reduction,Various
+NVD-STRIP,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,720.19,,Balancing Entry,Internal
+FLD-LONGWOOD,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,59,EA,,3186.00,Daily Sales,Various
+FLD-LONGWOOD,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1848.25,,Daily Discounts,Various
+FLD-LONGWOOD,10000,Cash on Hand,00-00,2026-01-13 DS,,,317.75,,Cash Received,Various
+FLD-LONGWOOD,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,960.00,,Debit Payments,Various
+FLD-LONGWOOD,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,756.60,,Cost of Goods Sold,Various
+FLD-LONGWOOD,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,756.60,Inventory Reduction,Various
+FLD-LONGWOOD,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,60.00,,Balancing Entry,Internal
+FLD-MELBRN,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,160,EA,,7237.00,Daily Sales,Various
+FLD-MELBRN,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,3914.65,,Daily Discounts,Various
+FLD-MELBRN,10000,Cash on Hand,00-00,2026-01-13 DS,,,1162.35,,Cash Received,Various
+FLD-MELBRN,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,2160.00,,Debit Payments,Various
+FLD-MELBRN,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,1325.76,,Cost of Goods Sold,Various
+FLD-MELBRN,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,1325.76,Inventory Reduction,Various
+AZN-SCOTTS,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1345,EA,,34967.53,Daily Sales,Various
+AZN-SCOTTS,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,12777.45,,Daily Discounts,Various
+AZN-SCOTTS,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,4838.97,Sales Tax Collected,State Tax Authority
+AZN-SCOTTS,10000,Cash on Hand,00-00,2026-01-13 DS,,,25896.58,,Cash Received,Various
+AZN-SCOTTS,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,14084.45,,Cost of Goods Sold,Various
+AZN-SCOTTS,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,14084.45,Inventory Reduction,Various
+AZN-SCOTTS,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,1132.47,,Balancing Entry,Internal
+ILL-WILLOW,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,269,EA,,9589.19,Daily Sales,Various
+ILL-WILLOW,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,3016.58,,Daily Discounts,Various
+ILL-WILLOW,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,1803.66,Sales Tax Collected,State Tax Authority
+ILL-WILLOW,10000,Cash on Hand,00-00,2026-01-13 DS,,,6982.67,,Cash Received,Various
+ILL-WILLOW,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,4735.02,,Cost of Goods Sold,Various
+ILL-WILLOW,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,4735.02,Inventory Reduction,Various
+ILL-WILLOW,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,1393.60,,Balancing Entry,Internal
+FLD-BRANDON,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,80,EA,,3465.00,Daily Sales,Various
+FLD-BRANDON,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1916.30,,Daily Discounts,Various
+FLD-BRANDON,10000,Cash on Hand,00-00,2026-01-13 DS,,,635.95,,Cash Received,Various
+FLD-BRANDON,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,870.00,,Debit Payments,Various
+FLD-BRANDON,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,751.22,,Cost of Goods Sold,Various
+FLD-BRANDON,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,751.22,Inventory Reduction,Various
+FLD-BRANDON,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,42.75,,Balancing Entry,Internal
+MIC-COLDWR,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,903.8999999999999,EA,,8046.21,Daily Sales,Various
+MIC-COLDWR,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2018.26,,Daily Discounts,Various
+MIC-COLDWR,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,294.78,,Loyalty Redeemed,Various
+MIC-COLDWR,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,997.69,Sales Tax Collected,State Tax Authority
+MIC-COLDWR,10000,Cash on Hand,00-00,2026-01-13 DS,,,7025.64,,Cash Received,Various
+MIC-COLDWR,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,3708.57,,Cost of Goods Sold,Various
+MIC-COLDWR,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,3708.57,Inventory Reduction,Various
+MIC-COLDWR,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,294.78,Balancing Entry,Internal
+FLD-GAINES,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,63,EA,,3087.00,Daily Sales,Various
+FLD-GAINES,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1747.95,,Daily Discounts,Various
+FLD-GAINES,10000,Cash on Hand,00-00,2026-01-13 DS,,,529.05,,Cash Received,Various
+FLD-GAINES,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,690.00,,Debit Payments,Various
+FLD-GAINES,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,740.36,,Cost of Goods Sold,Various
+FLD-GAINES,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,740.36,Inventory Reduction,Various
+FLD-GAINES,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,120.00,,Balancing Entry,Internal
+AZN-NPHX,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1166,EA,,26274.00,Daily Sales,Various
+AZN-NPHX,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,9935.58,,Daily Discounts,Various
+AZN-NPHX,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,3911.86,Sales Tax Collected,State Tax Authority
+AZN-NPHX,10000,Cash on Hand,00-00,2026-01-13 DS,,,19601.07,,Cash Received,Various
+AZN-NPHX,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,8355.55,,Cost of Goods Sold,Various
+AZN-NPHX,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,8355.55,Inventory Reduction,Various
+AZN-NPHX,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,649.21,,Balancing Entry,Internal
+FLD-STAUG,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,142,EA,,7796.00,Daily Sales,Various
+FLD-STAUG,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,3876.06,,Daily Discounts,Various
+FLD-STAUG,10000,Cash on Hand,00-00,2026-01-13 DS,,,1479.94,,Cash Received,Various
+FLD-STAUG,11010,Debit Card Receivable,00-00,2026-01-13 DS,,,2440.00,,Debit Payments,Various
+FLD-STAUG,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,1901.67,,Cost of Goods Sold,Various
+FLD-STAUG,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,1901.67,Inventory Reduction,Various
+MIC-MONROE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,1179.6899999999996,EA,,9825.70,Daily Sales,Various
+MIC-MONROE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,2294.49,,Daily Discounts,Various
+MIC-MONROE,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,317.25,,Loyalty Redeemed,Various
+MIC-MONROE,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,1249.72,Sales Tax Collected,State Tax Authority
+MIC-MONROE,10000,Cash on Hand,00-00,2026-01-13 DS,,,8669.86,,Cash Received,Various
+MIC-MONROE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,4369.49,,Cost of Goods Sold,Various
+MIC-MONROE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,4369.49,Inventory Reduction,Various
+MIC-MONROE,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,206.18,Balancing Entry,Internal
+MIC-NEWBUF,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,539.24,EA,,5507.87,Daily Sales,Various
+MIC-NEWBUF,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,1187.77,,Daily Discounts,Various
+MIC-NEWBUF,40004,Loyalty Discounts,00-00,2026-01-13 DS,,,73.65,,Loyalty Redeemed,Various
+MIC-NEWBUF,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,715.82,Sales Tax Collected,State Tax Authority
+MIC-NEWBUF,10000,Cash on Hand,00-00,2026-01-13 DS,,,5018.26,,Cash Received,Various
+MIC-NEWBUF,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,2658.34,,Cost of Goods Sold,Various
+MIC-NEWBUF,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,2658.34,Inventory Reduction,Various
+MIC-NEWBUF,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,,55.99,Balancing Entry,Internal
+AZN-TEMPE,40001,Retail Income: Retail Sales,00-00,2026-01-13 DS,2769.1,EA,,63414.35,Daily Sales,Various
+AZN-TEMPE,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-13 DS,,,21548.92,,Daily Discounts,Various
+AZN-TEMPE,23500,Taxes Payable - Sales & Use,00-00,2026-01-13 DS,,,,10949.35,Sales Tax Collected,State Tax Authority
+AZN-TEMPE,10000,Cash on Hand,00-00,2026-01-13 DS,,,48304.17,,Cash Received,Various
+AZN-TEMPE,50000,Retail - Consumable Products for Resale,00-00,2026-01-13 DS,,,29206.74,,Cost of Goods Sold,Various
+AZN-TEMPE,12250,Inventory - Finished Goods,00-00,2026-01-13 DS,,,,29206.74,Inventory Reduction,Various
+AZN-TEMPE,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-13 DS,,,4510.61,,Balancing Entry,Internal

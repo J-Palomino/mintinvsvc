@@ -1,0 +1,11 @@
+Branch,Dutchie Store Name,Account,Description,Subaccount,Ref. Number,Quantity,UOM,Debit Amount,Credit Amount
+MID-KALAMA,Mint Kalamazoo,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"4,642.09"
+MID-KALAMA,Mint Kalamazoo,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,896.60,0.00
+MID-KALAMA,Mint Kalamazoo,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-KALAMA,Mint Kalamazoo,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,109.05,0.00
+MID-KALAMA,Mint Kalamazoo,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,603.66
+MID-KALAMA,Mint Kalamazoo,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"4,191.00",0.00
+MID-KALAMA,Mint Kalamazoo,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-KALAMA,Mint Kalamazoo,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,49.10
+MID-KALAMA,Mint Kalamazoo,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"2,059.44",0.00
+MID-KALAMA,Mint Kalamazoo,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"2,059.44"

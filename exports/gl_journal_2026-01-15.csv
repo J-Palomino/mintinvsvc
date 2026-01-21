@@ -1,0 +1,327 @@
+# GL Journal Export - 2026-01-15
+# Source of Truth: Dutchie POS API (/reporting/transactions)
+# Generated: 2026-01-19T18:57:51.639Z
+# Time basis: Local store time (per-store timezone conversion)
+# NOTE: Verify branch codes and account mappings match your accounting system.
+#
+Branch,Account,Account Description,Subaccount,Ref. Number,Debit Amount,Credit Amount,Description
+AZV-ENCANT,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"27,582.95",2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"10,760.15",0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"3,920.18",2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,10000,Cash on Hand,00-00,2026-01-15 DS,"19,787.39",0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,955.59,0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"10,843.57",0.00,2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZV-ENCANT,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"10,843.57",2026-01-15 DS - Mint 75th Ave Phoenix: Daily Sales
+AZD-UH,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"34,074.99",2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"11,606.14",0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"5,171.15",2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,10000,Cash on Hand,00-00,2026-01-15 DS,"27,639.25",0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.75,0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"12,165.37",0.00,2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-UH,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"12,165.37",2026-01-15 DS - Mint Bell Road Phoenix: Daily Sales
+AZD-BUCK,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"63,737.53",2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"20,287.77",0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"9,620.50",2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,10000,Cash on Hand,00-00,2026-01-15 DS,"53,071.33",0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,1.07,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"34,200.08",0.00,2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-BUCK,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"34,200.08",2026-01-15 DS - Mint Buckeye/Verado: Daily Sales
+AZD-ELMIRA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"16,399.00",2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"6,068.04",0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"2,592.65",2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,10000,Cash on Hand,00-00,2026-01-15 DS,"12,924.11",0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.50,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"9,506.21",0.00,2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-ELMIRA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"9,506.21",2026-01-15 DS - Mint El Mirage: Daily Sales
+AZD-4245IN,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"45,488.15",2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"16,414.44",0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"6,486.49",2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,10000,Cash on Hand,00-00,2026-01-15 DS,"34,000.24",0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,"1,559.96",0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"14,424.76",0.00,2026-01-15 DS - Mint Mesa : Daily Sales
+AZD-4245IN,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"14,424.76",2026-01-15 DS - Mint Mesa : Daily Sales
+AZV-GTL,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"33,378.71",2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"12,103.14",0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"4,974.63",2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,10000,Cash on Hand,00-00,2026-01-15 DS,"25,608.80",0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,641.40,0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"10,738.95",0.00,2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-GTL,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"10,738.95",2026-01-15 DS - Mint Northern Phoenix: Daily Sales
+AZV-EBA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"43,361.00",2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"15,705.35",0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"5,985.12",2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,10000,Cash on Hand,00-00,2026-01-15 DS,"32,023.83",0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,"1,616.94",0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"17,570.96",0.00,2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-EBA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"17,570.96",2026-01-15 DS - Mint Scottsdale: Daily Sales
+AZV-SWT,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"86,624.74",2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"28,672.30",0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"15,142.88",2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,10000,Cash on Hand,00-00,2026-01-15 DS,"66,131.61",0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,"6,963.71",0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"40,054.80",0.00,2026-01-15 DS - Mint Tempe: Daily Sales
+AZV-SWT,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"40,054.80",2026-01-15 DS - Mint Tempe: Daily Sales
+FLD-BONITA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"2,683.00",2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,337.50",0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,10000,Cash on Hand,00-00,2026-01-15 DS,"1,189.50",0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,11010,Debit Card Receivable,00-00,2026-01-15 DS,50.00,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,106.00,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,685.18,0.00,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BONITA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,685.18,2026-01-15 DS - Mint Bonita Springs : Daily Sales
+FLD-BRADEN,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,626.00",2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,809.00",0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,10000,Cash on Hand,00-00,2026-01-15 DS,900.50,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,11010,Debit Card Receivable,00-00,2026-01-15 DS,480.00,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,436.50,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,943.22,0.00,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRADEN,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,943.22,2026-01-15 DS - Mint Bradenton: Daily Sales
+FLD-BRANDO,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"4,135.00",2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,234.25",0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,10000,Cash on Hand,00-00,2026-01-15 DS,483.00,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,250.00",0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,167.75,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,895.44,0.00,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-BRANDO,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,895.44,2026-01-15 DS - Mint Brandon: Daily Sales
+FLD-CAPECO,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"4,074.00",2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,091.60",0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,10000,Cash on Hand,00-00,2026-01-15 DS,"1,184.40",0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,11010,Debit Card Receivable,00-00,2026-01-15 DS,670.00,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,128.00,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,962.24,0.00,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-CAPECO,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,962.24,2026-01-15 DS - Mint Cape Coral: Daily Sales
+FLD-DELRAY,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,232.00",2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,618.55",0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,10000,Cash on Hand,00-00,2026-01-15 DS,809.45,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,11010,Debit Card Receivable,00-00,2026-01-15 DS,760.00,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,44.00,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,750.98,0.00,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-DELRAY,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,750.98,2026-01-15 DS - Mint Delray Beach: Daily Sales
+FLD-GAINES,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"4,280.00",2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,412.25",0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,10000,Cash on Hand,00-00,2026-01-15 DS,487.75,0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,380.00",0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,340.00",0.00,2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-GAINES,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,340.00",2026-01-15 DS - Mint Gainesville: Daily Sales
+FLD-JA4332,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"4,127.00",2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,321.55",0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,10000,Cash on Hand,00-00,2026-01-15 DS,565.45,0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,240.00",0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,051.01",0.00,2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-JA4332,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,051.01",2026-01-15 DS - Mint Jacksonville: Daily Sales
+FLD-LONGWO,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,726.00",2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,208.85",0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,10000,Cash on Hand,00-00,2026-01-15 DS,477.15,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,040.00",0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,952.77,0.00,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-LONGWO,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,952.77,2026-01-15 DS - Mint Longwood: Daily Sales
+FLD-MELBOU,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"7,480.00",2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"3,729.32",0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,10000,Cash on Hand,00-00,2026-01-15 DS,"1,387.93",0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,11010,Debit Card Receivable,00-00,2026-01-15 DS,"2,320.00",0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,42.75,0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,583.61",0.00,2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MELBOU,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,583.61",2026-01-15 DS - Mint Melbourne: Daily Sales
+FLD-MIAMI,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"2,977.00",2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,423.40",0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,10000,Cash on Hand,00-00,2026-01-15 DS,633.60,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,11010,Debit Card Receivable,00-00,2026-01-15 DS,920.00,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,611.72,0.00,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-MIAMI,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,611.72,2026-01-15 DS - Mint Miami: Daily Sales
+FLD-O10615,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,869.00",2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,089.75",0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,10000,Cash on Hand,00-00,2026-01-15 DS,559.25,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,220.00",0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,654.59,0.00,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-O10615,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,654.59,2026-01-15 DS - Mint Orlando : Daily Sales
+FLD-SARASO,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"7,435.00",2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"4,032.05",0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,10000,Cash on Hand,00-00,2026-01-15 DS,"1,475.95",0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,530.00",0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,397.00,0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,065.52",0.00,2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-SARASO,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,065.52",2026-01-15 DS - Mint Sarasota: Daily Sales
+FLD-STAUGU,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"6,244.00",2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"3,247.65",0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,10000,Cash on Hand,00-00,2026-01-15 DS,"1,126.35",0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,11010,Debit Card Receivable,00-00,2026-01-15 DS,"1,870.00",0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,025.27",0.00,2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STAUGU,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,025.27",2026-01-15 DS - Mint St. Augustine: Daily Sales
+FLD-STUART,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,836.00",2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,122.35",0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,10000,Cash on Hand,00-00,2026-01-15 DS,989.65,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,11010,Debit Card Receivable,00-00,2026-01-15 DS,650.00,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,74.00,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,916.52,0.00,2026-01-15 DS - Mint Stuart: Daily Sales
+FLD-STUART,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,916.52,2026-01-15 DS - Mint Stuart: Daily Sales
+ILD-WILLOW,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"11,157.05",2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"3,309.37",0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"2,160.05",2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,10000,Cash on Hand,00-00,2026-01-15 DS,"8,808.15",0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,"1,199.58",0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"5,590.14",0.00,2026-01-15 DS - Mint Willowbrook: Daily Sales
+ILD-WILLOW,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"5,590.14",2026-01-15 DS - Mint Willowbrook: Daily Sales
+MID-COLDWA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"11,147.03",2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"3,035.19",0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,40004,Loyalty Discounts,20-00,2026-01-15 DS,303.54,0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"1,346.41",2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,10000,Cash on Hand,00-00,2026-01-15 DS,"9,458.25",0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,303.54,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"5,410.53",0.00,2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-COLDWA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"5,410.53",2026-01-15 DS - Mint Coldwater: Daily Sales
+MID-KALAMA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"6,415.56",2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,973.38",0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,40004,Loyalty Discounts,20-00,2026-01-15 DS,436.88,0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,730.62,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,10000,Cash on Hand,00-00,2026-01-15 DS,"4,701.99",0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,33.93,0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"2,976.85",0.00,2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-KALAMA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"2,976.85",2026-01-15 DS - Mint Kalamazoo: Daily Sales
+MID-MONROE,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"15,420.37",2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"3,840.26",0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,40004,Loyalty Discounts,20-00,2026-01-15 DS,321.07,0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"1,919.73",2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,10000,Cash on Hand,00-00,2026-01-15 DS,"13,191.60",0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,12.83,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"6,907.60",0.00,2026-01-15 DS - Mint Monroe: Daily Sales
+MID-MONROE,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"6,907.60",2026-01-15 DS - Mint Monroe: Daily Sales
+MID-NB,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"5,203.15",2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,208.75",0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,40004,Loyalty Discounts,20-00,2026-01-15 DS,135.77,0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,662.18,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,10000,Cash on Hand,00-00,2026-01-15 DS,"4,656.58",0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,135.77,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"2,245.43",0.00,2026-01-15 DS - Mint New Buffalo: Daily Sales
+MID-NB,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"2,245.43",2026-01-15 DS - Mint New Buffalo: Daily Sales
+MI-GB2,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"12,188.71",2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"2,479.22",0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,40004,Loyalty Discounts,20-00,2026-01-15 DS,212.28,0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"1,611.75",2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,10000,Cash on Hand,00-00,2026-01-15 DS,"11,118.21",0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,0.00,9.25,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"5,804.06",0.00,2026-01-15 DS - Mint Portage: Daily Sales
+MI-GB2,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"5,804.06",2026-01-15 DS - Mint Portage: Daily Sales
+MID-ROSE,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"8,757.71",2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,661.52",0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,40004,Loyalty Discounts,20-00,2026-01-15 DS,183.18,0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"1,175.01",2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,10000,Cash on Hand,00-00,2026-01-15 DS,"7,607.42",0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,480.60,0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"4,155.14",0.00,2026-01-15 DS - Mint Roseville: Daily Sales
+MID-ROSE,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"4,155.14",2026-01-15 DS - Mint Roseville: Daily Sales
+MOD-MO4,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"27,839.56",2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"9,124.83",0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,113.65,0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"3,079.68",2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,10000,Cash on Hand,00-00,2026-01-15 DS,"20,538.82",0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,"1,141.94",0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"13,482.12",0.00,2026-01-15 DS - Mint St. Peters: Daily Sales
+MOD-MO4,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"13,482.12",2026-01-15 DS - Mint St. Peters: Daily Sales
+NVD-PARA,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"24,344.04",2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"7,897.77",0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,"2,950.57",2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,10000,Cash on Hand,00-00,2026-01-15 DS,"18,679.88",0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,716.96,0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"8,560.35",0.00,2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-PARA,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"8,560.35",2026-01-15 DS - Mint Las Vegas Strip : Daily Sales
+NVD-RAIN,40001,Retail Income: Retail Sales,20-00,2026-01-15 DS,0.00,"3,834.92",2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,40002,Retail Income: Retail: Discounts and Coupons,20-00,2026-01-15 DS,"1,271.50",0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,40003,Retail Income: Sales Return,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,40004,Loyalty Discounts,20-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,23500,Taxes Payable - Sales & Use,00-00,2026-01-15 DS,0.00,462.89,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,10000,Cash on Hand,00-00,2026-01-15 DS,"2,611.52",0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,11010,Debit Card Receivable,00-00,2026-01-15 DS,0.00,0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,70260,Overage/Shortage: Cash Ledger Adj,20-00,2026-01-15 DS,414.79,0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,50000,Retail - Consumable Products for Resale,20-00,2026-01-15 DS,"1,540.96",0.00,2026-01-15 DS - Mint Spring Valley: Daily Sales
+NVD-RAIN,12250,Inventory - Finished Goods,00-00,2026-01-15 DS,0.00,"1,540.96",2026-01-15 DS - Mint Spring Valley: Daily Sales

@@ -1,0 +1,83 @@
+Branch,Account,Description,Subaccount,Ref. Number,Quantity,UOM,Debit Amount,Credit Amount,Transaction Description,Customer/Vendor
+Mint Kalamazoo,Sales Revenue,Uncategorized,,SALES-20260113-660d73ec-635f-437b-b064-a602623e4684,657.6799999999997,EA,,5959.00,Uncategorized Sales - 2026-01-13,Various
+Mint Kalamazoo,Sales Tax Payable,Uncategorized,,SALES-20260113-660d73ec-635f-437b-b064-a602623e4684,,,,709.15,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Kalamazoo,Sales Discounts,Uncategorized,,SALES-20260113-660d73ec-635f-437b-b064-a602623e4684,,,1667.58,,Uncategorized Discounts - 2026-01-13,Various
+Mint Spring Valley,Sales Revenue,Uncategorized,,SALES-20260113-577553d7-7604-4f34-948c-ee123dfd79ce,244,EA,,5826.01,Uncategorized Sales - 2026-01-13,Various
+Mint Spring Valley,Sales Tax Payable,Uncategorized,,SALES-20260113-577553d7-7604-4f34-948c-ee123dfd79ce,,,,660.54,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Spring Valley,Sales Discounts,Uncategorized,,SALES-20260113-577553d7-7604-4f34-948c-ee123dfd79ce,,,2212.22,,Uncategorized Discounts - 2026-01-13,Various
+Mint St. Peters,Sales Revenue,Uncategorized,,SALES-20260113-6011bb98c3a8f600d16b9cc7,708,EA,,23222.07,Uncategorized Sales - 2026-01-13,Various
+Mint St. Peters,Sales Tax Payable,Uncategorized,,SALES-20260113-6011bb98c3a8f600d16b9cc7,,,,2536.53,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint St. Peters,Sales Discounts,Uncategorized,,SALES-20260113-6011bb98c3a8f600d16b9cc7,,,7843.28,,Uncategorized Discounts - 2026-01-13,Various
+Mint Mesa ,Sales Revenue,Uncategorized,,SALES-20260113-242ef5f9-5fc9-41ef-bf44-5a7a4a2954a9,1455,EA,,33647.00,Uncategorized Sales - 2026-01-13,Various
+Mint Mesa ,Sales Tax Payable,Uncategorized,,SALES-20260113-242ef5f9-5fc9-41ef-bf44-5a7a4a2954a9,,,,4790.65,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Mesa ,Sales Discounts,Uncategorized,,SALES-20260113-242ef5f9-5fc9-41ef-bf44-5a7a4a2954a9,,,12244.05,,Uncategorized Discounts - 2026-01-13,Various
+Mint Jacksonville,Sales Revenue,Uncategorized,,SALES-20260113-671fc49f3d6012bd2de86727,74,EA,,2929.99,Uncategorized Sales - 2026-01-13,Various
+Mint Jacksonville,Sales Discounts,Uncategorized,,SALES-20260113-671fc49f3d6012bd2de86727,,,1444.14,,Uncategorized Discounts - 2026-01-13,Various
+Mint Delray Beach,Sales Revenue,Uncategorized,,SALES-20260113-671fc5cc61f4e1b53aea6450,58,EA,,3001.00,Uncategorized Sales - 2026-01-13,Various
+Mint Delray Beach,Sales Discounts,Uncategorized,,SALES-20260113-671fc5cc61f4e1b53aea6450,,,1623.75,,Uncategorized Discounts - 2026-01-13,Various
+Mint Sarasota,Sales Revenue,Uncategorized,,SALES-20260113-671fc6a378379f3aa0b16209,265,EA,,9309.99,Uncategorized Sales - 2026-01-13,Various
+Mint Sarasota,Sales Discounts,Uncategorized,,SALES-20260113-671fc6a378379f3aa0b16209,,,5085.04,,Uncategorized Discounts - 2026-01-13,Various
+Mint Stuart,Sales Revenue,Uncategorized,,SALES-20260113-671fc6d5e3a0af12d0fe3048,96,EA,,4263.00,Uncategorized Sales - 2026-01-13,Various
+Mint Stuart,Sales Discounts,Uncategorized,,SALES-20260113-671fc6d5e3a0af12d0fe3048,,,2198.25,,Uncategorized Discounts - 2026-01-13,Various
+Mint Bonita Springs ,Sales Revenue,Uncategorized,,SALES-20260113-671fc651df90a241e0cd83a6,48,EA,,2563.00,Uncategorized Sales - 2026-01-13,Various
+Mint Bonita Springs ,Sales Discounts,Uncategorized,,SALES-20260113-671fc651df90a241e0cd83a6,,,1465.00,,Uncategorized Discounts - 2026-01-13,Various
+Mint Bradenton,Sales Revenue,Uncategorized,,SALES-20260113-671fc67bbb7215cb3766c9f0,71,EA,,2441.00,Uncategorized Sales - 2026-01-13,Various
+Mint Bradenton,Sales Discounts,Uncategorized,,SALES-20260113-671fc67bbb7215cb3766c9f0,,,1249.91,,Uncategorized Discounts - 2026-01-13,Various
+Mint Miami,Sales Revenue,Uncategorized,,SALES-20260113-671fc59e78379f3aa0b16189,33,EA,,1722.00,Uncategorized Sales - 2026-01-13,Various
+Mint Miami,Sales Discounts,Uncategorized,,SALES-20260113-671fc59e78379f3aa0b16189,,,1037.95,,Uncategorized Discounts - 2026-01-13,Various
+Mint Orlando ,Sales Revenue,Uncategorized,,SALES-20260113-671fc52e97a672c710822c0f,72,EA,,3771.00,Uncategorized Sales - 2026-01-13,Various
+Mint Orlando ,Sales Discounts,Uncategorized,,SALES-20260113-671fc52e97a672c710822c0f,,,2244.20,,Uncategorized Discounts - 2026-01-13,Various
+Mint Bell Road Phoenix,Sales Revenue,Uncategorized,,SALES-20260113-a4d8b494-b542-4f69-acb8-cf67d6a6c3aa,2371,EA,,43994.34,Uncategorized Sales - 2026-01-13,Various
+Mint Bell Road Phoenix,Sales Tax Payable,Uncategorized,,SALES-20260113-a4d8b494-b542-4f69-acb8-cf67d6a6c3aa,,,,4482.18,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Bell Road Phoenix,Sales Discounts,Uncategorized,,SALES-20260113-a4d8b494-b542-4f69-acb8-cf67d6a6c3aa,,,10563.48,,Uncategorized Discounts - 2026-01-13,Various
+Mint Portage,Sales Revenue,Uncategorized,,SALES-20260113-ff7a275b-251c-464a-93c2-de4b454cf265,1158.7299999999998,EA,,10379.97,Uncategorized Sales - 2026-01-13,Various
+Mint Portage,Sales Tax Payable,Uncategorized,,SALES-20260113-ff7a275b-251c-464a-93c2-de4b454cf265,,,,1324.90,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Portage,Sales Discounts,Uncategorized,,SALES-20260113-ff7a275b-251c-464a-93c2-de4b454cf265,,,2361.01,,Uncategorized Discounts - 2026-01-13,Various
+Mint 75th Ave Phoenix,Sales Revenue,Uncategorized,,SALES-20260113-f8dbdb94-7bea-4741-a3a9-6631d8430544,921,EA,,21954.50,Uncategorized Sales - 2026-01-13,Various
+Mint 75th Ave Phoenix,Sales Tax Payable,Uncategorized,,SALES-20260113-f8dbdb94-7bea-4741-a3a9-6631d8430544,,,,3028.58,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint 75th Ave Phoenix,Sales Discounts,Uncategorized,,SALES-20260113-f8dbdb94-7bea-4741-a3a9-6631d8430544,,,8995.13,,Uncategorized Discounts - 2026-01-13,Various
+Mint Roseville,Sales Revenue,Uncategorized,,SALES-20260113-5c49a3be-6547-4dd0-975b-5644bc07d8c6,928.1699999999997,EA,,7827.88,Uncategorized Sales - 2026-01-13,Various
+Mint Roseville,Sales Tax Payable,Uncategorized,,SALES-20260113-5c49a3be-6547-4dd0-975b-5644bc07d8c6,,,,974.44,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Roseville,Sales Discounts,Uncategorized,,SALES-20260113-5c49a3be-6547-4dd0-975b-5644bc07d8c6,,,1953.79,,Uncategorized Discounts - 2026-01-13,Various
+Mint Buckeye/Verado,Sales Revenue,Uncategorized,,SALES-20260113-b5f4110e-6eb8-428b-aaaa-b4271d5eb327,1939,EA,,49273.50,Uncategorized Sales - 2026-01-13,Various
+Mint Buckeye/Verado,Sales Tax Payable,Uncategorized,,SALES-20260113-b5f4110e-6eb8-428b-aaaa-b4271d5eb327,,,,7317.42,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Buckeye/Verado,Sales Discounts,Uncategorized,,SALES-20260113-b5f4110e-6eb8-428b-aaaa-b4271d5eb327,,,16187.03,,Uncategorized Discounts - 2026-01-13,Various
+Mint Cape Coral,Sales Revenue,Uncategorized,,SALES-20260113-671fc62366a1a243eddfc444,81,EA,,3561.00,Uncategorized Sales - 2026-01-13,Various
+Mint Cape Coral,Sales Discounts,Uncategorized,,SALES-20260113-671fc62366a1a243eddfc444,,,1884.75,,Uncategorized Discounts - 2026-01-13,Various
+Mint El Mirage,Sales Revenue,Uncategorized,,SALES-20260113-1b81f825-ab2e-45c2-9ad7-add16236e95a,1858,EA,,34209.00,Uncategorized Sales - 2026-01-13,Various
+Mint El Mirage,Sales Tax Payable,Uncategorized,,SALES-20260113-1b81f825-ab2e-45c2-9ad7-add16236e95a,,,,2158.37,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint El Mirage,Sales Discounts,Uncategorized,,SALES-20260113-1b81f825-ab2e-45c2-9ad7-add16236e95a,,,5413.07,,Uncategorized Discounts - 2026-01-13,Various
+Mint Las Vegas Strip ,Sales Revenue,Uncategorized,,SALES-20260113-dbc5deb8-6bbc-4edc-b4df-11d7b2964de0,842,EA,,19965.77,Uncategorized Sales - 2026-01-13,Various
+Mint Las Vegas Strip ,Sales Tax Payable,Uncategorized,,SALES-20260113-dbc5deb8-6bbc-4edc-b4df-11d7b2964de0,,,,2394.83,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Las Vegas Strip ,Sales Discounts,Uncategorized,,SALES-20260113-dbc5deb8-6bbc-4edc-b4df-11d7b2964de0,,,6823.18,,Uncategorized Discounts - 2026-01-13,Various
+Mint Longwood,Sales Revenue,Uncategorized,,SALES-20260113-671fc4f7b9b12fea1136ac7d,59,EA,,3186.00,Uncategorized Sales - 2026-01-13,Various
+Mint Longwood,Sales Discounts,Uncategorized,,SALES-20260113-671fc4f7b9b12fea1136ac7d,,,1848.25,,Uncategorized Discounts - 2026-01-13,Various
+Mint Melbourne,Sales Revenue,Uncategorized,,SALES-20260113-671fc56cb62833e71c2a2ba6,160,EA,,7237.00,Uncategorized Sales - 2026-01-13,Various
+Mint Melbourne,Sales Discounts,Uncategorized,,SALES-20260113-671fc56cb62833e71c2a2ba6,,,3914.65,,Uncategorized Discounts - 2026-01-13,Various
+Mint Scottsdale,Sales Revenue,Uncategorized,,SALES-20260113-86441745-c533-4602-9264-f3a30db9753b,1345,EA,,34967.53,Uncategorized Sales - 2026-01-13,Various
+Mint Scottsdale,Sales Tax Payable,Uncategorized,,SALES-20260113-86441745-c533-4602-9264-f3a30db9753b,,,,4838.71,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Scottsdale,Sales Discounts,Uncategorized,,SALES-20260113-86441745-c533-4602-9264-f3a30db9753b,,,12777.45,,Uncategorized Discounts - 2026-01-13,Various
+Mint Willowbrook,Sales Revenue,Uncategorized,,SALES-20260113-a3d2eecc-1703-4aae-bb52-3c6b133c0a9f,269,EA,,9589.19,Uncategorized Sales - 2026-01-13,Various
+Mint Willowbrook,Sales Tax Payable,Uncategorized,,SALES-20260113-a3d2eecc-1703-4aae-bb52-3c6b133c0a9f,,,,1803.56,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Willowbrook,Sales Discounts,Uncategorized,,SALES-20260113-a3d2eecc-1703-4aae-bb52-3c6b133c0a9f,,,3016.58,,Uncategorized Discounts - 2026-01-13,Various
+Mint Brandon,Sales Revenue,Uncategorized,,SALES-20260113-671fc5f895b82d1469b3a1c9,80,EA,,3465.00,Uncategorized Sales - 2026-01-13,Various
+Mint Brandon,Sales Discounts,Uncategorized,,SALES-20260113-671fc5f895b82d1469b3a1c9,,,1916.30,,Uncategorized Discounts - 2026-01-13,Various
+Mint Coldwater,Sales Revenue,Uncategorized,,SALES-20260113-80b86ddb-672e-4fcc-adf1-b6ebe7e9927f,903.8999999999999,EA,,8046.21,Uncategorized Sales - 2026-01-13,Various
+Mint Coldwater,Sales Tax Payable,Uncategorized,,SALES-20260113-80b86ddb-672e-4fcc-adf1-b6ebe7e9927f,,,,997.69,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Coldwater,Sales Discounts,Uncategorized,,SALES-20260113-80b86ddb-672e-4fcc-adf1-b6ebe7e9927f,,,2018.26,,Uncategorized Discounts - 2026-01-13,Various
+Mint Gainesville,Sales Revenue,Uncategorized,,SALES-20260113-671fc4c7a27a2442500cf12e,63,EA,,3087.00,Uncategorized Sales - 2026-01-13,Various
+Mint Gainesville,Sales Discounts,Uncategorized,,SALES-20260113-671fc4c7a27a2442500cf12e,,,1747.95,,Uncategorized Discounts - 2026-01-13,Various
+Mint Northern Phoenix,Sales Revenue,Uncategorized,,SALES-20260113-1e30427d-d8db-4e60-84c8-8487d1d6bcd6,1166,EA,,26274.00,Uncategorized Sales - 2026-01-13,Various
+Mint Northern Phoenix,Sales Tax Payable,Uncategorized,,SALES-20260113-1e30427d-d8db-4e60-84c8-8487d1d6bcd6,,,,3911.34,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Northern Phoenix,Sales Discounts,Uncategorized,,SALES-20260113-1e30427d-d8db-4e60-84c8-8487d1d6bcd6,,,9935.58,,Uncategorized Discounts - 2026-01-13,Various
+Mint St. Augustine,Sales Revenue,Uncategorized,,SALES-20260113-671fc4690cde725c00594311,142,EA,,7796.00,Uncategorized Sales - 2026-01-13,Various
+Mint St. Augustine,Sales Discounts,Uncategorized,,SALES-20260113-671fc4690cde725c00594311,,,3876.06,,Uncategorized Discounts - 2026-01-13,Various
+Mint Monroe,Sales Revenue,Uncategorized,,SALES-20260113-62058ef65b73e100946b628d,1179.6899999999996,EA,,9825.70,Uncategorized Sales - 2026-01-13,Various
+Mint Monroe,Sales Tax Payable,Uncategorized,,SALES-20260113-62058ef65b73e100946b628d,,,,1249.77,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Monroe,Sales Discounts,Uncategorized,,SALES-20260113-62058ef65b73e100946b628d,,,2294.49,,Uncategorized Discounts - 2026-01-13,Various
+Mint New Buffalo,Sales Revenue,Uncategorized,,SALES-20260113-667d85c3a142f9f96981b4fd,539.24,EA,,5507.87,Uncategorized Sales - 2026-01-13,Various
+Mint New Buffalo,Sales Tax Payable,Uncategorized,,SALES-20260113-667d85c3a142f9f96981b4fd,,,,715.84,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint New Buffalo,Sales Discounts,Uncategorized,,SALES-20260113-667d85c3a142f9f96981b4fd,,,1187.77,,Uncategorized Discounts - 2026-01-13,Various
+Mint Tempe,Sales Revenue,Uncategorized,,SALES-20260113-92fd0875-cc39-479b-9fbd-0a7db947c694,2769.1,EA,,63414.34,Uncategorized Sales - 2026-01-13,Various
+Mint Tempe,Sales Tax Payable,Uncategorized,,SALES-20260113-92fd0875-cc39-479b-9fbd-0a7db947c694,,,,10947.77,Uncategorized Tax Collected - 2026-01-13,State Tax Authority
+Mint Tempe,Sales Discounts,Uncategorized,,SALES-20260113-92fd0875-cc39-479b-9fbd-0a7db947c694,,,21548.92,,Uncategorized Discounts - 2026-01-13,Various

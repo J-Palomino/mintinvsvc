@@ -48,34 +48,66 @@ class OdooSyncService {
 
   /**
    * Load reference data caches from Odoo
+   * Note: Caches are optional - sync will still work without them (just slower)
    */
   async loadCaches() {
-    // Load brands
-    const brands = await this.odoo.searchRead('cannabis.brand', [], ['id', 'name']);
-    for (const brand of brands) {
-      this.brandCache.set(brand.name.toLowerCase(), brand.id);
-    }
-
-    // Load strains
-    const strains = await this.odoo.searchRead('cannabis.strain', [], ['id', 'name']);
-    for (const strain of strains) {
-      this.strainCache.set(strain.name.toLowerCase(), strain.id);
-    }
-
-    // Load product categories
-    const categories = await this.odoo.searchRead('product.category', [], ['id', 'name', 'complete_name']);
-    for (const cat of categories) {
-      this.categoryCache.set(cat.name.toLowerCase(), cat.id);
-      if (cat.complete_name) {
-        this.categoryCache.set(cat.complete_name.toLowerCase(), cat.id);
+    try {
+      // Load brands
+      const brands = await this.odoo.searchRead('cannabis.brand', [], ['id', 'name']);
+      if (Array.isArray(brands)) {
+        for (const brand of brands) {
+          if (brand && brand.name) {
+            this.brandCache.set(brand.name.toLowerCase(), brand.id);
+          }
+        }
       }
+    } catch (e) {
+      console.log('Could not load brand cache:', e.message);
     }
 
-    // Load warehouses
-    const warehouses = await this.odoo.searchRead('stock.warehouse', [], ['id', 'name', 'code']);
-    for (const wh of warehouses) {
-      // Store by code which might match location_id
-      this.warehouseCache.set(wh.code, wh.id);
+    try {
+      // Load strains
+      const strains = await this.odoo.searchRead('cannabis.strain', [], ['id', 'name']);
+      if (Array.isArray(strains)) {
+        for (const strain of strains) {
+          if (strain && strain.name) {
+            this.strainCache.set(strain.name.toLowerCase(), strain.id);
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Could not load strain cache:', e.message);
+    }
+
+    try {
+      // Load product categories
+      const categories = await this.odoo.searchRead('product.category', [], ['id', 'name', 'complete_name']);
+      if (Array.isArray(categories)) {
+        for (const cat of categories) {
+          if (cat && cat.name) {
+            this.categoryCache.set(cat.name.toLowerCase(), cat.id);
+            if (cat.complete_name) {
+              this.categoryCache.set(cat.complete_name.toLowerCase(), cat.id);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Could not load category cache:', e.message);
+    }
+
+    try {
+      // Load warehouses
+      const warehouses = await this.odoo.searchRead('stock.warehouse', [], ['id', 'name', 'code']);
+      if (Array.isArray(warehouses)) {
+        for (const wh of warehouses) {
+          if (wh && wh.code) {
+            this.warehouseCache.set(wh.code, wh.id);
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Could not load warehouse cache:', e.message);
     }
 
     console.log(`Odoo caches loaded: ${this.brandCache.size} brands, ${this.strainCache.size} strains, ${this.categoryCache.size} categories`);

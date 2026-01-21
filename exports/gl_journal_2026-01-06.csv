@@ -1,0 +1,327 @@
+# GL Journal Export - 2026-01-06
+# Source of Truth: Dutchie POS API (/reporting/transactions)
+# Generated: 2026-01-19T17:41:39.715Z
+# Time basis: Local store time (per-store timezone conversion)
+# NOTE: Verify branch codes and account mappings match your accounting system.
+#
+Branch,Dutchie Store Name,Account,Description,Subaccount,Ref. Number,Debit Amount,Credit Amount
+MID-KALAMA,Mint Kalamazoo,40001,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,"5,123.15"
+MID-KALAMA,Mint Kalamazoo,40002,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,"1,374.47",0.00
+MID-KALAMA,Mint Kalamazoo,40003,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-KALAMA,Mint Kalamazoo,40004,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,153.44,0.00
+MID-KALAMA,Mint Kalamazoo,23500,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,621.78
+MID-KALAMA,Mint Kalamazoo,10000,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,"4,208.24",0.00
+MID-KALAMA,Mint Kalamazoo,11010,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-KALAMA,Mint Kalamazoo,70260,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,8.78
+MID-KALAMA,Mint Kalamazoo,50000,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,"2,327.73",0.00
+MID-KALAMA,Mint Kalamazoo,12250,2026-01-06 DS - Mint Kalamazoo: Daily Sales,00-00,2026-01-06 DS,0.00,"2,327.73"
+NVD-RAIN,Mint Spring Valley,40001,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,"4,273.50"
+NVD-RAIN,Mint Spring Valley,40002,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,"1,328.89",0.00
+NVD-RAIN,Mint Spring Valley,40003,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-RAIN,Mint Spring Valley,40004,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-RAIN,Mint Spring Valley,23500,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,527.58
+NVD-RAIN,Mint Spring Valley,10000,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,"3,431.94",0.00
+NVD-RAIN,Mint Spring Valley,11010,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-RAIN,Mint Spring Valley,70260,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,40.25
+NVD-RAIN,Mint Spring Valley,50000,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,"1,867.83",0.00
+NVD-RAIN,Mint Spring Valley,12250,2026-01-06 DS - Mint Spring Valley: Daily Sales,00-00,2026-01-06 DS,0.00,"1,867.83"
+MOD-MO4,Mint St. Peters,40001,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,"20,264.84"
+MOD-MO4,Mint St. Peters,40002,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,"6,500.77",0.00
+MOD-MO4,Mint St. Peters,40003,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MOD-MO4,Mint St. Peters,40004,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MOD-MO4,Mint St. Peters,23500,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,"2,250.45"
+MOD-MO4,Mint St. Peters,10000,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,"15,465.23",0.00
+MOD-MO4,Mint St. Peters,11010,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MOD-MO4,Mint St. Peters,70260,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,549.29
+MOD-MO4,Mint St. Peters,50000,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,"8,429.93",0.00
+MOD-MO4,Mint St. Peters,12250,2026-01-06 DS - Mint St. Peters: Daily Sales,00-00,2026-01-06 DS,0.00,"8,429.93"
+AZD-4245IN,Mint Mesa ,40001,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,"37,834.50"
+AZD-4245IN,Mint Mesa ,40002,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,"13,597.41",0.00
+AZD-4245IN,Mint Mesa ,40003,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-4245IN,Mint Mesa ,40004,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-4245IN,Mint Mesa ,23500,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,"5,309.32"
+AZD-4245IN,Mint Mesa ,10000,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,"28,331.26",0.00
+AZD-4245IN,Mint Mesa ,11010,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-4245IN,Mint Mesa ,70260,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,"1,215.15"
+AZD-4245IN,Mint Mesa ,50000,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,"12,466.11",0.00
+AZD-4245IN,Mint Mesa ,12250,2026-01-06 DS - Mint Mesa : Daily Sales,00-00,2026-01-06 DS,0.00,"12,466.11"
+FLD-JA4332,Mint Jacksonville,40001,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,"4,941.99"
+FLD-JA4332,Mint Jacksonville,40002,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,"2,455.89",0.00
+FLD-JA4332,Mint Jacksonville,40003,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-JA4332,Mint Jacksonville,40004,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-JA4332,Mint Jacksonville,23500,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-JA4332,Mint Jacksonville,10000,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,"1,065.10",0.00
+FLD-JA4332,Mint Jacksonville,11010,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,800.00,0.00
+FLD-JA4332,Mint Jacksonville,70260,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,621.00
+FLD-JA4332,Mint Jacksonville,50000,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,"1,162.09",0.00
+FLD-JA4332,Mint Jacksonville,12250,2026-01-06 DS - Mint Jacksonville: Daily Sales,00-00,2026-01-06 DS,0.00,"1,162.09"
+FLD-DELRAY,Mint Delray Beach,40001,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,"1,851.00"
+FLD-DELRAY,Mint Delray Beach,40002,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,"1,002.25",0.00
+FLD-DELRAY,Mint Delray Beach,40003,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,40004,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,23500,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,10000,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,418.75,0.00
+FLD-DELRAY,Mint Delray Beach,11010,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,430.00,0.00
+FLD-DELRAY,Mint Delray Beach,70260,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,50000,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,338.71,0.00
+FLD-DELRAY,Mint Delray Beach,12250,2026-01-06 DS - Mint Delray Beach: Daily Sales,00-00,2026-01-06 DS,0.00,338.71
+FLD-SARASO,Mint Sarasota,40001,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,0.00,"5,323.00"
+FLD-SARASO,Mint Sarasota,40002,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,"2,787.90",0.00
+FLD-SARASO,Mint Sarasota,40003,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,42.75,0.00
+FLD-SARASO,Mint Sarasota,40004,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-SARASO,Mint Sarasota,23500,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-SARASO,Mint Sarasota,10000,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,"1,490.10",0.00
+FLD-SARASO,Mint Sarasota,11010,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,"1,020.00",0.00
+FLD-SARASO,Mint Sarasota,70260,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,17.75,0.00
+FLD-SARASO,Mint Sarasota,50000,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,"1,076.36",0.00
+FLD-SARASO,Mint Sarasota,12250,2026-01-06 DS - Mint Sarasota: Daily Sales,00-00,2026-01-06 DS,0.00,"1,076.36"
+FLD-STUART,Mint Stuart,40001,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,"3,320.00"
+FLD-STUART,Mint Stuart,40002,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,"1,789.90",0.00
+FLD-STUART,Mint Stuart,40003,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STUART,Mint Stuart,40004,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STUART,Mint Stuart,23500,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STUART,Mint Stuart,10000,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,908.10,0.00
+FLD-STUART,Mint Stuart,11010,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,520.00,0.00
+FLD-STUART,Mint Stuart,70260,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,102.00
+FLD-STUART,Mint Stuart,50000,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,605.22,0.00
+FLD-STUART,Mint Stuart,12250,2026-01-06 DS - Mint Stuart: Daily Sales,00-00,2026-01-06 DS,0.00,605.22
+FLD-BONITA,Mint Bonita Springs ,40001,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,"2,886.00"
+FLD-BONITA,Mint Bonita Springs ,40002,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,"1,658.00",0.00
+FLD-BONITA,Mint Bonita Springs ,40003,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,40004,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,23500,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,10000,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,568.00,0.00
+FLD-BONITA,Mint Bonita Springs ,11010,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,660.00,0.00
+FLD-BONITA,Mint Bonita Springs ,70260,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,50000,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,653.64,0.00
+FLD-BONITA,Mint Bonita Springs ,12250,2026-01-06 DS - Mint Bonita Springs : Daily Sales,00-00,2026-01-06 DS,0.00,653.64
+FLD-BRADEN,Mint Bradenton,40001,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,"3,202.00"
+FLD-BRADEN,Mint Bradenton,40002,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,"1,616.25",0.00
+FLD-BRADEN,Mint Bradenton,40003,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRADEN,Mint Bradenton,40004,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRADEN,Mint Bradenton,23500,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRADEN,Mint Bradenton,10000,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,745.75,0.00
+FLD-BRADEN,Mint Bradenton,11010,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,840.00,0.00
+FLD-BRADEN,Mint Bradenton,70260,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRADEN,Mint Bradenton,50000,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,703.59,0.00
+FLD-BRADEN,Mint Bradenton,12250,2026-01-06 DS - Mint Bradenton: Daily Sales,00-00,2026-01-06 DS,0.00,703.59
+FLD-MIAMI,Mint Miami,40001,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,"2,610.00"
+FLD-MIAMI,Mint Miami,40002,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,"1,359.00",0.00
+FLD-MIAMI,Mint Miami,40003,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MIAMI,Mint Miami,40004,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MIAMI,Mint Miami,23500,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MIAMI,Mint Miami,10000,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,589.00,0.00
+FLD-MIAMI,Mint Miami,11010,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,340.00,0.00
+FLD-MIAMI,Mint Miami,70260,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,322.00
+FLD-MIAMI,Mint Miami,50000,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,519.83,0.00
+FLD-MIAMI,Mint Miami,12250,2026-01-06 DS - Mint Miami: Daily Sales,00-00,2026-01-06 DS,0.00,519.83
+FLD-O10615,Mint Orlando ,40001,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,"3,325.00"
+FLD-O10615,Mint Orlando ,40002,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,"1,899.50",0.00
+FLD-O10615,Mint Orlando ,40003,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-O10615,Mint Orlando ,40004,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-O10615,Mint Orlando ,23500,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-O10615,Mint Orlando ,10000,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,892.50,0.00
+FLD-O10615,Mint Orlando ,11010,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,470.00,0.00
+FLD-O10615,Mint Orlando ,70260,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,63.00
+FLD-O10615,Mint Orlando ,50000,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,655.30,0.00
+FLD-O10615,Mint Orlando ,12250,2026-01-06 DS - Mint Orlando : Daily Sales,00-00,2026-01-06 DS,0.00,655.30
+AZD-UH,Mint Bell Road Phoenix,40001,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"30,278.01"
+AZD-UH,Mint Bell Road Phoenix,40002,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,"11,086.80",0.00
+AZD-UH,Mint Bell Road Phoenix,40003,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,40004,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,23500,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"4,561.75"
+AZD-UH,Mint Bell Road Phoenix,10000,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,"23,752.33",0.00
+AZD-UH,Mint Bell Road Phoenix,11010,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,70260,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.63
+AZD-UH,Mint Bell Road Phoenix,50000,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,"24,712.52",0.00
+AZD-UH,Mint Bell Road Phoenix,12250,2026-01-06 DS - Mint Bell Road Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"24,712.52"
+MI-GB2,Mint Portage,40001,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,0.00,"10,910.66"
+MI-GB2,Mint Portage,40002,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,"2,831.91",0.00
+MI-GB2,Mint Portage,40003,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MI-GB2,Mint Portage,40004,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,300.45,0.00
+MI-GB2,Mint Portage,23500,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,0.00,"1,338.14"
+MI-GB2,Mint Portage,10000,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,"9,197.01",0.00
+MI-GB2,Mint Portage,11010,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MI-GB2,Mint Portage,70260,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,80.57,0.00
+MI-GB2,Mint Portage,50000,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,"4,934.61",0.00
+MI-GB2,Mint Portage,12250,2026-01-06 DS - Mint Portage: Daily Sales,00-00,2026-01-06 DS,0.00,"4,934.61"
+AZV-ENCANT,Mint 75th Ave Phoenix,40001,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"20,865.00"
+AZV-ENCANT,Mint 75th Ave Phoenix,40002,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,"8,373.35",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,40003,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,40004,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,23500,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"2,892.17"
+AZV-ENCANT,Mint 75th Ave Phoenix,10000,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,"14,354.05",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,11010,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,70260,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"1,029.77"
+AZV-ENCANT,Mint 75th Ave Phoenix,50000,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,"8,347.40",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,12250,2026-01-06 DS - Mint 75th Ave Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"8,347.40"
+MID-ROSE,Mint Roseville,40001,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,"6,201.72"
+MID-ROSE,Mint Roseville,40002,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,"1,628.52",0.00
+MID-ROSE,Mint Roseville,40003,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-ROSE,Mint Roseville,40004,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,227.75,0.00
+MID-ROSE,Mint Roseville,23500,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,759.02
+MID-ROSE,Mint Roseville,10000,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,"4,845.96",0.00
+MID-ROSE,Mint Roseville,11010,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-ROSE,Mint Roseville,70260,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,258.51
+MID-ROSE,Mint Roseville,50000,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,"2,795.51",0.00
+MID-ROSE,Mint Roseville,12250,2026-01-06 DS - Mint Roseville: Daily Sales,00-00,2026-01-06 DS,0.00,"2,795.51"
+AZD-BUCK,Mint Buckeye/Verado,40001,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,"47,912.50"
+AZD-BUCK,Mint Buckeye/Verado,40002,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,"15,404.23",0.00
+AZD-BUCK,Mint Buckeye/Verado,40003,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,40004,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,23500,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,"7,203.63"
+AZD-BUCK,Mint Buckeye/Verado,10000,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,"39,712.70",0.00
+AZD-BUCK,Mint Buckeye/Verado,11010,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,70260,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.80,0.00
+AZD-BUCK,Mint Buckeye/Verado,50000,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,"25,807.97",0.00
+AZD-BUCK,Mint Buckeye/Verado,12250,2026-01-06 DS - Mint Buckeye/Verado: Daily Sales,00-00,2026-01-06 DS,0.00,"25,807.97"
+FLD-CAPECO,Mint Cape Coral,40001,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,"3,532.99"
+FLD-CAPECO,Mint Cape Coral,40002,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,"1,945.49",0.00
+FLD-CAPECO,Mint Cape Coral,40003,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,40004,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,23500,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,10000,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,893.50,0.00
+FLD-CAPECO,Mint Cape Coral,11010,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,650.00,0.00
+FLD-CAPECO,Mint Cape Coral,70260,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,44.00
+FLD-CAPECO,Mint Cape Coral,50000,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,912.93,0.00
+FLD-CAPECO,Mint Cape Coral,12250,2026-01-06 DS - Mint Cape Coral: Daily Sales,00-00,2026-01-06 DS,0.00,912.93
+AZD-ELMIRA,Mint El Mirage,40001,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,"13,065.00"
+AZD-ELMIRA,Mint El Mirage,40002,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,"5,113.95",0.00
+AZD-ELMIRA,Mint El Mirage,40003,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,40004,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,23500,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,"2,002.52"
+AZD-ELMIRA,Mint El Mirage,10000,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,"9,954.00",0.00
+AZD-ELMIRA,Mint El Mirage,11010,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,70260,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.43,0.00
+AZD-ELMIRA,Mint El Mirage,50000,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,"6,823.29",0.00
+AZD-ELMIRA,Mint El Mirage,12250,2026-01-06 DS - Mint El Mirage: Daily Sales,00-00,2026-01-06 DS,0.00,"6,823.29"
+NVD-PARA,Mint Las Vegas Strip ,40001,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,"17,583.28"
+NVD-PARA,Mint Las Vegas Strip ,40002,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,"6,292.13",0.00
+NVD-PARA,Mint Las Vegas Strip ,40003,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,40004,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,23500,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,"2,041.18"
+NVD-PARA,Mint Las Vegas Strip ,10000,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,"12,630.66",0.00
+NVD-PARA,Mint Las Vegas Strip ,11010,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,70260,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,701.67
+NVD-PARA,Mint Las Vegas Strip ,50000,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,"6,014.53",0.00
+NVD-PARA,Mint Las Vegas Strip ,12250,2026-01-06 DS - Mint Las Vegas Strip : Daily Sales,00-00,2026-01-06 DS,0.00,"6,014.53"
+FLD-LONGWO,Mint Longwood,40001,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,"1,550.00"
+FLD-LONGWO,Mint Longwood,40002,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,885.00,0.00
+FLD-LONGWO,Mint Longwood,40003,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-LONGWO,Mint Longwood,40004,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-LONGWO,Mint Longwood,23500,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-LONGWO,Mint Longwood,10000,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,177.50,0.00
+FLD-LONGWO,Mint Longwood,11010,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,480.00,0.00
+FLD-LONGWO,Mint Longwood,70260,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,7.50
+FLD-LONGWO,Mint Longwood,50000,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,342.77,0.00
+FLD-LONGWO,Mint Longwood,12250,2026-01-06 DS - Mint Longwood: Daily Sales,00-00,2026-01-06 DS,0.00,342.77
+FLD-MELBOU,Mint Melbourne,40001,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,"7,387.00"
+FLD-MELBOU,Mint Melbourne,40002,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,"3,998.40",0.00
+FLD-MELBOU,Mint Melbourne,40003,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MELBOU,Mint Melbourne,40004,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MELBOU,Mint Melbourne,23500,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MELBOU,Mint Melbourne,10000,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,"1,768.60",0.00
+FLD-MELBOU,Mint Melbourne,11010,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,"1,620.00",0.00
+FLD-MELBOU,Mint Melbourne,70260,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-MELBOU,Mint Melbourne,50000,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,"1,386.66",0.00
+FLD-MELBOU,Mint Melbourne,12250,2026-01-06 DS - Mint Melbourne: Daily Sales,00-00,2026-01-06 DS,0.00,"1,386.66"
+AZV-EBA,Mint Scottsdale,40001,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,"32,302.52"
+AZV-EBA,Mint Scottsdale,40002,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,"11,627.70",0.00
+AZV-EBA,Mint Scottsdale,40003,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-EBA,Mint Scottsdale,40004,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-EBA,Mint Scottsdale,23500,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,"4,637.47"
+AZV-EBA,Mint Scottsdale,10000,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,"24,270.70",0.00
+AZV-EBA,Mint Scottsdale,11010,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-EBA,Mint Scottsdale,70260,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,"1,041.59"
+AZV-EBA,Mint Scottsdale,50000,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,"12,010.09",0.00
+AZV-EBA,Mint Scottsdale,12250,2026-01-06 DS - Mint Scottsdale: Daily Sales,00-00,2026-01-06 DS,0.00,"12,010.09"
+ILD-WILLOW,Mint Willowbrook,40001,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,"8,757.62"
+ILD-WILLOW,Mint Willowbrook,40002,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,"2,592.98",0.00
+ILD-WILLOW,Mint Willowbrook,40003,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,40004,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,23500,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,"1,697.75"
+ILD-WILLOW,Mint Willowbrook,10000,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,"6,983.58",0.00
+ILD-WILLOW,Mint Willowbrook,11010,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,70260,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,878.81
+ILD-WILLOW,Mint Willowbrook,50000,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,"4,288.32",0.00
+ILD-WILLOW,Mint Willowbrook,12250,2026-01-06 DS - Mint Willowbrook: Daily Sales,00-00,2026-01-06 DS,0.00,"4,288.32"
+FLD-BRANDO,Mint Brandon,40001,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,0.00,"4,805.00"
+FLD-BRANDO,Mint Brandon,40002,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,"2,476.65",0.00
+FLD-BRANDO,Mint Brandon,40003,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,28.80,0.00
+FLD-BRANDO,Mint Brandon,40004,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRANDO,Mint Brandon,23500,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-BRANDO,Mint Brandon,10000,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,934.35,0.00
+FLD-BRANDO,Mint Brandon,11010,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,"1,330.00",0.00
+FLD-BRANDO,Mint Brandon,70260,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,0.00,35.20
+FLD-BRANDO,Mint Brandon,50000,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,"1,076.11",0.00
+FLD-BRANDO,Mint Brandon,12250,2026-01-06 DS - Mint Brandon: Daily Sales,00-00,2026-01-06 DS,0.00,"1,076.11"
+MID-COLDWA,Mint Coldwater,40001,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,0.00,"9,721.50"
+MID-COLDWA,Mint Coldwater,40002,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,"2,676.44",0.00
+MID-COLDWA,Mint Coldwater,40003,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-COLDWA,Mint Coldwater,40004,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,274.96,0.00
+MID-COLDWA,Mint Coldwater,23500,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,0.00,"1,169.46"
+MID-COLDWA,Mint Coldwater,10000,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,"8,214.52",0.00
+MID-COLDWA,Mint Coldwater,11010,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-COLDWA,Mint Coldwater,70260,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,274.96,0.00
+MID-COLDWA,Mint Coldwater,50000,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,"4,541.11",0.00
+MID-COLDWA,Mint Coldwater,12250,2026-01-06 DS - Mint Coldwater: Daily Sales,00-00,2026-01-06 DS,0.00,"4,541.11"
+FLD-GAINES,Mint Gainesville,40001,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,"2,845.00"
+FLD-GAINES,Mint Gainesville,40002,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,"1,588.05",0.00
+FLD-GAINES,Mint Gainesville,40003,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-GAINES,Mint Gainesville,40004,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-GAINES,Mint Gainesville,23500,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-GAINES,Mint Gainesville,10000,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,916.95,0.00
+FLD-GAINES,Mint Gainesville,11010,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,340.00,0.00
+FLD-GAINES,Mint Gainesville,70260,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-GAINES,Mint Gainesville,50000,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,646.29,0.00
+FLD-GAINES,Mint Gainesville,12250,2026-01-06 DS - Mint Gainesville: Daily Sales,00-00,2026-01-06 DS,0.00,646.29
+AZV-GTL,Mint Northern Phoenix,40001,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"24,389.50"
+AZV-GTL,Mint Northern Phoenix,40002,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,"9,134.79",0.00
+AZV-GTL,Mint Northern Phoenix,40003,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,40004,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,23500,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"3,622.04"
+AZV-GTL,Mint Northern Phoenix,10000,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,"18,385.19",0.00
+AZV-GTL,Mint Northern Phoenix,11010,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,70260,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,491.56
+AZV-GTL,Mint Northern Phoenix,50000,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,"7,476.85",0.00
+AZV-GTL,Mint Northern Phoenix,12250,2026-01-06 DS - Mint Northern Phoenix: Daily Sales,00-00,2026-01-06 DS,0.00,"7,476.85"
+FLD-STAUGU,Mint St. Augustine,40001,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,"7,998.00"
+FLD-STAUGU,Mint St. Augustine,40002,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,"4,174.40",0.00
+FLD-STAUGU,Mint St. Augustine,40003,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,40004,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,23500,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,10000,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,"1,769.60",0.00
+FLD-STAUGU,Mint St. Augustine,11010,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,"1,980.00",0.00
+FLD-STAUGU,Mint St. Augustine,70260,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,74.00
+FLD-STAUGU,Mint St. Augustine,50000,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,"1,799.01",0.00
+FLD-STAUGU,Mint St. Augustine,12250,2026-01-06 DS - Mint St. Augustine: Daily Sales,00-00,2026-01-06 DS,0.00,"1,799.01"
+MID-MONROE,Mint Monroe,40001,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,0.00,"14,395.60"
+MID-MONROE,Mint Monroe,40002,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,"2,816.65",0.00
+MID-MONROE,Mint Monroe,40003,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-MONROE,Mint Monroe,40004,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,426.30,0.00
+MID-MONROE,Mint Monroe,23500,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,0.00,"1,916.87"
+MID-MONROE,Mint Monroe,10000,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,"13,478.33",0.00
+MID-MONROE,Mint Monroe,11010,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-MONROE,Mint Monroe,70260,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,408.81,0.00
+MID-MONROE,Mint Monroe,50000,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,"6,657.58",0.00
+MID-MONROE,Mint Monroe,12250,2026-01-06 DS - Mint Monroe: Daily Sales,00-00,2026-01-06 DS,0.00,"6,657.58"
+MID-NB,Mint New Buffalo,40001,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,0.00,"3,708.89"
+MID-NB,Mint New Buffalo,40002,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,796.17,0.00
+MID-NB,Mint New Buffalo,40003,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,46.64,0.00
+MID-NB,Mint New Buffalo,40004,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,14.26,0.00
+MID-NB,Mint New Buffalo,23500,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,0.00,473.83
+MID-NB,Mint New Buffalo,10000,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,"3,318.18",0.00
+MID-NB,Mint New Buffalo,11010,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+MID-NB,Mint New Buffalo,70260,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,0.00,7.47
+MID-NB,Mint New Buffalo,50000,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,"1,648.78",0.00
+MID-NB,Mint New Buffalo,12250,2026-01-06 DS - Mint New Buffalo: Daily Sales,00-00,2026-01-06 DS,0.00,"1,648.78"
+AZV-SWT,Mint Tempe,40001,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,"62,748.66"
+AZV-SWT,Mint Tempe,40002,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,"20,092.41",0.00
+AZV-SWT,Mint Tempe,40003,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-SWT,Mint Tempe,40004,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-SWT,Mint Tempe,23500,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,"11,160.77"
+AZV-SWT,Mint Tempe,10000,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,"48,815.50",0.00
+AZV-SWT,Mint Tempe,11010,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,0.00
+AZV-SWT,Mint Tempe,70260,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,"5,001.52"
+AZV-SWT,Mint Tempe,50000,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,"32,070.96",0.00
+AZV-SWT,Mint Tempe,12250,2026-01-06 DS - Mint Tempe: Daily Sales,00-00,2026-01-06 DS,0.00,"32,070.96"
