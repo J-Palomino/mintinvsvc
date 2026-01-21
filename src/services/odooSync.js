@@ -370,30 +370,51 @@ class OdooSyncService {
       await this.odoo.write('product.product', existingVariant[0], updateVals);
       variantResult = { id: existingVariant[0], created: false };
     } else {
-      // No variant with our SKU/location - read the template's product_variant_ids directly
-      // This is more reliable than searching because Odoo always maintains this relationship
-      const templateReadResult = await this.odoo.read('product.template', [templateResult.id], ['product_variant_ids']);
+      // No variant with our SKU/location - we need to find the template's variant
+      // For templates without attributes, there's exactly one auto-created variant
+      // Try multiple approaches to find it
 
       let variantId = null;
-      if (templateReadResult && Array.isArray(templateReadResult) && templateReadResult.length > 0) {
-        const template = templateReadResult[0];
-        if (template && template.product_variant_ids) {
-          const variantIds = Array.isArray(template.product_variant_ids)
-            ? template.product_variant_ids
-            : [template.product_variant_ids];
-          if (variantIds.length > 0) {
-            variantId = variantIds[0];
+
+      // Approach 1: Read the template's product_variant_id (singular, computed field)
+      try {
+        const templateRead = await this.odoo.read('product.template', [templateResult.id], ['product_variant_id', 'product_variant_ids']);
+        if (templateRead && Array.isArray(templateRead) && templateRead.length > 0) {
+          const tmpl = templateRead[0];
+          // product_variant_id returns [id, name] or just id
+          if (tmpl.product_variant_id) {
+            variantId = Array.isArray(tmpl.product_variant_id) ? tmpl.product_variant_id[0] : tmpl.product_variant_id;
           }
+          // Fallback to product_variant_ids if product_variant_id didn't work
+          if (!variantId && tmpl.product_variant_ids) {
+            const ids = Array.isArray(tmpl.product_variant_ids) ? tmpl.product_variant_ids : [tmpl.product_variant_ids];
+            if (ids.length > 0) {
+              variantId = Array.isArray(ids[0]) ? ids[0][0] : ids[0];
+            }
+          }
+        }
+      } catch (readErr) {
+        console.error(`      Read template failed:`, readErr.message);
+      }
+
+      // Approach 2: If read didn't work, search by product_tmpl_id
+      if (!variantId) {
+        const variantSearchRaw = await this.odoo.search('product.product', [
+          ['product_tmpl_id', '=', templateResult.id]
+        ], { limit: 1 });
+        const variantSearch = normalizeSearchResult(variantSearchRaw);
+        if (variantSearch.length > 0) {
+          variantId = variantSearch[0];
         }
       }
 
-      if (variantId) {
+      if (variantId && typeof variantId === 'number' && variantId > 0) {
         // Update the template's variant with our data
         await this.odoo.write('product.product', variantId, updateVals);
         variantResult = { id: variantId, created: false };
       } else {
-        // Fallback: create new variant (should rarely happen)
-        console.error(`      No variant found for template ${templateResult.id}, creating new`);
+        // Last resort: create new variant (this will likely fail if one already exists)
+        console.error(`      No valid variant found for template ${templateResult.id} (got: ${variantId}), attempting create`);
         const newId = await this.odoo.create('product.product', variantVals);
         variantResult = { id: newId, created: true };
       }
