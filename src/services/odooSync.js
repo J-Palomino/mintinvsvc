@@ -6,7 +6,7 @@
  */
 
 const OdooClient = require('../api/odoo');
-const db = require('../db/connection');
+const db = require('../db');
 
 class OdooSyncService {
   constructor() {
