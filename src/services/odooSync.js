@@ -342,15 +342,36 @@ class OdooSyncService {
     // Set warehouse reference for store filtering
     variantVals.x_warehouse_id = warehouseId;
 
-    // Upsert product variant
-    const variantResult = await this.odoo.upsert(
-      'product.product',
-      [
-        ['x_dutchie_sku', '=', item.sku],
-        ['x_dutchie_location_id', '=', item.location_id]
-      ],
-      variantVals
-    );
+    // Handle product variant - Odoo auto-creates one variant per template
+    // We need to find and update it rather than creating duplicates
+    let variantResult;
+
+    // First, try to find existing variant by our custom fields
+    const existingVariant = await this.odoo.search('product.product', [
+      ['x_dutchie_sku', '=', item.sku],
+      ['x_dutchie_location_id', '=', item.location_id]
+    ], { limit: 1 });
+
+    if (existingVariant && existingVariant.length > 0) {
+      // Update existing variant
+      await this.odoo.write('product.product', existingVariant[0], variantVals);
+      variantResult = { id: existingVariant[0], created: false };
+    } else {
+      // No variant with our SKU/location - find the auto-created variant for this template
+      const templateVariants = await this.odoo.search('product.product', [
+        ['product_tmpl_id', '=', templateResult.id]
+      ], { limit: 1 });
+
+      if (templateVariants && templateVariants.length > 0) {
+        // Update the auto-created variant with our data
+        await this.odoo.write('product.product', templateVariants[0], variantVals);
+        variantResult = { id: templateVariants[0], created: false };
+      } else {
+        // No variant exists at all (shouldn't happen) - create one
+        const newId = await this.odoo.create('product.product', variantVals);
+        variantResult = { id: newId, created: true };
+      }
+    }
 
     // Update stock quantity
     await this.updateStock(variantResult.id, warehouseId, item.quantity_available);
