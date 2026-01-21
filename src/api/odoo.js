@@ -130,26 +130,29 @@ class OdooClient {
 
   /**
    * Extract value from XML using a simple recursive parser
+   * IMPORTANT: Check complex types (array, struct) BEFORE simple types
    */
   extractValue(xml) {
     const trimmed = xml.trim();
 
-    // Boolean
-    if (trimmed.includes('<boolean>')) {
-      const match = trimmed.match(/<boolean>(\d)<\/boolean>/);
-      if (match) return match[1] === '1';
+    // Check for array FIRST (before simple types that might be inside arrays)
+    if (trimmed.startsWith('<array>') || (trimmed.includes('<array>') && trimmed.indexOf('<array>') < trimmed.indexOf('<int>'))) {
+      const arrayStart = trimmed.indexOf('<data>');
+      const arrayEnd = trimmed.lastIndexOf('</data>');
+      if (arrayStart !== -1 && arrayEnd !== -1) {
+        const dataContent = trimmed.substring(arrayStart + 6, arrayEnd);
+        return this.parseArrayValues(dataContent);
+      }
     }
 
-    // Integer
-    if (trimmed.includes('<int>') || trimmed.includes('<i4>')) {
-      const match = trimmed.match(/<int>(-?\d+)<\/int>/) || trimmed.match(/<i4>(-?\d+)<\/i4>/);
-      if (match) return parseInt(match[1], 10);
-    }
-
-    // Double
-    if (trimmed.includes('<double>')) {
-      const match = trimmed.match(/<double>(-?[\d.]+)<\/double>/);
-      if (match) return parseFloat(match[1]);
+    // Struct - check before simple types
+    if (trimmed.startsWith('<struct>') || (trimmed.includes('<struct>') && !trimmed.includes('<array>'))) {
+      const structStart = trimmed.indexOf('<struct>');
+      const structEnd = trimmed.lastIndexOf('</struct>');
+      if (structStart !== -1 && structEnd !== -1) {
+        const structContent = trimmed.substring(structStart + 8, structEnd);
+        return this.parseStructMembers(structContent);
+      }
     }
 
     // Nil/None
@@ -157,8 +160,26 @@ class OdooClient {
       return null;
     }
 
-    // String - check before array/struct since those may contain strings
-    if (trimmed.startsWith('<string>') || (trimmed.includes('<string>') && !trimmed.includes('<array>') && !trimmed.includes('<struct>'))) {
+    // Boolean
+    if (trimmed.startsWith('<boolean>') || trimmed.includes('<boolean>')) {
+      const match = trimmed.match(/<boolean>(\d)<\/boolean>/);
+      if (match) return match[1] === '1';
+    }
+
+    // Integer - only match if it's the primary type
+    if (trimmed.startsWith('<int>') || trimmed.startsWith('<i4>')) {
+      const match = trimmed.match(/<int>(-?\d+)<\/int>/) || trimmed.match(/<i4>(-?\d+)<\/i4>/);
+      if (match) return parseInt(match[1], 10);
+    }
+
+    // Double
+    if (trimmed.startsWith('<double>')) {
+      const match = trimmed.match(/<double>(-?[\d.]+)<\/double>/);
+      if (match) return parseFloat(match[1]);
+    }
+
+    // String
+    if (trimmed.startsWith('<string>')) {
       const match = trimmed.match(/<string>([\s\S]*?)<\/string>/);
       if (match) {
         return match[1]
@@ -168,27 +189,13 @@ class OdooClient {
       }
     }
 
-    // Array - parse recursively
-    if (trimmed.includes('<array>')) {
-      const arrayStart = trimmed.indexOf('<data>');
-      const arrayEnd = trimmed.lastIndexOf('</data>');
-      if (arrayStart !== -1 && arrayEnd !== -1) {
-        const dataContent = trimmed.substring(arrayStart + 6, arrayEnd);
-        return this.parseArrayValues(dataContent);
-      }
-    }
+    // Try to extract any remaining value types
+    const intMatch = trimmed.match(/<int>(-?\d+)<\/int>/);
+    if (intMatch) return parseInt(intMatch[1], 10);
 
-    // Struct - parse recursively
-    if (trimmed.includes('<struct>')) {
-      const structStart = trimmed.indexOf('<struct>');
-      const structEnd = trimmed.lastIndexOf('</struct>');
-      if (structStart !== -1 && structEnd !== -1) {
-        const structContent = trimmed.substring(structStart + 8, structEnd);
-        return this.parseStructMembers(structContent);
-      }
-    }
+    const stringMatch = trimmed.match(/<string>([\s\S]*?)<\/string>/);
+    if (stringMatch) return stringMatch[1];
 
-    // Try to extract raw value
     const valueMatch = trimmed.match(/<value>([^<]+)<\/value>/);
     if (valueMatch) return valueMatch[1];
 
