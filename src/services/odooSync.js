@@ -321,6 +321,9 @@ class OdooSyncService {
       x_synced_at: new Date().toISOString(),
     };
 
+    // Set warehouse reference for store filtering
+    variantVals.x_warehouse_id = warehouseId;
+
     // Upsert product variant
     const variantResult = await this.odoo.upsert(
       'product.product',
