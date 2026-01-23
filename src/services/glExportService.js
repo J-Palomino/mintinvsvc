@@ -501,13 +501,9 @@ class GLExportService {
 
       if (account.code === '70260') {
         // Overage = totalCredits - totalDebits
-        // If positive (credits > debits): add to DEBIT to balance
-        // If negative (credits < debits): add to CREDIT to balance
-        if (totals.overage > 0) {
-          debit = totals.overage;
-        } else if (totals.overage < 0) {
-          credit = Math.abs(totals.overage);
-        }
+        // Auditor convention: Always put overage in CREDIT column, negated
+        // (Auditor calculates as debits - credits, opposite of our calculation)
+        credit = -totals.overage;
       } else if (account.type === 'debit') {
         debit = value;
       } else if (account.type === 'credit') {
