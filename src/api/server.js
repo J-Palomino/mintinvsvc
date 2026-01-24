@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const { createBullBoard } = require('@bull-board/api');
+const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
+const { ExpressAdapter } = require('@bull-board/express');
 const cache = require('../cache');
 const GLExportService = require('../services/glExportService');
 const HourlySalesService = require('../services/hourlySalesService');
@@ -31,6 +34,53 @@ const requireApiKey = (req, res, next) => {
 // Health check (public - no auth)
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Bull Board setup (lazy initialization)
+let bullBoardRouter = null;
+
+function setupBullBoard() {
+  if (bullBoardRouter) return bullBoardRouter;
+
+  try {
+    const { getQueues } = require('../jobs/queues');
+    const queues = getQueues();
+
+    // Only set up if queues are initialized
+    if (!queues.inventorySync) {
+      return null;
+    }
+
+    const serverAdapter = new ExpressAdapter();
+    serverAdapter.setBasePath('/admin/queues');
+
+    createBullBoard({
+      queues: [
+        new BullMQAdapter(queues.inventorySync),
+        new BullMQAdapter(queues.glExport),
+        new BullMQAdapter(queues.bannerSync),
+        new BullMQAdapter(queues.hourlySales)
+      ],
+      serverAdapter
+    });
+
+    bullBoardRouter = serverAdapter.getRouter();
+    console.log('Bull Board UI available at /admin/queues');
+    return bullBoardRouter;
+  } catch (error) {
+    console.warn('Bull Board setup skipped:', error.message);
+    return null;
+  }
+}
+
+// Bull Board route (requires API key)
+app.use('/admin/queues', requireApiKey, (req, res, next) => {
+  const router = setupBullBoard();
+  if (router) {
+    router(req, res, next);
+  } else {
+    res.status(503).json({ error: 'Queue system not initialized yet' });
+  }
 });
 
 // Apply API key auth to all /api/* routes
@@ -375,6 +425,75 @@ app.get('/api/reports/hourly-sales', async (req, res) => {
     });
   } catch (error) {
     console.error('[API] Hourly sales report error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Manually trigger a job
+// POST /api/jobs/:queueName/trigger
+// Body: { data: {} } (optional job data)
+app.post('/api/jobs/:queueName/trigger', async (req, res) => {
+  try {
+    const { queueName } = req.params;
+    const jobData = req.body.data || {};
+
+    const validQueues = ['inventory-sync', 'gl-export', 'banner-sync', 'hourly-sales'];
+    if (!validQueues.includes(queueName)) {
+      return res.status(400).json({
+        error: 'Invalid queue name',
+        validQueues
+      });
+    }
+
+    const { addJob, QUEUE_NAMES } = require('../jobs');
+    const queueNameMap = {
+      'inventory-sync': QUEUE_NAMES.INVENTORY_SYNC,
+      'gl-export': QUEUE_NAMES.GL_EXPORT,
+      'banner-sync': QUEUE_NAMES.BANNER_SYNC,
+      'hourly-sales': QUEUE_NAMES.HOURLY_SALES
+    };
+
+    const job = await addJob(queueNameMap[queueName], jobData, { priority: 1 });
+
+    console.log(`[API] Manually triggered ${queueName} job ${job.id}`);
+
+    res.json({
+      success: true,
+      message: `Job triggered for ${queueName}`,
+      jobId: job.id
+    });
+  } catch (error) {
+    console.error('[API] Job trigger error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get queue status
+// GET /api/jobs/status
+app.get('/api/jobs/status', async (req, res) => {
+  try {
+    const { getQueues } = require('../jobs/queues');
+    const queues = getQueues();
+
+    if (!queues.inventorySync) {
+      return res.status(503).json({ error: 'Queue system not initialized' });
+    }
+
+    const status = {};
+    for (const [name, queue] of Object.entries(queues)) {
+      const [waiting, active, completed, failed] = await Promise.all([
+        queue.getWaitingCount(),
+        queue.getActiveCount(),
+        queue.getCompletedCount(),
+        queue.getFailedCount()
+      ]);
+
+      status[name] = { waiting, active, completed, failed };
+    }
+
+    res.json({ queues: status });
+  } catch (error) {
+    console.error('[API] Queue status error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });

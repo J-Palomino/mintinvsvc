@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/ringneck88/mintinvsvc#readme",
   "dependencies": {
+    "@bull-board/api": "^6.16.4",
+    "@bull-board/express": "^6.16.4",
     "axios": "^1.13.2",
+    "bullmq": "^5.66.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
