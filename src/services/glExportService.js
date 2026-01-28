@@ -8,6 +8,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const { parse: csvParse } = require('csv-parse/sync');
 
 const DUTCHIE_API_URL = process.env.DUTCHIE_API_URL || 'https://api.pos.dutchie.com';
 const OUTPUT_DIR = process.env.GL_EXPORT_DIR || './exports';
@@ -59,6 +60,48 @@ const STORE_TIMEZONES = {
   'Mint Willowbrook': 'America/Chicago'
 };
 
+// Dashboard location name to internal store name mapping
+// Used when importing from dashboard CSV exports
+const DASHBOARD_NAME_MAP = {
+  // Florida
+  'The Mint Bonita Springs': 'Mint Bonita Springs',
+  'The Mint Bradenton': 'Mint Bradenton',
+  'The Mint Brandon': 'Mint Brandon',
+  'The Mint Cape Coral': 'Mint Cape Coral',
+  'The Mint Delray Beach': 'Mint Delray Beach',
+  'The Mint Gainesville': 'Mint Gainesville',
+  'The Mint Jacksonville': 'Mint Jacksonville',
+  'The Mint Longwood': 'Mint Longwood',
+  'The Mint Melbourne': 'Mint Melbourne',
+  'The Mint Miami': 'Mint Miami',
+  'The Mint Orlando': 'Mint Orlando',
+  'The Mint Sarasota': 'Mint Sarasota',
+  'The Mint St. Augustine': 'Mint St. Augustine',
+  'The Mint Stuart': 'Mint Stuart',
+  // Nevada
+  'The Mint - Paradise': 'Mint Las Vegas Strip',
+  'The Mint - Spring Valley': 'Mint Spring Valley',
+  // Missouri
+  'The Mint - St Peters Retail': 'Mint St. Peters',
+  // Michigan
+  'Mint Cannabis - New Buffalo': 'Mint New Buffalo',
+  'Mint Cannabis - Roseville': 'Mint Roseville',
+  'Coldwater Retail': 'Mint Coldwater',
+  'Monroe Retail': 'Mint Monroe',
+  'Portage Retail': 'Mint Portage',
+  'Kalamazoo Retail': 'Mint Kalamazoo',
+  // Arizona
+  'Tempe - Swallowtail 3 LLC': 'Mint Tempe',
+  '75th Ave - M&T Retail Facility 1 LLC': 'Mint 75th Ave Phoenix',
+  'Scottsdale - EBA Holdings Inc': 'Mint Scottsdale',
+  'Cave Creek - Uncle Harry Inc': 'Mint Bell Road Phoenix',
+  'Mesa - 4245 Investments LLC': 'Mint Mesa',
+  'Northern - GTL LLC': 'Mint Northern Phoenix',
+  'Buckeye - Woodstock 1': 'Mint Buckeye/Verado',
+  // Illinois
+  'Mint IL, LLC': 'Mint Willowbrook'
+};
+
 // Dutchie to Accumatica branch code mapping
 const BRANCH_CODES = {
   // Florida (FLD-)
@@ -92,6 +135,7 @@ const BRANCH_CODES = {
   'Mint 75th Ave Phoenix': 'AZV-ENCANT',
   'Mint Buckeye/Verado': 'AZD-BUCK',
   'Mint El Mirage': 'AZD-ELMIRA',
+  'El Mirage - MCD-SE Venture 25 LLC': 'AZD-ELMIRA',
   'Mint Northern Phoenix': 'AZV-GTL',
   'Mint Scottsdale': 'AZV-EBA',
   'Mint Tempe': 'AZV-SWT',
@@ -105,18 +149,19 @@ const BRANCH_CODES = {
   'Mint Willowbrook': 'ILD-WILLOW'
 };
 
-// GL Account codes in order
+// GL Account codes per specification
+// Sub-Acct: 20-00 for revenue/expense accounts, 00-00 for balance sheet accounts
 const ACCOUNTS = [
-  { code: '40001', desc: 'Retail Income: Retail Sales', type: 'credit', field: 'grossSales' },
-  { code: '40002', desc: 'Retail Income: Retail: Discounts and Coupons', type: 'debit', field: 'discounts' },
-  { code: '40003', desc: 'Retail Income: Sales Return', type: 'debit', field: 'returns' },
-  { code: '40004', desc: 'Loyalty Discounts', type: 'debit', field: 'loyaltySpent' },
-  { code: '23500', desc: 'Taxes Payable - Sales & Use', type: 'credit', field: 'tax' },
-  { code: '10000', desc: 'Cash on Hand', type: 'debit', field: 'netCash' },
-  { code: '11010', desc: 'Debit Card Receivable', type: 'debit', field: 'debitPaid' },
-  { code: '70260', desc: 'Overage/Shortage: Cash Ledger Adj', type: 'balance', field: 'overage' },
-  { code: '50000', desc: 'Retail - Consumable Products for Resale', type: 'debit', field: 'cogs' },
-  { code: '12250', desc: 'Inventory - Finished Goods', type: 'credit', field: 'cogs' }
+  { code: '40001', desc: 'Sales Income - Retail Sales', type: 'credit', field: 'grossSales', subacct: '20-00' },           // Total Price (J)
+  { code: '40002', desc: 'Retail Income: Discounts and Coupons', type: 'debit', field: 'discounts', subacct: '20-00' },    // Amount (K)
+  { code: '40003', desc: 'Retail Income: Sales Return', type: 'debit', field: 'returns', subacct: '20-00' },               // (unused)
+  { code: '40004', desc: 'Loyalty Discounts', type: 'debit', field: 'loyaltySpent', subacct: '20-00' },                    // Sum Total Loyalty Paid (M)
+  { code: '23500', desc: 'Taxes Payable - Sales & Use', type: 'credit', field: 'tax', subacct: '00-00' },                  // Total Tax (N)
+  { code: '10000', desc: 'Cash on Hand', type: 'debit', field: 'netCash', subacct: '00-00' },                              // Cash Paid (P)
+  { code: '11010', desc: 'Debit Card Receivable', type: 'debit', field: 'debitPaid', subacct: '00-00' },                   // Debit Paid (O) + Electronic Paid (Q)
+  { code: '70260', desc: 'Overage/Shortage: Cash Ledger Adj', type: 'balance', field: 'overage', subacct: '20-00' },       // (Amount+Loyalty+Cash+Debit+Electronic) - (TotalPrice+Tax)
+  { code: '50000', desc: 'Retail COG - Consumable Products for Resale', type: 'debit', field: 'cogs', subacct: '20-00' },  // Total Cost (S)
+  { code: '12250', desc: 'Inventory - Finished Goods', type: 'credit', field: 'cogs', subacct: '00-00' }                   // Total Cost (S)
 ];
 
 class GLExportService {
@@ -280,9 +325,9 @@ class GLExportService {
   }
 
   aggregateTransactions(transactions, reportDate = null, storeName = '') {
-    // Return handling: ALL returned items are excluded from gross sales.
-    // This matches auditor methodology - returns are "backdated" to the original sale,
-    // meaning the returned item is removed from the original sale's revenue.
+    // Return handling: Returned items are excluded from gross sales if the return
+    // was processed ON or BEFORE the report date. Items returned AFTER the report date
+    // are still counted (auditor wouldn't know about future returns).
     // Account 40003 (Sales Return) stays at $0 since we don't record returns separately.
 
     const totals = {
@@ -323,21 +368,21 @@ class GLExportService {
       if (txnType !== 'Retail') continue;
 
       // For regular sales, calculate grossSales at the ITEM level
-      // ALL returned items are excluded from gross sales (backdate methodology)
+      // Items returned ON or BEFORE reportDate are excluded (backdate methodology)
+      // Items returned AFTER reportDate are included (auditor wouldn't know about future returns)
       //
       // IMPORTANT: Some transactions have subtotal=0 but items with prices - these are
       // inventory transfers/adjustments, NOT customer sales. Use subtotal for such transactions.
       if (t.items && t.items.length > 0 && (t.subtotal || 0) !== 0) {
         for (const item of t.items) {
-          // Exclude returned items from gross sales (backdate to original sale)
-          if (!item.isReturned) {
+          // Exclude returned items only if return was on or before report date
+          const excludeReturn = this.shouldExcludeReturn(item.returnDate, reportDate);
+          if (!excludeReturn) {
             totals.grossSales += item.totalPrice || 0;
-            // Only include COGS for items with a selling price > 0
-            // Zero-price items (freebies/samples) don't generate revenue,
-            // so their cost shouldn't be recorded as COGS against sales
-            if ((item.totalPrice || 0) > 0) {
-              totals.cogs += (item.unitCost || 0) * (item.quantity || 0);
-            }
+            // Include COGS for ALL items, including zero-price items (freebies/samples)
+            // COGS represents actual inventory cost consumed, regardless of selling price
+            // This matches auditor methodology
+            totals.cogs += (item.unitCost || 0) * (item.quantity || 0);
           }
         }
       } else {
@@ -352,9 +397,11 @@ class GLExportService {
       let totalDiscount = 0;
 
       // If we have items, sum discounts excluding returned items (backdate methodology)
+      // Same logic: only exclude if return was on or before report date
       if (t.items && t.items.length > 0 && (t.subtotal || 0) !== 0) {
         for (const item of t.items) {
-          if (!item.isReturned) {
+          const excludeReturn = this.shouldExcludeReturn(item.returnDate, reportDate);
+          if (!excludeReturn) {
             totalDiscount += item.totalDiscount || 0;
           }
         }
@@ -401,11 +448,11 @@ class GLExportService {
       totals.loyaltySpent += loyaltyAmount;
       totals.tax += t.tax || 0;
 
-      // Check if all items in this transaction are returned
+      // Check if all items in this transaction are returned (on or before report date)
       // If so, exclude cash since it would have been refunded (backdate methodology)
       let allItemsReturned = false;
       if (t.items && t.items.length > 0) {
-        allItemsReturned = t.items.every(item => item.isReturned);
+        allItemsReturned = t.items.every(item => this.shouldExcludeReturn(item.returnDate, reportDate));
       }
 
       // Only count cash if not all items returned
@@ -491,6 +538,648 @@ class GLExportService {
     return str;
   }
 
+  /**
+   * Parse a currency string like "$1,234.56" or "1234.56" to a number
+   * @param {string|number} value - The value to parse
+   * @returns {number} The parsed number (0 if invalid)
+   */
+  parseCurrency(value) {
+    if (typeof value === 'number') return value;
+    if (!value) return 0;
+    // Remove $, commas, and whitespace
+    const cleaned = String(value).replace(/[$,\s]/g, '');
+    const num = parseFloat(cleaned);
+    return isNaN(num) ? 0 : num;
+  }
+
+  /**
+   * Map a dashboard location name to internal store name
+   * @param {string} dashboardName - Location name from dashboard CSV
+   * @returns {string} Internal store name
+   */
+  mapDashboardName(dashboardName) {
+    const trimmed = (dashboardName || '').trim();
+    if (DASHBOARD_NAME_MAP[trimmed]) return DASHBOARD_NAME_MAP[trimmed];
+    // Try partial match for variations
+    for (const [key, value] of Object.entries(DASHBOARD_NAME_MAP)) {
+      if (trimmed.includes(key) || key.includes(trimmed)) return value;
+    }
+    // Return as-is if no mapping found
+    return trimmed;
+  }
+
+  /**
+   * Parse dashboard CSV and aggregate data by location for a specific date
+   * @param {string} csvPath - Path to the dashboard CSV file
+   * @param {string} reportDate - Date to filter (YYYY-MM-DD format)
+   * @returns {Map<string, object>} Map of store name to aggregated totals
+   */
+  /**
+   * Parse dashboard CSV and aggregate data by location for a specific date
+   *
+   * GL Account Mapping (per specification):
+   * - 40001 Sales (Credit)    = Total Price (J)
+   * - 40002 Discounts (Debit) = Amount (K) - the discount amount field directly
+   * - 40004 Loyalty (Debit)   = Sum Total Loyalty Paid (M)
+   * - 23500 Tax (Credit)      = Total Tax (N)
+   * - 10000 Cash (Debit)      = Cash Paid (P)
+   * - 11010 Debit (Debit)     = Debit Paid (O) + Electronic Paid (Q)
+   * - 50000 COGS (Debit)      = Total Cost (S)
+   * - 12250 Inventory (Credit)= Total Cost (S)
+   * - 70260 Overage (Credit)  = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
+   *
+   * @param {string} csvPath - Path to the dashboard CSV file
+   * @param {string} reportDate - Date to filter (YYYY-MM-DD format)
+   * @returns {Map<string, object>} Map of store name to aggregated totals
+   */
+  parseCSVData(csvPath, reportDate) {
+    const csvContent = fs.readFileSync(csvPath, 'utf-8');
+    const records = csvParse(csvContent, {
+      columns: true,
+      skip_empty_lines: true,
+      trim: true
+    });
+
+    // Aggregate by location
+    const storeData = new Map();
+
+    for (const row of records) {
+      // Support multiple column naming conventions (dashboard vs accounting export)
+      const txnDate = row['Transaction Date'] || row['Transactions Transaction Date'];
+      // Filter by report date if specified
+      if (reportDate && txnDate !== reportDate) continue;
+
+      const dashboardName = row['Location Name'] || row['Lsp Location Location Name'];
+      const storeName = this.mapDashboardName(dashboardName);
+
+      if (!storeData.has(storeName)) {
+        storeData.set(storeName, {
+          dashboardName,
+          // Raw sums from Dutchie report (column letters from spec)
+          sumTotalPrice: 0,     // J - Total Price
+          sumAmount: 0,         // K - Amount (discount amount)
+          sumLoyaltyPaid: 0,    // M - Sum Total Loyalty Paid
+          sumTotalTax: 0,       // N - Total Tax
+          sumDebitPaid: 0,      // O - Debit Paid
+          sumCashPaid: 0,       // P - Cash Paid
+          sumElectronicPaid: 0, // Q - Electronic Paid
+          sumTotalCost: 0,      // S - Total Cost
+          // Calculated GL values (set after aggregation)
+          grossSales: 0,        // 40001
+          discounts: 0,         // 40002
+          loyaltySpent: 0,      // 40004
+          returns: 0,           // 40003 (unused)
+          tax: 0,               // 23500
+          netCash: 0,           // 10000
+          debitPaid: 0,         // 11010
+          cogs: 0,              // 50000 & 12250
+          overage: 0            // 70260
+        });
+      }
+
+      const totals = storeData.get(storeName);
+
+      // Parse currency values from CSV - support multiple column naming conventions
+      const totalPrice = this.parseCurrency(row['Total Price'] || row['Transaction Items Total Price']);
+      const amount = this.parseCurrency(row['Amount'] || row['Transaction Item Discounts Amount']);
+      const loyaltyPaid = this.parseCurrency(row['Sum Total Loyalty Paid'] || row['Transactions Sum Total Loyalty Paid']);
+      const totalTax = this.parseCurrency(row['Total Tax'] || row['Transactions Total Tax']);
+      const debitPaid = this.parseCurrency(row['Debit Paid'] || row['Transactions Debit Paid']);
+      const cashPaid = this.parseCurrency(row['Cash Paid'] || row['Transactions Cash Paid']);
+      const electronicPaid = this.parseCurrency(row['Electronic Paid'] || row['Transactions Electronic Paid']);
+      const totalCost = this.parseCurrency(row['Total Cost'] || row['Transaction Items Total Cost']);
+
+      // Aggregate raw values (negative values represent reversals)
+      totals.sumTotalPrice += totalPrice;
+      totals.sumAmount += amount;
+      totals.sumLoyaltyPaid += loyaltyPaid;
+      totals.sumTotalTax += totalTax;
+      totals.sumDebitPaid += debitPaid;
+      totals.sumCashPaid += cashPaid;
+      totals.sumElectronicPaid += electronicPaid;
+      totals.sumTotalCost += totalCost;
+    }
+
+    // Calculate GL account values per specification
+    for (const [storeName, totals] of storeData) {
+      // 40001 Sales (Credit) = Total Price (J)
+      totals.grossSales = totals.sumTotalPrice;
+
+      // 40002 Discounts (Debit) = Amount (K) directly
+      totals.discounts = totals.sumAmount;
+
+      // 40004 Loyalty (Debit) = Sum Total Loyalty Paid (M)
+      totals.loyaltySpent = totals.sumLoyaltyPaid;
+
+      // 23500 Tax (Credit) = Total Tax (N)
+      totals.tax = totals.sumTotalTax;
+
+      // 10000 Cash (Debit) = Cash Paid (P) only
+      totals.netCash = totals.sumCashPaid;
+
+      // 11010 Debit (Debit) = Debit Paid (O) + Electronic Paid (Q)
+      totals.debitPaid = totals.sumDebitPaid + totals.sumElectronicPaid;
+
+      // 50000 COGS (Debit) = Total Cost (S)
+      // 12250 Inventory (Credit) = Total Cost (S)
+      totals.cogs = totals.sumTotalCost;
+
+      // 70260 Overage (Credit) = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
+      const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid +
+                        totals.sumDebitPaid + totals.sumElectronicPaid;
+      const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+      totals.overage = sumDebits - sumCredits;
+    }
+
+    return storeData;
+  }
+
+  /**
+   * Export GL journal from a dashboard CSV file instead of API
+   * @param {string} csvPath - Path to the dashboard CSV file
+   * @param {string} reportDate - Optional date filter (YYYY-MM-DD), uses all dates if not specified
+   * @returns {object} Export result with file paths
+   */
+  async exportFromCSV(csvPath, reportDate = null) {
+    // Detect date from CSV if not provided
+    if (!reportDate) {
+      const csvContent = fs.readFileSync(csvPath, 'utf-8');
+      const records = csvParse(csvContent, { columns: true, skip_empty_lines: true });
+      // Support multiple column naming conventions
+      const dates = [...new Set(records.map(r =>
+        r['Transaction Date'] || r['Transactions Transaction Date']
+      ).filter(Boolean))];
+      if (dates.length === 1) {
+        reportDate = dates[0];
+      } else if (dates.length > 1) {
+        console.log(`Multiple dates found in CSV: ${dates.join(', ')}`);
+        console.log('Using first date. Specify reportDate parameter for a specific date.');
+        reportDate = dates[0];
+      } else {
+        throw new Error('No transaction dates found in CSV');
+      }
+    }
+
+    const refNumber = `${reportDate} DS`;
+
+    console.log(`\n=== GL Journal Export from CSV for ${reportDate} ===`);
+    console.log(`Source: ${csvPath}`);
+
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+
+    const headerColumns = [
+      'Branch',
+      'Dutchie Store Name',
+      'Account',
+      'Description',
+      'Subaccount',
+      'Ref. Number',
+      'Quantity',
+      'UOM',
+      'Debit Amount',
+      'Credit Amount'
+    ];
+
+    const tsvHeaders = headerColumns.join('\t');
+    const csvHeaders = headerColumns.join(',');
+
+    const note = [
+      `# GL Journal Export - ${reportDate}`,
+      `# Source: Dashboard CSV (${path.basename(csvPath)})`,
+      `# Generated: ${new Date().toISOString()}`,
+      `# NOTE: Data imported from dashboard export, not Dutchie API.`,
+      `#`
+    ].join('\n');
+
+    // Parse CSV and aggregate by store
+    const storeData = this.parseCSVData(csvPath, reportDate);
+
+    const allRows = [];
+    let grandSales = 0;
+
+    for (const [storeName, totals] of storeData) {
+      const branchCode = this.getBranchCode(storeName);
+
+      console.log(`  ${storeName} (${branchCode}): $${this.formatNumber(totals.grossSales)}`);
+
+      const rows = this.generateGLRows(branchCode, storeName, totals, refNumber);
+      allRows.push(...rows);
+      grandSales += totals.grossSales;
+    }
+
+    // Generate TSV file
+    const tsvFilename = `gl_journal_${reportDate}_csv.tsv`;
+    const tsvFilepath = path.join(OUTPUT_DIR, tsvFilename);
+    const tsvContent = [note, tsvHeaders, ...allRows.map(r => this.rowToTSV(r))].join('\n');
+    fs.writeFileSync(tsvFilepath, tsvContent);
+
+    // Generate CSV file
+    const csvFilename = `gl_journal_${reportDate}_csv.csv`;
+    const csvFilepath = path.join(OUTPUT_DIR, csvFilename);
+    const csvContent = [csvHeaders, ...allRows.map(r => this.rowToCSV(r))].join('\n');
+    fs.writeFileSync(csvFilepath, csvContent);
+
+    console.log(`\nGL Export complete: ${storeData.size} stores, $${this.formatNumber(grandSales)} total sales`);
+    console.log(`Files: ${tsvFilepath}, ${csvFilepath}`);
+
+    return {
+      success: true,
+      stores: storeData.size,
+      totalSales: grandSales,
+      tsvFilepath,
+      csvFilepath,
+      source: 'csv'
+    };
+  }
+
+  /**
+   * Parse JSON data and aggregate by location for a specific date
+   * Supports both array format and object with 'data' key
+   * Uses same GL mapping as parseCSVData
+   *
+   * @param {string} jsonPath - Path to the JSON file
+   * @param {string} reportDate - Date to filter (YYYY-MM-DD format)
+   * @returns {Map<string, object>} Map of store name to aggregated totals
+   */
+  parseJSONData(jsonPath, reportDate) {
+    const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
+    const parsed = JSON.parse(jsonContent);
+
+    // Support both array format and { data: [...] } format
+    const records = Array.isArray(parsed) ? parsed : (parsed.data || []);
+
+    // Aggregate by location
+    const storeData = new Map();
+
+    for (const row of records) {
+      // Support multiple field naming conventions
+      const txnDate = row['Transaction Date'] || row['Transactions Transaction Date'] || row.transactionDate || row.date;
+      // Filter by report date if specified
+      if (reportDate && txnDate !== reportDate) continue;
+
+      const dashboardName = row['Location Name'] || row.locationName || row.storeName || row.location;
+      const storeName = this.mapDashboardName(dashboardName);
+
+      if (!storeData.has(storeName)) {
+        storeData.set(storeName, {
+          dashboardName,
+          sumTotalPrice: 0,
+          sumAmount: 0,
+          sumLoyaltyPaid: 0,
+          sumTotalTax: 0,
+          sumDebitPaid: 0,
+          sumCashPaid: 0,
+          sumElectronicPaid: 0,
+          sumTotalCost: 0,
+          grossSales: 0,
+          discounts: 0,
+          loyaltySpent: 0,
+          returns: 0,
+          tax: 0,
+          netCash: 0,
+          debitPaid: 0,
+          cogs: 0,
+          overage: 0
+        });
+      }
+
+      const totals = storeData.get(storeName);
+
+      const totalPrice = this.parseCurrency(row['Total Price'] || row.totalPrice || 0);
+      const amount = this.parseCurrency(row['Amount'] || row.amount || row.discountAmount || 0);
+      const loyaltyPaid = this.parseCurrency(row['Sum Total Loyalty Paid'] || row.loyaltyPaid || 0);
+      const totalTax = this.parseCurrency(row['Total Tax'] || row.totalTax || 0);
+      const debitPaid = this.parseCurrency(row['Debit Paid'] || row.debitPaid || 0);
+      const cashPaid = this.parseCurrency(row['Cash Paid'] || row.cashPaid || 0);
+      const electronicPaid = this.parseCurrency(row['Electronic Paid'] || row.electronicPaid || 0);
+      const totalCost = this.parseCurrency(row['Total Cost'] || row.totalCost || 0);
+
+      totals.sumTotalPrice += totalPrice;
+      totals.sumAmount += amount;
+      totals.sumLoyaltyPaid += loyaltyPaid;
+      totals.sumTotalTax += totalTax;
+      totals.sumDebitPaid += debitPaid;
+      totals.sumCashPaid += cashPaid;
+      totals.sumElectronicPaid += electronicPaid;
+      totals.sumTotalCost += totalCost;
+    }
+
+    // Calculate GL account values per specification
+    for (const [storeName, totals] of storeData) {
+      totals.grossSales = totals.sumTotalPrice;
+      totals.discounts = totals.sumAmount;
+      totals.loyaltySpent = totals.sumLoyaltyPaid;
+      totals.tax = totals.sumTotalTax;
+      totals.netCash = totals.sumCashPaid;
+      totals.debitPaid = totals.sumDebitPaid + totals.sumElectronicPaid;
+      totals.cogs = totals.sumTotalCost;
+
+      // 70260 Overage = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
+      const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid +
+                        totals.sumDebitPaid + totals.sumElectronicPaid;
+      const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+      totals.overage = sumDebits - sumCredits;
+    }
+
+    return storeData;
+  }
+
+  /**
+   * Export GL journal from a JSON file instead of API
+   * @param {string} jsonPath - Path to the JSON file
+   * @param {string} reportDate - Optional date filter (YYYY-MM-DD), uses all dates if not specified
+   * @returns {object} Export result with file paths
+   */
+  async exportFromJSON(jsonPath, reportDate = null) {
+    // Detect date from JSON if not provided
+    if (!reportDate) {
+      const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
+      const parsed = JSON.parse(jsonContent);
+      const records = Array.isArray(parsed) ? parsed : (parsed.data || []);
+      const dates = [...new Set(records.map(r =>
+        r['Transaction Date'] || r['Transactions Transaction Date'] || r.transactionDate || r.date
+      ).filter(Boolean))];
+
+      if (dates.length === 1) {
+        reportDate = dates[0];
+      } else if (dates.length > 1) {
+        console.log(`Multiple dates found in JSON: ${dates.join(', ')}`);
+        console.log('Using first date. Specify reportDate parameter for a specific date.');
+        reportDate = dates[0];
+      } else {
+        throw new Error('No transaction dates found in JSON');
+      }
+    }
+
+    const refNumber = `${reportDate} DS`;
+
+    console.log(`\n=== GL Journal Export from JSON for ${reportDate} ===`);
+    console.log(`Source: ${jsonPath}`);
+
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+
+    const headerColumns = [
+      'Branch',
+      'Dutchie Store Name',
+      'Account',
+      'Description',
+      'Subaccount',
+      'Ref. Number',
+      'Quantity',
+      'UOM',
+      'Debit Amount',
+      'Credit Amount'
+    ];
+
+    const tsvHeaders = headerColumns.join('\t');
+    const csvHeaders = headerColumns.join(',');
+
+    const note = [
+      `# GL Journal Export - ${reportDate}`,
+      `# Source: JSON (${path.basename(jsonPath)})`,
+      `# Generated: ${new Date().toISOString()}`,
+      `# NOTE: Data imported from JSON file, not Dutchie API.`,
+      `#`
+    ].join('\n');
+
+    // Parse JSON and aggregate by store
+    const storeData = this.parseJSONData(jsonPath, reportDate);
+
+    const allRows = [];
+    let grandSales = 0;
+
+    for (const [storeName, totals] of storeData) {
+      const branchCode = this.getBranchCode(storeName);
+
+      console.log(`  ${storeName} (${branchCode}): $${this.formatNumber(totals.grossSales)}`);
+
+      const rows = this.generateGLRows(branchCode, storeName, totals, refNumber);
+      allRows.push(...rows);
+      grandSales += totals.grossSales;
+    }
+
+    // Generate TSV file
+    const tsvFilename = `gl_journal_${reportDate}_json.tsv`;
+    const tsvFilepath = path.join(OUTPUT_DIR, tsvFilename);
+    const tsvContent = [note, tsvHeaders, ...allRows.map(r => this.rowToTSV(r))].join('\n');
+    fs.writeFileSync(tsvFilepath, tsvContent);
+
+    // Generate CSV file
+    const csvFilename = `gl_journal_${reportDate}_json.csv`;
+    const csvFilepath = path.join(OUTPUT_DIR, csvFilename);
+    const csvContent = [csvHeaders, ...allRows.map(r => this.rowToCSV(r))].join('\n');
+    fs.writeFileSync(csvFilepath, csvContent);
+
+    console.log(`\nGL Export complete: ${storeData.size} stores, $${this.formatNumber(grandSales)} total sales`);
+    console.log(`Files: ${tsvFilepath}, ${csvFilepath}`);
+
+    return {
+      success: true,
+      stores: storeData.size,
+      totalSales: grandSales,
+      tsvFilepath,
+      csvFilepath,
+      source: 'json'
+    };
+  }
+
+  /**
+   * Parse data array and aggregate by location for a specific date
+   * Works with in-memory data (from POST request body)
+   * @param {Array} records - Array of sales records
+   * @param {string} reportDate - Date to filter (YYYY-MM-DD format)
+   * @returns {Map<string, object>} Map of store name to aggregated totals
+   */
+  /**
+   * Parse in-memory data array and aggregate by location
+   * Uses same GL mapping as parseCSVData
+   */
+  parseDataArray(records, reportDate) {
+    // Aggregate by location
+    const storeData = new Map();
+
+    for (const row of records) {
+      // Support multiple field naming conventions
+      const txnDate = row['Transaction Date'] || row['Transactions Transaction Date'] || row.transactionDate || row.date;
+      // Filter by report date if specified
+      if (reportDate && txnDate !== reportDate) continue;
+
+      const dashboardName = row['Location Name'] || row.locationName || row.storeName || row.location;
+      const storeName = this.mapDashboardName(dashboardName);
+
+      if (!storeData.has(storeName)) {
+        storeData.set(storeName, {
+          dashboardName,
+          sumTotalPrice: 0,
+          sumAmount: 0,
+          sumLoyaltyPaid: 0,
+          sumTotalTax: 0,
+          sumDebitPaid: 0,
+          sumCashPaid: 0,
+          sumElectronicPaid: 0,
+          sumTotalCost: 0,
+          grossSales: 0,
+          discounts: 0,
+          loyaltySpent: 0,
+          returns: 0,
+          tax: 0,
+          netCash: 0,
+          debitPaid: 0,
+          cogs: 0,
+          overage: 0
+        });
+      }
+
+      const totals = storeData.get(storeName);
+
+      const totalPrice = this.parseCurrency(row['Total Price'] || row.totalPrice || 0);
+      const amount = this.parseCurrency(row['Amount'] || row.amount || row.discountAmount || 0);
+      const loyaltyPaid = this.parseCurrency(row['Sum Total Loyalty Paid'] || row.loyaltyPaid || 0);
+      const totalTax = this.parseCurrency(row['Total Tax'] || row.totalTax || 0);
+      const debitPaid = this.parseCurrency(row['Debit Paid'] || row.debitPaid || 0);
+      const cashPaid = this.parseCurrency(row['Cash Paid'] || row.cashPaid || 0);
+      const electronicPaid = this.parseCurrency(row['Electronic Paid'] || row.electronicPaid || 0);
+      const totalCost = this.parseCurrency(row['Total Cost'] || row.totalCost || 0);
+
+      totals.sumTotalPrice += totalPrice;
+      totals.sumAmount += amount;
+      totals.sumLoyaltyPaid += loyaltyPaid;
+      totals.sumTotalTax += totalTax;
+      totals.sumDebitPaid += debitPaid;
+      totals.sumCashPaid += cashPaid;
+      totals.sumElectronicPaid += electronicPaid;
+      totals.sumTotalCost += totalCost;
+    }
+
+    // Calculate GL account values per specification
+    for (const [storeName, totals] of storeData) {
+      totals.grossSales = totals.sumTotalPrice;
+      totals.discounts = totals.sumAmount;
+      totals.loyaltySpent = totals.sumLoyaltyPaid;
+      totals.tax = totals.sumTotalTax;
+      totals.netCash = totals.sumCashPaid;
+      totals.debitPaid = totals.sumDebitPaid + totals.sumElectronicPaid;
+      totals.cogs = totals.sumTotalCost;
+
+      // 70260 Overage = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
+      const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid +
+                        totals.sumDebitPaid + totals.sumElectronicPaid;
+      const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+      totals.overage = sumDebits - sumCredits;
+    }
+
+    return storeData;
+  }
+
+  /**
+   * Export GL journal from in-memory data (POST request body)
+   * @param {Array|Object} data - Array of records or object with 'data' key
+   * @param {string} reportDate - Optional date filter (YYYY-MM-DD)
+   * @returns {object} Export result with file paths
+   */
+  async exportFromData(data, reportDate = null) {
+    // Support both array format and { data: [...] } format
+    const records = Array.isArray(data) ? data : (data.data || []);
+
+    if (!records.length) {
+      throw new Error('No records provided in data');
+    }
+
+    // Detect date from data if not provided
+    if (!reportDate) {
+      const dates = [...new Set(records.map(r =>
+        r['Transaction Date'] || r['Transactions Transaction Date'] || r.transactionDate || r.date
+      ).filter(Boolean))];
+
+      if (dates.length === 1) {
+        reportDate = dates[0];
+      } else if (dates.length > 1) {
+        console.log(`Multiple dates found in data: ${dates.join(', ')}`);
+        console.log('Using first date. Specify reportDate parameter for a specific date.');
+        reportDate = dates[0];
+      } else {
+        throw new Error('No transaction dates found in data');
+      }
+    }
+
+    const refNumber = `${reportDate} DS`;
+
+    console.log(`\n=== GL Journal Export from POST data for ${reportDate} ===`);
+    console.log(`Records received: ${records.length}`);
+
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+
+    const headerColumns = [
+      'Branch',
+      'Dutchie Store Name',
+      'Account',
+      'Description',
+      'Subaccount',
+      'Ref. Number',
+      'Quantity',
+      'UOM',
+      'Debit Amount',
+      'Credit Amount'
+    ];
+
+    const tsvHeaders = headerColumns.join('\t');
+    const csvHeaders = headerColumns.join(',');
+
+    const note = [
+      `# GL Journal Export - ${reportDate}`,
+      `# Source: POST request data`,
+      `# Generated: ${new Date().toISOString()}`,
+      `# NOTE: Data imported from request body, not Dutchie API.`,
+      `#`
+    ].join('\n');
+
+    // Parse data and aggregate by store
+    const storeData = this.parseDataArray(records, reportDate);
+
+    const allRows = [];
+    let grandSales = 0;
+
+    for (const [storeName, totals] of storeData) {
+      const branchCode = this.getBranchCode(storeName);
+
+      console.log(`  ${storeName} (${branchCode}): $${this.formatNumber(totals.grossSales)}`);
+
+      const rows = this.generateGLRows(branchCode, storeName, totals, refNumber);
+      allRows.push(...rows);
+      grandSales += totals.grossSales;
+    }
+
+    // Generate TSV file
+    const tsvFilename = `gl_journal_${reportDate}_post.tsv`;
+    const tsvFilepath = path.join(OUTPUT_DIR, tsvFilename);
+    const tsvContent = [note, tsvHeaders, ...allRows.map(r => this.rowToTSV(r))].join('\n');
+    fs.writeFileSync(tsvFilepath, tsvContent);
+
+    // Generate CSV file
+    const csvFilename = `gl_journal_${reportDate}_post.csv`;
+    const csvFilepath = path.join(OUTPUT_DIR, csvFilename);
+    const csvContent = [csvHeaders, ...allRows.map(r => this.rowToCSV(r))].join('\n');
+    fs.writeFileSync(csvFilepath, csvContent);
+
+    console.log(`\nGL Export complete: ${storeData.size} stores, $${this.formatNumber(grandSales)} total sales`);
+    console.log(`Files: ${tsvFilepath}, ${csvFilepath}`);
+
+    return {
+      success: true,
+      stores: storeData.size,
+      totalSales: grandSales,
+      tsvFilepath,
+      csvFilepath,
+      source: 'post'
+    };
+  }
+
   generateGLRows(branchCode, dutchieStoreName, totals, refNumber) {
     const rows = [];
 
@@ -500,10 +1189,14 @@ class GLExportService {
       const value = totals[account.field] || 0;
 
       if (account.code === '70260') {
-        // Overage = totalCredits - totalDebits
-        // Auditor convention: Always put overage in CREDIT column, negated
-        // (Auditor calculates as debits - credits, opposite of our calculation)
-        credit = -totals.overage;
+        // Overage = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
+        // If overage is negative (shortage): record as DEBIT (we need more to balance)
+        // If overage is positive (overage): record as CREDIT (we have excess)
+        if (totals.overage < 0) {
+          debit = Math.abs(totals.overage);
+        } else {
+          credit = totals.overage;
+        }
       } else if (account.type === 'debit') {
         debit = value;
       } else if (account.type === 'credit') {
@@ -515,7 +1208,7 @@ class GLExportService {
         dutchieStoreName,
         accountCode: account.code,
         accountDesc: account.desc,
-        subaccount: '00-00',
+        subaccount: account.subacct || '00-00',
         refNumber,
         quantity: '1.00',
         uom: '',
@@ -616,8 +1309,13 @@ class GLExportService {
 
       // Filter transactions by local time date (transactionDateLocalTime)
       // The auditor uses local time for day boundaries, not UTC
+      // Some transactions may have null transactionDateLocalTime - convert from UTC as fallback
       const transactions = result.data.filter(t => {
-        const localDate = (t.transactionDateLocalTime || '').slice(0, 10);
+        let localDate = (t.transactionDateLocalTime || '').slice(0, 10);
+        // Fallback: convert UTC transactionDate to local timezone if localTime is missing
+        if (!localDate && t.transactionDate) {
+          localDate = new Date(t.transactionDate).toLocaleDateString('en-CA', { timeZone: timezone });
+        }
         return localDate === reportDate;
       });
       const totals = this.aggregateTransactions(transactions, reportDate, loc.name);

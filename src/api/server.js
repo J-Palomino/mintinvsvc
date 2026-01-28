@@ -73,8 +73,8 @@ function setupBullBoard() {
   }
 }
 
-// Bull Board route (requires API key)
-app.use('/admin/queues', requireApiKey, (req, res, next) => {
+// Bull Board route (public - no auth for dashboard access)
+app.use('/admin/queues', (req, res, next) => {
   const router = setupBullBoard();
   if (router) {
     router(req, res, next);
@@ -258,24 +258,88 @@ app.get('/api/locations/:locationId/brands', async (req, res) => {
 // Daily sales report - GL Journal export
 // GET /api/reports/daily-sales?date=2026-01-11
 // GET /api/reports/daily-sales?date=2026-01-11&email=true
+// GET /api/reports/daily-sales?date=2026-01-11&csvPath=/path/to/dashboard.csv (use CSV instead of API)
+// GET /api/reports/daily-sales?date=2026-01-11&jsonPath=/path/to/dashboard.json (use JSON instead of API)
 app.get('/api/reports/daily-sales', async (req, res) => {
   try {
-    const { date, email } = req.query;
+    const { date, email, csvPath, jsonPath } = req.query;
 
-    // Validate date parameter
-    if (!date) {
+    // Validate date parameter (required unless using file import auto-detect)
+    if (!date && !csvPath && !jsonPath) {
       return res.status(400).json({
-        error: 'Missing required parameter: date',
+        error: 'Missing required parameter: date (or csvPath/jsonPath for auto-detect)',
         example: '/api/reports/daily-sales?date=2026-01-11'
       });
     }
 
-    // Validate date format (YYYY-MM-DD)
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(date)) {
-      return res.status(400).json({
-        error: 'Invalid date format. Use YYYY-MM-DD',
-        example: '2026-01-11'
+    // Validate date format if provided (YYYY-MM-DD)
+    if (date) {
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateRegex.test(date)) {
+        return res.status(400).json({
+          error: 'Invalid date format. Use YYYY-MM-DD',
+          example: '2026-01-11'
+        });
+      }
+    }
+
+    const fs = require('fs');
+
+    // If jsonPath provided, use JSON import instead of API
+    if (jsonPath) {
+      console.log(`\n[API] Daily sales report from JSON: ${jsonPath}`);
+
+      // Verify JSON file exists
+      if (!fs.existsSync(jsonPath)) {
+        return res.status(400).json({
+          error: 'JSON file not found',
+          path: jsonPath
+        });
+      }
+
+      // Create GL export service (no location configs needed for JSON import)
+      const glExportService = new GLExportService([]);
+      const result = await glExportService.exportFromJSON(jsonPath, date || null);
+
+      return res.json({
+        success: result.success,
+        date: date || 'auto-detected',
+        source: 'json',
+        stores: result.stores || 0,
+        totalSales: result.totalSales || 0,
+        files: {
+          tsv: result.tsvFilepath,
+          csv: result.csvFilepath
+        }
+      });
+    }
+
+    // If csvPath provided, use CSV import instead of API
+    if (csvPath) {
+      console.log(`\n[API] Daily sales report from CSV: ${csvPath}`);
+
+      // Verify CSV file exists
+      if (!fs.existsSync(csvPath)) {
+        return res.status(400).json({
+          error: 'CSV file not found',
+          path: csvPath
+        });
+      }
+
+      // Create GL export service (no location configs needed for CSV import)
+      const glExportService = new GLExportService([]);
+      const result = await glExportService.exportFromCSV(csvPath, date || null);
+
+      return res.json({
+        success: result.success,
+        date: date || 'auto-detected',
+        source: 'csv',
+        stores: result.stores || 0,
+        totalSales: result.totalSales || 0,
+        files: {
+          tsv: result.tsvFilepath,
+          csv: result.csvFilepath
+        }
       });
     }
 
@@ -310,6 +374,7 @@ app.get('/api/reports/daily-sales', async (req, res) => {
     res.json({
       success: result.success,
       date,
+      source: 'api',
       stores: result.stores || 0,
       totalSales: result.totalSales || 0,
       files: {
@@ -321,6 +386,63 @@ app.get('/api/reports/daily-sales', async (req, res) => {
     });
   } catch (error) {
     console.error('[API] Daily sales report error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Daily sales report - GL Journal export from POST data
+// POST /api/reports/daily-sales
+// Body: { "date": "2026-01-26", "data": [...] } or just [...]
+// Requires API key authentication
+app.post('/api/reports/daily-sales', async (req, res) => {
+  try {
+    const { date } = req.query;
+    const body = req.body;
+
+    if (!body || (Array.isArray(body) && body.length === 0) ||
+        (!Array.isArray(body) && (!body.data || body.data.length === 0))) {
+      return res.status(400).json({
+        error: 'Missing or empty data in request body',
+        example: {
+          date: '2026-01-26',
+          data: [
+            {
+              'Location Name': 'The Mint - Paradise',
+              'Transaction Date': '2026-01-26',
+              'Total Price': '$24,573.75',
+              'Amount': '$7,945.60',
+              'Total Tax': '$3,011.57',
+              'Cash Paid': '$19,218.83',
+              'Debit Paid': '$0.00',
+              'Total Cost': '$8,408.69'
+            }
+          ]
+        }
+      });
+    }
+
+    // Extract date from query param, body, or auto-detect
+    let reportDate = date || body.date || null;
+
+    console.log(`\n[API] Daily sales report POST request`);
+
+    // Create GL export service and process data
+    const glExportService = new GLExportService([]);
+    const result = await glExportService.exportFromData(body, reportDate);
+
+    res.json({
+      success: result.success,
+      date: reportDate || 'auto-detected',
+      source: 'post',
+      stores: result.stores || 0,
+      totalSales: result.totalSales || 0,
+      files: {
+        tsv: result.tsvFilepath,
+        csv: result.csvFilepath
+      }
+    });
+  } catch (error) {
+    console.error('[API] Daily sales POST error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
