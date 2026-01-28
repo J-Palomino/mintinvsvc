@@ -1190,13 +1190,8 @@ class GLExportService {
 
       if (account.code === '70260') {
         // Overage = (Amount + Loyalty + Cash + Debit + Electronic) - (Total Price + Tax)
-        // If overage is negative (shortage): record as DEBIT (we need more to balance)
-        // If overage is positive (overage): record as CREDIT (we have excess)
-        if (totals.overage < 0) {
-          debit = Math.abs(totals.overage);
-        } else {
-          credit = totals.overage;
-        }
+        // Always put in credit column (can be negative for shortage) to match auditor format
+        credit = totals.overage;
       } else if (account.type === 'debit') {
         debit = value;
       } else if (account.type === 'credit') {
