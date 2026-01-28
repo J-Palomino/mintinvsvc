@@ -1400,7 +1400,7 @@ Summary:
 - Total Sales: $${this.formatNumber(summary.totalSales)}
 - Status: ${summary.success ? 'SUCCESS' : 'COMPLETED WITH ERRORS'}
 
-The GL journal files are attached (TSV and CSV formats).
+The GL journal file is attached (CSV format).
 
 ---
 This is an automated report from Mint Inventory Sync Service.
@@ -1417,16 +1417,12 @@ This is an automated report from Mint Inventory Sync Service.
   <tr><td><strong>Status</strong></td><td>${summary.success ? '✓ SUCCESS' : '⚠ COMPLETED WITH ERRORS'}</td></tr>
 </table>
 
-<p>The GL journal files are attached (TSV and CSV formats).</p>
+<p>The GL journal file is attached (CSV format).</p>
 
 <hr>
 <p style="color: #666; font-size: 12px;">This is an automated report from Mint Inventory Sync Service.</p>
 `,
       attachments: [
-        {
-          filename: path.basename(tsvFilepath),
-          path: tsvFilepath
-        },
         {
           filename: path.basename(csvFilepath),
           path: csvFilepath

@@ -392,11 +392,12 @@ app.get('/api/reports/daily-sales', async (req, res) => {
 
 // Daily sales report - GL Journal export from POST data
 // POST /api/reports/daily-sales
+// POST /api/reports/daily-sales?email=true
 // Body: { "date": "2026-01-26", "data": [...] } or just [...]
 // Requires API key authentication
 app.post('/api/reports/daily-sales', async (req, res) => {
   try {
-    const { date } = req.query;
+    const { date, email } = req.query;
     const body = req.body;
 
     if (!body || (Array.isArray(body) && body.length === 0) ||
@@ -430,6 +431,21 @@ app.post('/api/reports/daily-sales', async (req, res) => {
     const glExportService = new GLExportService([]);
     const result = await glExportService.exportFromData(body, reportDate);
 
+    // Send email if requested
+    let emailResult = null;
+    if (email === 'true' && result.success) {
+      emailResult = await glExportService.sendEmail(
+        result.tsvFilepath,
+        result.csvFilepath,
+        reportDate || result.date || 'unknown',
+        {
+          stores: result.stores || 0,
+          totalSales: result.totalSales || 0,
+          success: result.success
+        }
+      );
+    }
+
     res.json({
       success: result.success,
       date: reportDate || 'auto-detected',
@@ -439,7 +455,8 @@ app.post('/api/reports/daily-sales', async (req, res) => {
       files: {
         tsv: result.tsvFilepath,
         csv: result.csvFilepath
-      }
+      },
+      email: emailResult
     });
   } catch (error) {
     console.error('[API] Daily sales POST error:', error.message);
