@@ -14,7 +14,8 @@ const PORT = process.env.PORT || process.env.API_PORT || 3000;
 const API_KEY = process.env.API_KEY || '7d176bcd2ea77429918fa50c85ebfa5ee5c09cde2ff72850660d81c4a4b40bb3';
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.text({ type: 'text/csv', limit: '50mb' }));
 
 // API key authentication middleware
 const requireApiKey = (req, res, next) => {
@@ -393,43 +394,56 @@ app.get('/api/reports/daily-sales', async (req, res) => {
 // Daily sales report - GL Journal export from POST data
 // POST /api/reports/daily-sales
 // POST /api/reports/daily-sales?email=true
-// Body: { "date": "2026-01-26", "data": [...] } or just [...]
+// Body: JSON { "date": "2026-01-26", "data": [...] } or CSV text (Content-Type: text/csv)
 // Requires API key authentication
 app.post('/api/reports/daily-sales', async (req, res) => {
   try {
     const { date, email } = req.query;
+    const contentType = req.headers['content-type'] || '';
     const body = req.body;
 
-    if (!body || (Array.isArray(body) && body.length === 0) ||
-        (!Array.isArray(body) && (!body.data || body.data.length === 0))) {
-      return res.status(400).json({
-        error: 'Missing or empty data in request body',
-        example: {
-          date: '2026-01-26',
-          data: [
-            {
-              'Location Name': 'The Mint - Paradise',
-              'Transaction Date': '2026-01-26',
-              'Total Price': '$24,573.75',
-              'Amount': '$7,945.60',
-              'Total Tax': '$3,011.57',
-              'Cash Paid': '$19,218.83',
-              'Debit Paid': '$0.00',
-              'Total Cost': '$8,408.69'
-            }
-          ]
-        }
-      });
-    }
-
-    // Extract date from query param, body, or auto-detect
-    let reportDate = date || body.date || null;
-
-    console.log(`\n[API] Daily sales report POST request`);
-
-    // Create GL export service and process data
     const glExportService = new GLExportService([]);
-    const result = await glExportService.exportFromData(body, reportDate);
+    let result;
+
+    // Handle CSV text upload
+    if (contentType.includes('text/csv') && typeof body === 'string') {
+      if (!body.trim()) {
+        return res.status(400).json({ error: 'Empty CSV content' });
+      }
+      console.log(`\n[API] Daily sales report POST (CSV upload)`);
+      result = await glExportService.exportFromCSVText(body, date || null);
+    }
+    // Handle JSON data
+    else {
+      if (!body || (Array.isArray(body) && body.length === 0) ||
+          (!Array.isArray(body) && (!body.data || body.data.length === 0))) {
+        return res.status(400).json({
+          error: 'Missing or empty data in request body',
+          note: 'Send CSV with Content-Type: text/csv, or JSON with Content-Type: application/json',
+          example: {
+            date: '2026-01-26',
+            data: [
+              {
+                'Location Name': 'The Mint - Paradise',
+                'Transaction Date': '2026-01-26',
+                'Total Price': '$24,573.75',
+                'Amount': '$7,945.60',
+                'Total Tax': '$3,011.57',
+                'Cash Paid': '$19,218.83',
+                'Debit Paid': '$0.00',
+                'Total Cost': '$8,408.69'
+              }
+            ]
+          }
+        });
+      }
+
+      // Extract date from query param, body, or auto-detect
+      let reportDate = date || body.date || null;
+
+      console.log(`\n[API] Daily sales report POST (JSON)`);
+      result = await glExportService.exportFromData(body, reportDate);
+    }
 
     // Send email if requested
     let emailResult = null;
@@ -437,7 +451,7 @@ app.post('/api/reports/daily-sales', async (req, res) => {
       emailResult = await glExportService.sendEmail(
         result.tsvFilepath,
         result.csvFilepath,
-        reportDate || result.date || 'unknown',
+        result.date || date || 'unknown',
         {
           stores: result.stores || 0,
           totalSales: result.totalSales || 0,
@@ -448,8 +462,8 @@ app.post('/api/reports/daily-sales', async (req, res) => {
 
     res.json({
       success: result.success,
-      date: reportDate || 'auto-detected',
-      source: 'post',
+      date: result.date || date || 'auto-detected',
+      source: result.source || 'post',
       stores: result.stores || 0,
       totalSales: result.totalSales || 0,
       files: {

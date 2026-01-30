@@ -11,7 +11,34 @@ const nodemailer = require('nodemailer');
 const { parse: csvParse } = require('csv-parse/sync');
 
 const DUTCHIE_API_URL = process.env.DUTCHIE_API_URL || 'https://api.pos.dutchie.com';
+const DUTCHIE_BACKOFFICE_URL = 'https://themint.backoffice.dutchie.com';
 const OUTPUT_DIR = process.env.GL_EXPORT_DIR || './exports';
+
+// Dutchie Backoffice location IDs for closing-report API (prepaid sales)
+// These are needed for non-FL stores where accounting export shows $0 for debit
+const STORE_LOC_IDS = {
+  // Arizona
+  'Mint Tempe': 1568,
+  'Mint 75th Ave Phoenix': 2679,
+  'Mint Scottsdale': 2725,
+  'Mint Northern Phoenix': 2272,
+  'Mint Mesa': 2350,
+  'Mint Buckeye/Verado': 2551,
+  'Mint El Mirage': 2669,
+  // Nevada
+  'Mint Las Vegas Strip': 2866,
+  'Mint Spring Valley': 2865,
+  // Missouri
+  'Mint St. Peters': 2194,
+  // Michigan
+  'Mint New Buffalo': 2859,
+  'Mint Roseville': 2860,
+  'Mint Coldwater': 2680,
+  'Mint Monroe': 2736,
+  'Mint Kalamazoo': 2784,
+  // Illinois
+  'Mint Willowbrook': 2784
+};
 
 // Store timezone mapping (IANA timezone names)
 // Used to convert local business day to UTC for Dutchie API queries
@@ -98,6 +125,7 @@ const DASHBOARD_NAME_MAP = {
   'Mesa - 4245 Investments LLC': 'Mint Mesa',
   'Northern - GTL LLC': 'Mint Northern Phoenix',
   'Buckeye - Woodstock 1': 'Mint Buckeye/Verado',
+  'El Mirage - MCD-SE Venture 25 LLC': 'Mint El Mirage',
   // Illinois
   'Mint IL, LLC': 'Mint Willowbrook'
 };
@@ -167,6 +195,128 @@ const ACCOUNTS = [
 class GLExportService {
   constructor(locationConfigs) {
     this.locationConfigs = locationConfigs;
+  }
+
+  /**
+   * Check if a store is a non-FL store that needs prepaid sales data
+   * FL stores have accurate Debit Paid/Electronic Paid in accounting export
+   * Non-FL stores show $0 and need to use closing-report API prepaid sales
+   * @param {string} storeName - Store name
+   * @returns {boolean} True if store needs prepaid sales from closing-report API
+   */
+  needsPrepaidSales(storeName) {
+    const branchCode = this.getBranchCode(storeName);
+    // Florida stores (FLD-*) don't need prepaid sales - their debit data is in accounting export
+    return !branchCode.startsWith('FLD-');
+  }
+
+  /**
+   * Fetch prepaid sales from Dutchie closing-report API
+   * This is used for non-FL stores where the accounting export shows $0 for debit
+   * @param {string} storeName - Store name
+   * @param {string} reportDate - Date in YYYY-MM-DD format
+   * @returns {Promise<number>} Prepaid sales amount
+   */
+  async fetchPrepaidSales(storeName, reportDate) {
+    const locId = STORE_LOC_IDS[storeName];
+    if (!locId) {
+      console.log(`  [Prepaid] No LocId for ${storeName}, skipping prepaid fetch`);
+      return 0;
+    }
+
+    // Get session credentials from environment
+    const sessionId = process.env.DUTCHIE_SESSION_ID;
+    const lspId = process.env.DUTCHIE_LSP_ID || '575';
+    const orgId = process.env.DUTCHIE_ORG_ID || '5134';
+    const userId = process.env.DUTCHIE_USER_ID || '26146';
+
+    if (!sessionId) {
+      console.log(`  [Prepaid] DUTCHIE_SESSION_ID not set, skipping prepaid fetch for ${storeName}`);
+      return 0;
+    }
+
+    // Format dates for closing-report API: "MM/DD/YYYY 12:00 am"
+    const [year, month, day] = reportDate.split('-');
+    const startDate = `${month}/${day}/${year} 12:00 am`;
+    // Calculate next day using UTC to avoid timezone issues
+    const nextDay = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day) + 1));
+    const endYear = nextDay.getUTCFullYear();
+    const endMonth = String(nextDay.getUTCMonth() + 1).padStart(2, '0');
+    const endDay = String(nextDay.getUTCDate()).padStart(2, '0');
+    const endDate = `${endMonth}/${endDay}/${endYear} 12:00 am`;
+
+    try {
+      const response = await axios.post(
+        `${DUTCHIE_BACKOFFICE_URL}/api/posv3/reports/closing-report`,
+        {
+          Date: startDate,
+          EndDate: endDate,
+          IncludeDetail: true,
+          SessionId: sessionId,
+          LspId: parseInt(lspId),
+          LocId: locId,
+          OrgId: parseInt(orgId),
+          UserId: parseInt(userId)
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'appname': 'Backoffice',
+            'Cookie': `LLSession=${sessionId}`
+          },
+          timeout: 30000
+        }
+      );
+
+      if (response.data?.Result && response.data?.Data?.Registers) {
+        const prepaidTotal = response.data.Data.Registers.reduce(
+          (sum, reg) => sum + (reg['Prepaid Sales'] || 0),
+          0
+        );
+        return prepaidTotal;
+      }
+      return 0;
+    } catch (error) {
+      const msg = error.response?.data?.Message || error.message;
+      console.log(`  [Prepaid] Error fetching for ${storeName}: ${msg}`);
+      return 0;
+    }
+  }
+
+  /**
+   * Fetch prepaid sales for all non-FL stores in the export
+   * @param {Map<string, object>} storeData - Store data map from CSV/JSON parsing
+   * @param {string} reportDate - Date in YYYY-MM-DD format
+   * @returns {Promise<Map<string, number>>} Map of store name to prepaid sales
+   */
+  async fetchAllPrepaidSales(storeData, reportDate) {
+    const prepaidData = new Map();
+    const nonFLStores = [...storeData.keys()].filter(name => this.needsPrepaidSales(name));
+
+    if (nonFLStores.length === 0) {
+      return prepaidData;
+    }
+
+    console.log(`\nFetching prepaid sales for ${nonFLStores.length} non-FL stores...`);
+
+    // Fetch one at a time with delay to respect rate limits (20 req/min)
+    for (let i = 0; i < nonFLStores.length; i++) {
+      const storeName = nonFLStores[i];
+      const prepaid = await this.fetchPrepaidSales(storeName, reportDate);
+      prepaidData.set(storeName, prepaid);
+
+      if (prepaid > 0) {
+        console.log(`  ${storeName}: $${this.formatNumber(prepaid)} prepaid`);
+      }
+
+      // Rate limit: 3 second delay between requests
+      if (i < nonFLStores.length - 1) {
+        await new Promise(r => setTimeout(r, 3000));
+      }
+    }
+
+    return prepaidData;
   }
 
   formatNumber(num) {
@@ -695,6 +845,179 @@ class GLExportService {
   }
 
   /**
+   * Parse CSV text content and aggregate data by location
+   * Same logic as parseCSVData but takes text instead of file path
+   * @param {string} csvText - CSV content as text
+   * @param {string} reportDate - Date to filter (YYYY-MM-DD format)
+   * @returns {Map<string, object>} Map of store name to aggregated totals
+   */
+  parseCSVText(csvText, reportDate) {
+    const records = csvParse(csvText, {
+      columns: true,
+      skip_empty_lines: true,
+      trim: true
+    });
+
+    const storeData = new Map();
+
+    for (const row of records) {
+      const txnDate = row['Transaction Date'] || row['Transactions Transaction Date'];
+      if (reportDate && txnDate !== reportDate) continue;
+
+      const dashboardName = row['Location Name'] || row['Lsp Location Location Name'];
+      const storeName = this.mapDashboardName(dashboardName);
+
+      if (!storeData.has(storeName)) {
+        storeData.set(storeName, {
+          dashboardName,
+          sumTotalPrice: 0,
+          sumAmount: 0,
+          sumLoyaltyPaid: 0,
+          sumTotalTax: 0,
+          sumDebitPaid: 0,
+          sumCashPaid: 0,
+          sumElectronicPaid: 0,
+          sumTotalCost: 0,
+          grossSales: 0,
+          discounts: 0,
+          loyaltySpent: 0,
+          returns: 0,
+          tax: 0,
+          netCash: 0,
+          debitPaid: 0,
+          cogs: 0,
+          overage: 0
+        });
+      }
+
+      const totals = storeData.get(storeName);
+
+      totals.sumTotalPrice += this.parseCurrency(row['Total Price'] || row['Transaction Items Total Price']);
+      totals.sumAmount += this.parseCurrency(row['Amount'] || row['Transaction Item Discounts Amount']);
+      totals.sumLoyaltyPaid += this.parseCurrency(row['Sum Total Loyalty Paid'] || row['Transactions Sum Total Loyalty Paid']);
+      totals.sumTotalTax += this.parseCurrency(row['Total Tax'] || row['Transactions Total Tax']);
+      totals.sumDebitPaid += this.parseCurrency(row['Debit Paid'] || row['Transactions Debit Paid']);
+      totals.sumCashPaid += this.parseCurrency(row['Cash Paid'] || row['Transactions Cash Paid']);
+      totals.sumElectronicPaid += this.parseCurrency(row['Electronic Paid'] || row['Transactions Electronic Paid']);
+      totals.sumTotalCost += this.parseCurrency(row['Total Cost'] || row['Transaction Items Total Cost']);
+    }
+
+    for (const [storeName, totals] of storeData) {
+      totals.grossSales = totals.sumTotalPrice;
+      totals.discounts = totals.sumAmount;
+      totals.loyaltySpent = totals.sumLoyaltyPaid;
+      totals.tax = totals.sumTotalTax;
+      totals.netCash = totals.sumCashPaid;
+      totals.debitPaid = totals.sumDebitPaid + totals.sumElectronicPaid;
+      totals.cogs = totals.sumTotalCost;
+
+      const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid +
+                        totals.sumDebitPaid + totals.sumElectronicPaid;
+      const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+      totals.overage = sumDebits - sumCredits;
+    }
+
+    return storeData;
+  }
+
+  /**
+   * Export GL journal from CSV text content
+   * @param {string} csvText - CSV content as text
+   * @param {string} reportDate - Optional date filter (YYYY-MM-DD)
+   * @returns {object} Export result with file paths
+   */
+  async exportFromCSVText(csvText, reportDate = null) {
+    // Detect date from CSV if not provided
+    if (!reportDate) {
+      const records = csvParse(csvText, { columns: true, skip_empty_lines: true });
+      const dates = [...new Set(records.map(r =>
+        r['Transaction Date'] || r['Transactions Transaction Date']
+      ).filter(Boolean))];
+
+      if (dates.length === 1) {
+        reportDate = dates[0];
+      } else if (dates.length > 1) {
+        console.log(`Multiple dates found in CSV: ${dates.join(', ')}`);
+        reportDate = dates[0];
+      } else {
+        throw new Error('No transaction dates found in CSV');
+      }
+    }
+
+    const refNumber = `${reportDate} DS`;
+
+    console.log(`\n=== GL Journal Export from CSV Text for ${reportDate} ===`);
+
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+
+    const headerColumns = [
+      'Branch', 'Dutchie Store Name', 'Account', 'Description',
+      'Subaccount', 'Ref. Number', 'Quantity', 'UOM', 'Debit Amount', 'Credit Amount'
+    ];
+
+    const tsvHeaders = headerColumns.join('\t');
+    const csvHeaders = headerColumns.join(',');
+
+    const note = [
+      `# GL Journal Export - ${reportDate}`,
+      `# Source: CSV Upload`,
+      `# Generated: ${new Date().toISOString()}`,
+      `#`
+    ].join('\n');
+
+    // Parse CSV and aggregate by store
+    const storeData = this.parseCSVText(csvText, reportDate);
+
+    // Fetch prepaid sales for non-FL stores
+    const prepaidData = await this.fetchAllPrepaidSales(storeData, reportDate);
+
+    // Apply prepaid sales to non-FL stores
+    for (const [storeName, prepaid] of prepaidData) {
+      if (prepaid > 0 && storeData.has(storeName)) {
+        const totals = storeData.get(storeName);
+        totals.debitPaid = prepaid;
+        const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid + prepaid;
+        const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+        totals.overage = sumDebits - sumCredits;
+      }
+    }
+
+    const allRows = [];
+    let grandSales = 0;
+
+    for (const [storeName, totals] of storeData) {
+      const branchCode = this.getBranchCode(storeName);
+      console.log(`  ${storeName} (${branchCode}): $${this.formatNumber(totals.grossSales)}`);
+      const rows = this.generateGLRows(branchCode, storeName, totals, refNumber);
+      allRows.push(...rows);
+      grandSales += totals.grossSales;
+    }
+
+    // Generate files
+    const tsvFilename = `gl_journal_${reportDate}_upload.tsv`;
+    const tsvFilepath = path.join(OUTPUT_DIR, tsvFilename);
+    fs.writeFileSync(tsvFilepath, [note, tsvHeaders, ...allRows.map(r => this.rowToTSV(r))].join('\n'));
+
+    const csvFilename = `gl_journal_${reportDate}_upload.csv`;
+    const csvFilepath = path.join(OUTPUT_DIR, csvFilename);
+    fs.writeFileSync(csvFilepath, [csvHeaders, ...allRows.map(r => this.rowToCSV(r))].join('\n'));
+
+    console.log(`\nGL Export complete: ${storeData.size} stores, $${this.formatNumber(grandSales)} total sales`);
+
+    return {
+      success: true,
+      date: reportDate,
+      stores: storeData.size,
+      totalSales: grandSales,
+      tsvFilepath,
+      csvFilepath,
+      source: 'csv-upload'
+    };
+  }
+
+  /**
    * Export GL journal from a dashboard CSV file instead of API
    * @param {string} csvPath - Path to the dashboard CSV file
    * @param {string} reportDate - Optional date filter (YYYY-MM-DD), uses all dates if not specified
@@ -755,6 +1078,22 @@ class GLExportService {
 
     // Parse CSV and aggregate by store
     const storeData = this.parseCSVData(csvPath, reportDate);
+
+    // Fetch prepaid sales for non-FL stores (where accounting export shows $0 for debit)
+    const prepaidData = await this.fetchAllPrepaidSales(storeData, reportDate);
+
+    // Apply prepaid sales to non-FL stores
+    for (const [storeName, prepaid] of prepaidData) {
+      if (prepaid > 0 && storeData.has(storeName)) {
+        const totals = storeData.get(storeName);
+        // Replace $0 debit with prepaid sales for non-FL stores
+        totals.debitPaid = prepaid;
+        // Recalculate overage with new debit value
+        const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid + prepaid;
+        const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+        totals.overage = sumDebits - sumCredits;
+      }
+    }
 
     const allRows = [];
     let grandSales = 0;
@@ -949,6 +1288,22 @@ class GLExportService {
     // Parse JSON and aggregate by store
     const storeData = this.parseJSONData(jsonPath, reportDate);
 
+    // Fetch prepaid sales for non-FL stores (where accounting export shows $0 for debit)
+    const prepaidData = await this.fetchAllPrepaidSales(storeData, reportDate);
+
+    // Apply prepaid sales to non-FL stores
+    for (const [storeName, prepaid] of prepaidData) {
+      if (prepaid > 0 && storeData.has(storeName)) {
+        const totals = storeData.get(storeName);
+        // Replace $0 debit with prepaid sales for non-FL stores
+        totals.debitPaid = prepaid;
+        // Recalculate overage with new debit value
+        const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid + prepaid;
+        const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+        totals.overage = sumDebits - sumCredits;
+      }
+    }
+
     const allRows = [];
     let grandSales = 0;
 
@@ -1141,6 +1496,22 @@ class GLExportService {
 
     // Parse data and aggregate by store
     const storeData = this.parseDataArray(records, reportDate);
+
+    // Fetch prepaid sales for non-FL stores (where accounting export shows $0 for debit)
+    const prepaidData = await this.fetchAllPrepaidSales(storeData, reportDate);
+
+    // Apply prepaid sales to non-FL stores
+    for (const [storeName, prepaid] of prepaidData) {
+      if (prepaid > 0 && storeData.has(storeName)) {
+        const totals = storeData.get(storeName);
+        // Replace $0 debit with prepaid sales for non-FL stores
+        totals.debitPaid = prepaid;
+        // Recalculate overage with new debit value
+        const sumDebits = totals.sumAmount + totals.sumLoyaltyPaid + totals.sumCashPaid + prepaid;
+        const sumCredits = totals.sumTotalPrice + totals.sumTotalTax;
+        totals.overage = sumDebits - sumCredits;
+      }
+    }
 
     const allRows = [];
     let grandSales = 0;
