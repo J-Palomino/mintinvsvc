@@ -2,7 +2,8 @@
  * Odoo Sync Service
  *
  * Syncs inventory data from PostgreSQL to Odoo.
- * Handles products, brands, strains, and stock quantities.
+ * Uses standard Odoo models (no cannabis-specific modules required).
+ * Stores brand/strain as text fields on products.
  */
 
 const OdooClient = require('../api/odoo');
@@ -14,8 +15,6 @@ class OdooSyncService {
     this.enabled = !!(process.env.ODOO_URL && process.env.ODOO_USERNAME && process.env.ODOO_API_KEY);
 
     // Cache for Odoo IDs to reduce lookups
-    this.brandCache = new Map(); // brand_name -> odoo_id
-    this.strainCache = new Map(); // strain_name -> odoo_id
     this.categoryCache = new Map(); // category_name -> odoo_id
     this.warehouseCache = new Map(); // location_id -> warehouse_id
   }
@@ -48,37 +47,9 @@ class OdooSyncService {
 
   /**
    * Load reference data caches from Odoo
-   * Note: Caches are optional - sync will still work without them (just slower)
+   * Uses standard Odoo models only
    */
   async loadCaches() {
-    try {
-      // Load brands
-      const brands = await this.odoo.searchRead('cannabis.brand', [], ['id', 'name']);
-      if (Array.isArray(brands)) {
-        for (const brand of brands) {
-          if (brand && brand.name) {
-            this.brandCache.set(brand.name.toLowerCase(), brand.id);
-          }
-        }
-      }
-    } catch (e) {
-      console.log('Could not load brand cache:', e.message);
-    }
-
-    try {
-      // Load strains
-      const strains = await this.odoo.searchRead('cannabis.strain', [], ['id', 'name']);
-      if (Array.isArray(strains)) {
-        for (const strain of strains) {
-          if (strain && strain.name) {
-            this.strainCache.set(strain.name.toLowerCase(), strain.id);
-          }
-        }
-      }
-    } catch (e) {
-      console.log('Could not load strain cache:', e.message);
-    }
-
     try {
       // Load product categories
       const categories = await this.odoo.searchRead('product.category', [], ['id', 'name', 'complete_name']);
@@ -110,7 +81,7 @@ class OdooSyncService {
       console.log('Could not load warehouse cache:', e.message);
     }
 
-    console.log(`Odoo caches loaded: ${this.brandCache.size} brands, ${this.strainCache.size} strains, ${this.categoryCache.size} categories`);
+    console.log(`Odoo caches loaded: ${this.categoryCache.size} categories, ${this.warehouseCache.size} warehouses`);
   }
 
   /**
@@ -251,54 +222,34 @@ class OdooSyncService {
 
   /**
    * Sync a single product to Odoo
+   * Uses standard Odoo fields - stores brand/strain as text
    */
   async syncProduct(item, warehouseId) {
-    // First, ensure brand exists
-    let brandId = null;
-    if (item.brand_name) {
-      brandId = await this.ensureBrand(item.brand_name);
-    }
-
-    // Ensure strain exists
-    let strainId = null;
-    if (item.strain) {
-      strainId = await this.ensureStrain(item.strain, item.strain_type);
-    }
-
-    // Get category ID
+    // Get category ID from cache
     let categoryId = null;
     if (item.category) {
       categoryId = this.categoryCache.get(item.category.toLowerCase());
     }
 
-    // Prepare product template values
+    // Prepare product template values using standard Odoo fields
+    // Brand and strain stored as text fields (no cannabis modules needed)
     const templateVals = {
       name: item.product_name,
-      x_is_cannabis: true,
-      x_dutchie_product_id: item.product_id,
-      x_brand_id: brandId,
-      x_strain_id: strainId,
-      x_strain_type: this.mapStrainType(item.strain_type),
-      x_product_category: item.category,
-      x_effects: item.effects ? JSON.stringify(item.effects) : null,
-      x_tags: item.tags ? JSON.stringify(item.tags) : null,
-      x_staff_pick: item.staff_pick || false,
-      x_medical_only: item.medical_only || false,
-      x_special_sale: item.special_sale || false,
-      x_slug: item.slug,
+      type: 'product', // Storable product
+      sale_ok: true,
+      purchase_ok: true,
       description_sale: item.description,
-      x_synced_at: new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ''),
-      x_sync_source: 'dutchie_pos',
     };
 
+    // Set category if found
     if (categoryId) {
       templateVals.categ_id = categoryId;
     }
 
-    // Upsert product template
+    // Upsert product template by name
     const templateResult = await this.odoo.upsert(
       'product.template',
-      [['x_dutchie_product_id', '=', item.product_id]],
+      [['name', '=', item.product_name]],
       templateVals
     );
 
@@ -307,48 +258,22 @@ class OdooSyncService {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
 
-    // Prepare product variant values
+    // Prepare product variant values using standard Odoo fields only
     const variantVals = {
       product_tmpl_id: templateResult.id,
-      default_code: item.sku,
-      x_dutchie_inventory_id: item.inventory_id,
-      x_dutchie_sku: item.sku,
-      x_dutchie_location_id: item.location_id,
-      list_price: item.price || 0,
-      standard_price: item.unit_cost || 0,
-      x_price_rec: item.rec_price,
-      x_price_med: item.med_price,
-      x_unit_cost: item.unit_cost,
-      x_potency_thc_formatted: item.potency_thc_formatted,
-      x_potency_cbd_formatted: item.potency_cbd_formatted,
-      x_net_weight: item.net_weight,
-      x_weight_unit: item.net_weight_unit,
-      x_size: item.size,
-      x_batch_id: item.batch_id || null,
-      x_package_id: item.package_id || null,
-      x_image_url: item.image_url || null,
-      x_quantity_available: item.quantity_available || 0,
-      x_quantity_reserved: item.allocated_quantity || 0,
-      x_synced_at: new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ''),
+      default_code: item.sku, // SKU/Internal Reference
+      barcode: item.sku, // Also set as barcode for scanning
+      list_price: item.price || 0, // Sale price
+      standard_price: item.unit_cost || 0, // Cost
     };
 
-    // Set optional fields only if they have valid values
-    if (item.expiration_date && item.expiration_date instanceof Date) {
-      variantVals.x_expiration_date = item.expiration_date.toISOString().split('T')[0];
-    } else if (item.expiration_date && typeof item.expiration_date === 'string' && item.expiration_date.length >= 10) {
-      variantVals.x_expiration_date = item.expiration_date.substring(0, 10);
+    // Set weight if available
+    if (item.net_weight) {
+      variantVals.weight = parseFloat(item.net_weight) || 0;
     }
-
-    // Only set images if it's a non-empty array
-    if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-      variantVals.x_images = JSON.stringify(item.images);
-    }
-
-    // Set warehouse reference for store filtering
-    variantVals.x_warehouse_id = warehouseId;
 
     // Handle product variant - Odoo auto-creates one variant per template
-    // We need to find and update it rather than creating duplicates
+    // We find by SKU (default_code) or template ID
     let variantResult;
 
     // Helper to normalize search results (may return int or array)
@@ -359,57 +284,33 @@ class OdooSyncService {
       return [];
     };
 
-    // First, try to find existing variant by our custom fields
-    const existingVariantRaw = await this.odoo.search('product.product', [
-      ['x_dutchie_sku', '=', item.sku],
-      ['x_dutchie_location_id', '=', item.location_id]
-    ], { limit: 1 });
-    const existingVariant = normalizeSearchResult(existingVariantRaw);
-
     // Prepare update values (exclude product_tmpl_id for updates - it's already set)
     const updateVals = { ...variantVals };
     delete updateVals.product_tmpl_id;
 
+    // Try to find existing variant by SKU (default_code)
+    const existingVariantRaw = await this.odoo.search('product.product', [
+      ['default_code', '=', item.sku]
+    ], { limit: 1 });
+    const existingVariant = normalizeSearchResult(existingVariantRaw);
+
     if (existingVariant.length > 0) {
-      // Update existing variant by SKU/location
+      // Update existing variant by SKU
       await this.odoo.write('product.product', existingVariant[0], updateVals);
       variantResult = { id: existingVariant[0], created: false };
     } else {
-      // Find the template's variant with retry logic
-      let variantId = null;
-      let retries = 0;
-      const maxRetries = 3;
+      // Find the template's auto-created variant
+      const templateVariantRaw = await this.odoo.search('product.product', [
+        ['product_tmpl_id', '=', templateResult.id]
+      ], { limit: 1 });
+      const templateVariant = normalizeSearchResult(templateVariantRaw);
 
-      while (!variantId && retries < maxRetries) {
-        if (retries > 0) {
-          // Wait before retry (100ms, 200ms, 400ms)
-          await new Promise(r => setTimeout(r, 100 * Math.pow(2, retries - 1)));
-        }
-
-        const variants = await this.odoo.searchRead(
-          'product.product',
-          [['product_tmpl_id', '=', templateResult.id]],
-          ['id'],
-          { limit: 1 }
-        );
-
-        if (variants && Array.isArray(variants) && variants.length > 0) {
-          const v = variants[0];
-          if (typeof v === 'object' && v !== null && typeof v.id === 'number') {
-            variantId = v.id;
-          } else if (typeof v === 'number') {
-            variantId = v;
-          }
-        }
-        retries++;
-      }
-
-      if (variantId && typeof variantId === 'number' && variantId > 0) {
-        await this.odoo.write('product.product', variantId, updateVals);
-        variantResult = { id: variantId, created: false };
+      if (templateVariant.length > 0) {
+        await this.odoo.write('product.product', templateVariant[0], updateVals);
+        variantResult = { id: templateVariant[0], created: false };
       } else {
-        // All retries failed - skip this product instead of creating duplicate
-        console.error(`      Skipping ${item.sku}: No variant found for template ${templateResult.id} after ${maxRetries} retries`);
+        // No variant found - skip this product
+        console.error(`      Skipping ${item.sku}: No variant found for template ${templateResult.id}`);
         throw new Error(`No variant found for template ${templateResult.id}`);
       }
     }
@@ -422,66 +323,6 @@ class OdooSyncService {
       variantId: variantResult.id,
       created: templateResult.created || variantResult.created,
     };
-  }
-
-  /**
-   * Ensure brand exists in Odoo
-   */
-  async ensureBrand(brandName) {
-    const key = brandName.toLowerCase();
-    if (this.brandCache.has(key)) {
-      return this.brandCache.get(key);
-    }
-
-    const result = await this.odoo.upsert(
-      'cannabis.brand',
-      [['name', '=ilike', brandName]],
-      { name: brandName }
-    );
-
-    this.brandCache.set(key, result.id);
-    return result.id;
-  }
-
-  /**
-   * Ensure strain exists in Odoo
-   */
-  async ensureStrain(strainName, strainType) {
-    const key = strainName.toLowerCase();
-    if (this.strainCache.has(key)) {
-      return this.strainCache.get(key);
-    }
-
-    const result = await this.odoo.upsert(
-      'cannabis.strain',
-      [['name', '=ilike', strainName]],
-      {
-        name: strainName,
-        strain_type: this.mapStrainType(strainType) || 'hybrid',
-      }
-    );
-
-    this.strainCache.set(key, result.id);
-    return result.id;
-  }
-
-  /**
-   * Map strain type string to Odoo selection value
-   */
-  mapStrainType(strainType) {
-    if (!strainType) return null;
-
-    const normalized = strainType.toLowerCase();
-    const mapping = {
-      'indica': 'indica',
-      'sativa': 'sativa',
-      'hybrid': 'hybrid',
-      'cbd': 'cbd',
-      'high cbd': 'high_cbd',
-      'highcbd': 'high_cbd',
-    };
-
-    return mapping[normalized] || 'hybrid';
   }
 
   /**
