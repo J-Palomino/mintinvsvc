@@ -15,8 +15,8 @@ const DiscountSyncService = require('../../services/discountSync');
 const CacheSyncService = require('../../services/cacheSync');
 const OdooSyncService = require('../../services/odooSync');
 
-// TEMPORARILY DISABLED: Odoo sync has variant lookup issues
-const ODOO_SYNC_ENABLED = false;
+// Odoo sync enabled - requires ODOO_URL, ODOO_USERNAME, ODOO_API_KEY env vars
+const ODOO_SYNC_ENABLED = true;
 
 /**
  * Process inventory sync job
