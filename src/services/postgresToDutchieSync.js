@@ -131,6 +131,8 @@ class PostgresToDutchieSync {
 
   /**
    * Sync a single product to Dutchie
+   * Note: Dutchie API doesn't support external product creation (405 Method Not Allowed)
+   * We can only update existing products or adjust inventory quantities
    */
   async syncProduct(record) {
     const dutchieData = this.transformToDutchie(record);
@@ -140,15 +142,9 @@ class PostgresToDutchieSync {
       await this.dutchie.updateProduct(record.product_id, dutchieData);
       return { action: 'updated', productId: record.product_id };
     } else {
-      // Create new product in Dutchie
-      const result = await this.dutchie.createProduct(dutchieData);
-
-      // Store the new Dutchie product ID back in PostgreSQL
-      if (result && result.id) {
-        await this.updateDutchieId(record.id, result.id);
-      }
-
-      return { action: 'created', productId: result?.id };
+      // Skip Odoo-created products - Dutchie doesn't allow external product creation
+      // Products must be created through Dutchie's compliance integration
+      return { action: 'skipped', reason: 'no-dutchie-id' };
     }
   }
 
@@ -175,11 +171,11 @@ class PostgresToDutchieSync {
       console.log(`  Found ${products.length} products to sync`);
 
       if (products.length === 0) {
-        return { synced: 0, created: 0, updated: 0, errors: 0 };
+        return { synced: 0, updated: 0, skipped: 0, errors: 0 };
       }
 
-      let created = 0;
       let updated = 0;
+      let skipped = 0;
       let errors = 0;
 
       // Process in batches to avoid overwhelming the API
@@ -190,8 +186,8 @@ class PostgresToDutchieSync {
         for (const product of batch) {
           try {
             const result = await this.syncProduct(product);
-            if (result.action === 'created') created++;
-            else if (result.action === 'updated') updated++;
+            if (result.action === 'updated') updated++;
+            else if (result.action === 'skipped') skipped++;
           } catch (error) {
             console.error(`    Error syncing ${product.sku}: ${error.message}`);
             errors++;
@@ -208,18 +204,18 @@ class PostgresToDutchieSync {
       await this.setLastSyncTime(new Date());
 
       const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-      console.log(`  Done: ${created} created, ${updated} updated, ${errors} errors (${duration}s)`);
+      console.log(`  Done: ${updated} updated, ${skipped} skipped (no Dutchie ID), ${errors} errors (${duration}s)`);
 
       return {
-        synced: created + updated,
-        created,
+        synced: updated,
         updated,
+        skipped,
         errors,
         duration: parseFloat(duration)
       };
     } catch (error) {
       console.error(`  Sync failed: ${error.message}`);
-      return { synced: 0, created: 0, updated: 0, errors: 1, error: error.message };
+      return { synced: 0, updated: 0, skipped: 0, errors: 1, error: error.message };
     }
   }
 
@@ -264,8 +260,8 @@ async function syncAllLocations(locationConfigs) {
   console.log('\n=== PostgreSQL → Dutchie Sync ===');
   const startTime = Date.now();
 
-  let totalCreated = 0;
   let totalUpdated = 0;
+  let totalSkipped = 0;
   let totalErrors = 0;
 
   for (const loc of locationConfigs) {
@@ -273,8 +269,8 @@ async function syncAllLocations(locationConfigs) {
       const service = new PostgresToDutchieSync(loc.id, loc.name, loc.apiKey);
       const result = await service.syncAll();
 
-      totalCreated += result.created || 0;
       totalUpdated += result.updated || 0;
+      totalSkipped += result.skipped || 0;
       totalErrors += result.errors || 0;
     } catch (error) {
       console.error(`Sync failed for ${loc.name}: ${error.message}`);
@@ -283,9 +279,9 @@ async function syncAllLocations(locationConfigs) {
   }
 
   const duration = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
-  console.log(`\nTotal: ${totalCreated} created, ${totalUpdated} updated, ${totalErrors} errors (${duration} min)`);
+  console.log(`\nTotal: ${totalUpdated} updated, ${totalSkipped} skipped, ${totalErrors} errors (${duration} min)`);
 
-  return { created: totalCreated, updated: totalUpdated, errors: totalErrors };
+  return { updated: totalUpdated, skipped: totalSkipped, errors: totalErrors };
 }
 
 module.exports = PostgresToDutchieSync;
