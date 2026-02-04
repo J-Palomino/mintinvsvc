@@ -13,6 +13,9 @@ class OdooSyncService {
     this.odoo = new OdooClient();
     this.enabled = !!(process.env.ODOO_URL && process.env.ODOO_USERNAME && process.env.ODOO_API_KEY);
 
+    // Stock sync is slow (3 API calls per product) - disable for faster initial sync
+    this.syncStock = process.env.ODOO_SYNC_STOCK === 'true';
+
     // Cache for Odoo IDs
     this.categoryCache = new Map();
     this.warehouseCache = new Map();
@@ -32,6 +35,7 @@ class OdooSyncService {
     try {
       await this.odoo.authenticate();
       await this.loadCaches();
+      console.log(`Stock sync: ${this.syncStock ? 'enabled' : 'disabled (set ODOO_SYNC_STOCK=true to enable)'}`);
       return true;
     } catch (error) {
       console.error('Odoo initialization failed:', error.message);
@@ -100,8 +104,8 @@ class OdooSyncService {
           errors += batch.length;
         }
 
-        // Progress every 500
-        if ((i + batchSize) % 500 === 0 || i + batchSize >= inventory.length) {
+        // Progress every 200 items
+        if ((i + batchSize) % 200 === 0 || i + batchSize >= inventory.length) {
           console.log(`    Progress: ${Math.min(i + batchSize, inventory.length)}/${inventory.length}`);
         }
       }
@@ -215,7 +219,9 @@ class OdooSyncService {
         if (existing) {
           // Update existing variant
           await this.odoo.write('product.product', existing.id, variantData);
-          await this.updateStock(existing.id, warehouseId, item.quantity_available);
+          if (this.syncStock) {
+            await this.updateStock(existing.id, warehouseId, item.quantity_available);
+          }
         } else {
           // Find the template's auto-created variant
           const templateVariants = await this.odoo.search(
@@ -227,7 +233,9 @@ class OdooSyncService {
           if (templateVariants && templateVariants.length > 0) {
             const variantId = templateVariants[0];
             await this.odoo.write('product.product', variantId, variantData);
-            await this.updateStock(variantId, warehouseId, item.quantity_available);
+            if (this.syncStock) {
+              await this.updateStock(variantId, warehouseId, item.quantity_available);
+            }
             variantMap.set(item.sku, { id: variantId, tmplId: templateId });
           } else {
             errors++;
@@ -237,6 +245,7 @@ class OdooSyncService {
 
         synced++;
       } catch (e) {
+        console.error(`      Error syncing ${item.sku}: ${e.message}`);
         errors++;
       }
     }
