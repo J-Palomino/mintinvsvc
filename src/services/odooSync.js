@@ -167,13 +167,18 @@ class OdooSyncService {
           }
         }
 
+        console.log(`      Creating ${uniqueTemplates.length} new templates (${existingTemplates?.length || 0} existing)`);
         const newIds = await this.odoo.createBatch('product.template', uniqueTemplates);
+        console.log(`      Batch create returned: ${JSON.stringify(newIds).substring(0, 100)}`);
 
         // Map new IDs back to names
         if (Array.isArray(newIds)) {
           for (let i = 0; i < newIds.length; i++) {
             templateMap.set(uniqueTemplates[i].name, newIds[i]);
           }
+        } else if (typeof newIds === 'number') {
+          // Single ID returned for single create
+          templateMap.set(uniqueTemplates[0].name, newIds);
         }
       } catch (e) {
         console.error(`    Template batch create failed: ${e.message}`);
@@ -193,6 +198,8 @@ class OdooSyncService {
     for (const v of existingVariants || []) {
       variantMap.set(v.default_code, { id: v.id, tmplId: v.product_tmpl_id[0] });
     }
+
+    console.log(`      Found ${existingVariants?.length || 0} existing variants, templateMap size: ${templateMap.size}`);
 
     // Step 4: Update or create variants
     for (const item of items) {
