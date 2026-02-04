@@ -214,6 +214,8 @@ class OdooToPostgresSync {
 
   /**
    * Upsert inventory record to PostgreSQL
+   * Only updates records that are from Odoo (or have no source yet)
+   * This prevents overwriting Dutchie-sourced products
    */
   async upsertInventory(record) {
     const columns = Object.keys(record);
@@ -225,11 +227,14 @@ class OdooToPostgresSync {
       .map(col => `${col} = EXCLUDED.${col}`);
     updateClauses.push('synced_at = CURRENT_TIMESTAMP');
 
+    // Only update if the record is from Odoo (or has no source yet)
+    // This prevents overwriting Dutchie-sourced products
     const query = `
       INSERT INTO inventory (${columns.join(', ')})
       VALUES (${placeholders.join(', ')})
       ON CONFLICT (id) DO UPDATE SET
         ${updateClauses.join(',\n        ')}
+      WHERE inventory.source IS NULL OR inventory.source = 'odoo'
     `;
 
     await db.query(query, values);

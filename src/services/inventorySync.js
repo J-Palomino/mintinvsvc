@@ -194,11 +194,14 @@ class InventorySyncService {
 
     updateClauses.push('synced_at = CURRENT_TIMESTAMP');
 
+    // Only update if the record is from Dutchie (or has no source yet)
+    // This prevents overwriting Odoo-sourced products
     const query = `
       INSERT INTO inventory (${columns.join(', ')})
       VALUES (${placeholders.join(', ')})
       ON CONFLICT (id) DO UPDATE SET
         ${updateClauses.join(',\n        ')}
+      WHERE inventory.source IS NULL OR inventory.source = 'dutchie'
     `;
 
     return { query, values };
