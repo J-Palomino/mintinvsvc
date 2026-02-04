@@ -220,11 +220,10 @@ class OdooSyncService {
         };
 
         // Store Dutchie IDs as custom fields for bidirectional tracking
-        // Note: These x_* fields must be created in Odoo first via Settings → Technical → Fields
-        // Uncomment after creating fields in Odoo:
-        // variantData.x_dutchie_product_id = item.product_id || null;
-        // variantData.x_dutchie_inventory_id = item.inventory_id || null;
-        // variantData.x_dutchie_location_id = item.location_id || null;
+        // Fields created in Odoo: x_dutchie_product_id (int), x_dutchie_inventory_id (char), x_dutchie_location_id (char)
+        variantData.x_dutchie_product_id = item.product_id ? parseInt(item.product_id) || null : null;
+        variantData.x_dutchie_inventory_id = item.inventory_id || null;
+        variantData.x_dutchie_location_id = item.location_id || null;
 
         if (item.net_weight) {
           variantData.weight = parseFloat(item.net_weight) || 0;
