@@ -131,11 +131,13 @@ class OdooSyncService {
     const productNames = [...new Set(items.map(i => i.product_name))];
 
     // Find existing templates by name
+    console.log(`      Searching for ${productNames.length} unique product names...`);
     const existingTemplates = await this.odoo.searchRead(
       'product.template',
       [['name', 'in', productNames]],
       ['id', 'name']
     );
+    console.log(`      Search returned ${existingTemplates?.length || 0} existing templates`);
 
     const templateMap = new Map();
     for (const t of existingTemplates || []) {
