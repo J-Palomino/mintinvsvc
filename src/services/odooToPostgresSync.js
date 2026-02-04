@@ -238,71 +238,47 @@ class OdooToPostgresSync {
 
   /**
    * Sync products from Odoo to PostgreSQL for a specific warehouse/location
+   *
+   * Note: Since Odoo doesn't have stock.quant records (simplified inventory),
+   * we sync ALL products with qty_available > 0 to each mapped location.
+   * This is a temporary approach until warehouse-specific inventory is set up.
    */
   async syncWarehouse(warehouseId, locationId) {
     const startTime = Date.now();
     console.log(`  Syncing Odoo warehouse ${warehouseId} → location ${locationId}...`);
 
     try {
-      // Get the warehouse's stock location (lot_stock_id)
-      const warehouses = await this.odoo.read('stock.warehouse', [warehouseId], ['lot_stock_id', 'name']);
-      if (!warehouses || warehouses.length === 0 || !warehouses[0].lot_stock_id) {
-        console.log('    Warehouse not found or has no stock location');
-        return { synced: 0, errors: 0 };
-      }
-      const stockLocationId = warehouses[0].lot_stock_id[0];
-      console.log(`    Warehouse: ${warehouses[0].name}, stock location ID: ${stockLocationId}`);
+      // Get warehouse info for logging
+      const warehouses = await this.odoo.read('stock.warehouse', [warehouseId], ['name']);
+      const warehouseName = warehouses?.[0]?.name || `Warehouse ${warehouseId}`;
+      console.log(`    Warehouse: ${warehouseName}`);
 
-      // Get products with stock in this location (and child locations)
-      const stockQuants = await this.odoo.searchRead(
-        'stock.quant',
-        [
-          ['location_id', 'child_of', stockLocationId],
-          ['quantity', '>', 0],
-        ],
-        ['product_id', 'quantity', 'location_id']
-      );
-
-      console.log(`    Found ${stockQuants?.length || 0} stock quants`);
-
-      if (!stockQuants || stockQuants.length === 0) {
-        // Try alternative: get all products with on_hand_qty > 0
-        console.log('    Trying alternative: products with qty_available > 0...');
-        const products = await this.odoo.searchRead(
-          'product.product',
-          [['qty_available', '>', 0]],
-          ['id', 'default_code', 'name', 'qty_available'],
-          { limit: 5 }
-        );
-        console.log(`    Sample products with stock: ${JSON.stringify(products?.slice(0, 2))}`);
-        return { synced: 0, errors: 0 };
-      }
-
-      // Get unique product IDs and quantities
-      const productQuantities = new Map();
-      for (const q of stockQuants) {
-        const productId = q.product_id[0];
-        productQuantities.set(productId, (productQuantities.get(productId) || 0) + q.quantity);
-      }
-
-      const productIds = [...productQuantities.keys()];
-      console.log(`    Found ${productIds.length} products with stock`);
-
-      // Fetch product details
+      // Query products directly with qty_available > 0
+      // (stock.quant is empty in this Odoo instance)
       const products = await this.odoo.searchRead(
         'product.product',
-        [['id', 'in', productIds]],
+        [
+          ['qty_available', '>', 0],
+          ['active', '=', true],
+        ],
         ['id', 'default_code', 'name', 'list_price', 'standard_price',
-         'barcode', 'weight', 'description_sale', 'categ_id', 'active', 'product_tmpl_id']
+         'barcode', 'weight', 'description_sale', 'qty_available',
+         'categ_id', 'active', 'product_tmpl_id']
       );
+
+      if (!products || products.length === 0) {
+        console.log('    No products with stock found');
+        return { synced: 0, errors: 0 };
+      }
+
+      console.log(`    Found ${products.length} products with stock`);
 
       let synced = 0;
       let errors = 0;
 
       for (const product of products) {
         try {
-          const quantity = productQuantities.get(product.id) || 0;
-          const record = this.transformProduct(product, locationId, quantity);
+          const record = this.transformProduct(product, locationId, product.qty_available);
           await this.upsertInventory(record);
           synced++;
         } catch (e) {
@@ -323,6 +299,11 @@ class OdooToPostgresSync {
 
   /**
    * Sync all mapped warehouses
+   *
+   * Note: Since stock.quant is empty, we use a simplified approach:
+   * - Sync all Odoo products to the FIRST mapped location only
+   * - This avoids duplicate products across all locations
+   * - Once Odoo has proper stock.quant records, switch to per-warehouse sync
    */
   async syncAll() {
     if (!this.enabled) {
@@ -338,18 +319,27 @@ class OdooToPostgresSync {
       if (!ok) return { total: 0, errors: 1, skipped: true };
     }
 
+    // Simplified mode: sync to first location only (no stock.quant data)
+    const mappings = [...this.warehouseToLocationMap.entries()];
+    if (mappings.length === 0) {
+      console.log('  No warehouse→location mappings found');
+      return { total: 0, errors: 0 };
+    }
+
+    // Use first mapping only to avoid duplicates
+    const [warehouseId, locationId] = mappings[0];
+    console.log(`  Simplified mode: syncing to first location only (${mappings.length} mappings available)`);
+
     let totalSynced = 0;
     let totalErrors = 0;
 
-    for (const [warehouseId, locationId] of this.warehouseToLocationMap) {
-      try {
-        const result = await this.syncWarehouse(warehouseId, locationId);
-        totalSynced += result.synced || 0;
-        totalErrors += result.errors || 0;
-      } catch (error) {
-        console.error(`Sync failed for warehouse ${warehouseId}: ${error.message}`);
-        totalErrors++;
-      }
+    try {
+      const result = await this.syncWarehouse(warehouseId, locationId);
+      totalSynced += result.synced || 0;
+      totalErrors += result.errors || 0;
+    } catch (error) {
+      console.error(`Sync failed: ${error.message}`);
+      totalErrors++;
     }
 
     // Update last sync time
