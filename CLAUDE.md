@@ -77,13 +77,38 @@ Key tables:
 
 Composite IDs follow pattern: `{locationId}_{recordId}`
 
-## Cache Keys
+## Cache Strategy
 
-Redis key patterns:
-- `inventory:{locationId}` - Cached inventory array
-- `discounts:{locationId}` - Cached discounts array
-- `locations:all` - All locations list
-- `sync:{locationId}:timestamp` - Last sync time (ms)
+**Architecture:** PostgreSQL (source of truth) → Redis (read cache)
+
+```
+Dutchie APIs → PostgreSQL → Redis → API Responses
+              (Phase 1-3)   (Phase 4)
+```
+
+### Redis Key Patterns
+
+| Key | Data | Purpose |
+|-----|------|---------|
+| `inventory:{locationId}` | JSON array | All active products for store |
+| `discounts:{locationId}` | JSON array | All active discounts for store |
+| `locations:all` | JSON array | All store metadata |
+| `sync:{locationId}:timestamp` | milliseconds | Last sync time |
+
+### Cache Characteristics
+
+- **No TTL** - Data persists until next sync overwrites it
+- **Cache-first API** - Endpoints read Redis only, return 503 if unavailable
+- **In-memory filtering** - Category/brand/search filters applied after cache retrieval
+- **Max staleness** - ~10 minutes between scheduled syncs
+- **Manual trigger** - `POST /api/jobs/inventory-sync/trigger`
+
+### Why This Design?
+
+- Avoids N+1 queries on PostgreSQL
+- Fast reads (single Redis GET + JSON parse)
+- Predictable freshness (not dependent on cache hits)
+- Simple invalidation (full replace, no partial updates)
 
 ## Environment Variables
 
