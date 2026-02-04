@@ -235,7 +235,7 @@ class OdooSyncService {
     // Brand and strain stored as text fields (no cannabis modules needed)
     const templateVals = {
       name: item.product_name,
-      type: 'product', // Storable product
+      detailed_type: 'product', // Storable product (Odoo 15+)
       sale_ok: true,
       purchase_ok: true,
       description_sale: item.description,
