@@ -180,6 +180,11 @@ class InventorySyncService {
     transformed.source = 'dutchie';
     transformed.source_synced_at = new Date().toISOString();
 
+    // Store Dutchie IDs for merge tracking
+    transformed.dutchie_product_id = transformed.product_id;
+    transformed.dutchie_inventory_id = transformed.inventory_id;
+    transformed.merge_status = 'dutchie_only';
+
     return transformed;
   }
 
@@ -194,14 +199,16 @@ class InventorySyncService {
 
     updateClauses.push('synced_at = CURRENT_TIMESTAMP');
 
-    // Only update if the record is from Dutchie (or has no source yet)
-    // This prevents overwriting Odoo-sourced products
+    // Only update if the record is from Dutchie, has no source, or was merged
+    // This prevents overwriting Odoo-only products but allows updating merged records
     const query = `
       INSERT INTO inventory (${columns.join(', ')})
       VALUES (${placeholders.join(', ')})
       ON CONFLICT (id) DO UPDATE SET
         ${updateClauses.join(',\n        ')}
-      WHERE inventory.source IS NULL OR inventory.source = 'dutchie'
+      WHERE inventory.source IS NULL
+         OR inventory.source = 'dutchie'
+         OR inventory.merge_status = 'merged'
     `;
 
     return { query, values };

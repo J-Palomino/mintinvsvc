@@ -28,6 +28,18 @@ const fieldMapping = {
   'image_1920': 'image_url',            // Base64 or URL
 };
 
+/**
+ * Fields that Odoo can supplement when Dutchie value is null
+ * Used during merge to fill gaps without overwriting Dutchie data
+ */
+const odooSupplementFields = [
+  'description',
+  'net_weight',
+  'unit_cost',
+  'barcode',
+  'category',
+];
+
 class OdooToPostgresSync {
   constructor() {
     this.odoo = new OdooClient();
@@ -194,6 +206,7 @@ class OdooToPostgresSync {
       description: odooProduct.description_sale || null,
       quantity_available: quantity || 0,
       is_active: odooProduct.active !== false,
+      merge_status: 'odoo_only',  // Will be updated to 'merged' if matched with Dutchie
     };
 
     // Map category
@@ -213,7 +226,158 @@ class OdooToPostgresSync {
   }
 
   /**
-   * Upsert inventory record to PostgreSQL
+   * Find matching Dutchie record by SKU for merge
+   */
+  async findDutchieMatch(sku, locationId) {
+    if (!sku) return null;
+
+    const result = await db.query(`
+      SELECT * FROM inventory
+      WHERE location_id = $1
+        AND sku = $2
+        AND source = 'dutchie'
+      LIMIT 1
+    `, [locationId, sku]);
+
+    return result.rows.length > 0 ? result.rows[0] : null;
+  }
+
+  /**
+   * Merge Odoo data into existing Dutchie record
+   * Dutchie wins on conflicts, Odoo fills nulls
+   */
+  mergeRecords(dutchieRecord, odooProduct) {
+    const merged = { ...dutchieRecord };
+
+    // Odoo fills gaps where Dutchie is null
+    for (const field of odooSupplementFields) {
+      if (merged[field] === null || merged[field] === undefined || merged[field] === '') {
+        const odooValue = this.getOdooFieldValue(odooProduct, field);
+        if (odooValue !== null && odooValue !== undefined && odooValue !== '') {
+          merged[field] = odooValue;
+        }
+      }
+    }
+
+    // Track merge metadata
+    merged.source_external_id = `odoo:product.product:${odooProduct.id}`;
+    merged.merge_status = 'merged';
+    merged.merged_at = new Date().toISOString();
+
+    return merged;
+  }
+
+  /**
+   * Get Odoo field value mapped to PostgreSQL column name
+   */
+  getOdooFieldValue(odooProduct, pgColumn) {
+    switch (pgColumn) {
+      case 'description':
+        return odooProduct.description_sale || null;
+      case 'net_weight':
+        return odooProduct.weight || null;
+      case 'unit_cost':
+        return odooProduct.standard_price || null;
+      case 'barcode':
+        return odooProduct.barcode || null;
+      case 'category':
+        if (odooProduct.categ_id) {
+          const categoryId = Array.isArray(odooProduct.categ_id)
+            ? odooProduct.categ_id[0]
+            : odooProduct.categ_id;
+          return this.categoryCache.get(categoryId) || null;
+        }
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Update a merged record in PostgreSQL
+   */
+  async updateMerged(record) {
+    const updateFields = [
+      'description', 'net_weight', 'unit_cost', 'barcode', 'category',
+      'source_external_id', 'merge_status', 'merged_at'
+    ];
+
+    const setClauses = [];
+    const values = [];
+    let paramIdx = 1;
+
+    for (const field of updateFields) {
+      if (record[field] !== undefined) {
+        setClauses.push(`${field} = $${paramIdx}`);
+        values.push(record[field]);
+        paramIdx++;
+      }
+    }
+
+    setClauses.push('synced_at = CURRENT_TIMESTAMP');
+    values.push(record.id);
+
+    const query = `
+      UPDATE inventory
+      SET ${setClauses.join(', ')}
+      WHERE id = $${paramIdx}
+    `;
+
+    await db.query(query, values);
+  }
+
+  /**
+   * Insert Odoo-only record (no Dutchie match found)
+   */
+  async insertOdooOnly(record) {
+    record.merge_status = 'odoo_only';
+
+    const columns = Object.keys(record);
+    const values = Object.values(record);
+    const placeholders = values.map((_, i) => `$${i + 1}`);
+
+    const updateClauses = columns
+      .filter(col => col !== 'id' && col !== 'location_id')
+      .map(col => `${col} = EXCLUDED.${col}`);
+    updateClauses.push('synced_at = CURRENT_TIMESTAMP');
+
+    // Only update if the record is from Odoo (or has no source yet)
+    const query = `
+      INSERT INTO inventory (${columns.join(', ')})
+      VALUES (${placeholders.join(', ')})
+      ON CONFLICT (id) DO UPDATE SET
+        ${updateClauses.join(',\n        ')}
+      WHERE inventory.source IS NULL OR inventory.source = 'odoo'
+    `;
+
+    await db.query(query, values);
+  }
+
+  /**
+   * Merge Odoo product with existing Dutchie record or insert as Odoo-only
+   * This is the main entry point for SKU-based merging
+   */
+  async mergeWithDutchie(odooProduct, locationId, quantity) {
+    const sku = odooProduct.default_code;
+
+    // Try to find matching Dutchie record by SKU
+    const dutchieRecord = await this.findDutchieMatch(sku, locationId);
+
+    if (dutchieRecord) {
+      // Merge: Dutchie wins, Odoo fills nulls
+      const merged = this.mergeRecords(dutchieRecord, odooProduct);
+      await this.updateMerged(merged);
+      return { action: 'merged', id: merged.id };
+    } else {
+      // No Dutchie match - insert as Odoo-only
+      const record = this.transformProduct(odooProduct, locationId, quantity);
+      await this.insertOdooOnly(record);
+      return { action: 'inserted', id: record.id };
+    }
+  }
+
+  /**
+   * Upsert inventory record to PostgreSQL (legacy method for backwards compatibility)
    * Only updates records that are from Odoo (or have no source yet)
    * This prevents overwriting Dutchie-sourced products
    */
@@ -278,17 +442,25 @@ class OdooToPostgresSync {
       console.log(`    Found ${products.length} products with stock`);
 
       let synced = 0;
+      let merged = 0;
       let errors = 0;
 
       for (const product of products) {
         try {
-          const record = this.transformProduct(product, locationId, product.qty_available);
-          await this.upsertInventory(record);
+          // Use SKU-based merge logic: Dutchie wins, Odoo fills nulls
+          const result = await this.mergeWithDutchie(product, locationId, product.qty_available);
           synced++;
+          if (result.action === 'merged') {
+            merged++;
+          }
         } catch (e) {
           console.error(`    Error syncing product ${product.id}: ${e.message}`);
           errors++;
         }
+      }
+
+      if (merged > 0) {
+        console.log(`    Merged ${merged} products with existing Dutchie records`);
       }
 
       const duration = ((Date.now() - startTime) / 1000).toFixed(1);
