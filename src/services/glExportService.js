@@ -9,9 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const { parse: csvParse } = require('csv-parse/sync');
+const DutchieBackofficeClient = require('../api/dutchieBackoffice');
 
 const DUTCHIE_API_URL = process.env.DUTCHIE_API_URL || 'https://api.pos.dutchie.com';
-const DUTCHIE_BACKOFFICE_URL = 'https://themint.backoffice.dutchie.com';
 const OUTPUT_DIR = process.env.GL_EXPORT_DIR || './exports';
 
 // Dutchie Backoffice location IDs for closing-report API (prepaid sales)
@@ -195,6 +195,8 @@ const ACCOUNTS = [
 class GLExportService {
   constructor(locationConfigs) {
     this.locationConfigs = locationConfigs;
+    // Initialize backoffice client for prepaid sales (auto-login enabled)
+    this.backofficeClient = new DutchieBackofficeClient();
   }
 
   /**
@@ -213,6 +215,7 @@ class GLExportService {
   /**
    * Fetch prepaid sales from Dutchie closing-report API
    * This is used for non-FL stores where the accounting export shows $0 for debit
+   * Uses auto-login backoffice client with session refresh
    * @param {string} storeName - Store name
    * @param {string} reportDate - Date in YYYY-MM-DD format
    * @returns {Promise<number>} Prepaid sales amount
@@ -224,62 +227,17 @@ class GLExportService {
       return 0;
     }
 
-    // Get session credentials from environment
-    const sessionId = process.env.DUTCHIE_SESSION_ID;
-    const lspId = process.env.DUTCHIE_LSP_ID || '575';
-    const orgId = process.env.DUTCHIE_ORG_ID || '5134';
-    const userId = process.env.DUTCHIE_USER_ID || '26146';
-
-    if (!sessionId) {
-      console.log(`  [Prepaid] DUTCHIE_SESSION_ID not set, skipping prepaid fetch for ${storeName}`);
+    // Check if backoffice client has credentials configured
+    if (!this.backofficeClient.sessionId && !this.backofficeClient.username) {
+      console.log(`  [Prepaid] No backoffice credentials configured, skipping prepaid fetch for ${storeName}`);
       return 0;
     }
 
-    // Format dates for closing-report API: "MM/DD/YYYY 12:00 am"
-    const [year, month, day] = reportDate.split('-');
-    const startDate = `${month}/${day}/${year} 12:00 am`;
-    // Calculate next day using UTC to avoid timezone issues
-    const nextDay = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day) + 1));
-    const endYear = nextDay.getUTCFullYear();
-    const endMonth = String(nextDay.getUTCMonth() + 1).padStart(2, '0');
-    const endDay = String(nextDay.getUTCDate()).padStart(2, '0');
-    const endDate = `${endMonth}/${endDay}/${endYear} 12:00 am`;
-
     try {
-      const response = await axios.post(
-        `${DUTCHIE_BACKOFFICE_URL}/api/posv3/reports/closing-report`,
-        {
-          Date: startDate,
-          EndDate: endDate,
-          IncludeDetail: true,
-          SessionId: sessionId,
-          LspId: parseInt(lspId),
-          LocId: locId,
-          OrgId: parseInt(orgId),
-          UserId: parseInt(userId)
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'appname': 'Backoffice',
-            'Cookie': `LLSession=${sessionId}`
-          },
-          timeout: 30000
-        }
-      );
-
-      if (response.data?.Result && response.data?.Data?.Registers) {
-        const prepaidTotal = response.data.Data.Registers.reduce(
-          (sum, reg) => sum + (reg['Prepaid Sales'] || 0),
-          0
-        );
-        return prepaidTotal;
-      }
-      return 0;
+      const prepaid = await this.backofficeClient.getPrepaidSales(locId, reportDate);
+      return prepaid;
     } catch (error) {
-      const msg = error.response?.data?.Message || error.message;
-      console.log(`  [Prepaid] Error fetching for ${storeName}: ${msg}`);
+      console.log(`  [Prepaid] Error fetching for ${storeName}: ${error.message}`);
       return 0;
     }
   }

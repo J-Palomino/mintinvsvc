@@ -185,6 +185,13 @@ Odoo Integration (optional):
 - `ODOO_API_KEY` - Odoo API key or password
 - `ODOO_SYNC_STOCK` - Enable stock quantity sync (default: `false`)
 
+Dutchie Backoffice (for non-FL prepaid sales):
+- `DUTCHIE_BACKOFFICE_USERNAME` - Backoffice login username (enables auto-login)
+- `DUTCHIE_BACKOFFICE_PASSWORD` - Backoffice login password
+- `DUTCHIE_SESSION_ID` - Static session ID (fallback if no username/password)
+- `DUTCHIE_LSP_ID` - LSP ID (default: 575)
+- `DUTCHIE_ORG_ID` - Org ID (default: 5134)
+
 GL Export Email (optional):
 - `SMTP_HOST` - SMTP server hostname
 - `SMTP_PORT` - SMTP port (default: 587)
