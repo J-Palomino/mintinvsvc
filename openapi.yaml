@@ -1,0 +1,1053 @@
+openapi: 3.0.3
+info:
+  title: Mint Inventory Sync Service API
+  description: |
+    Multi-location inventory synchronization service that syncs inventory, discounts,
+    and product data from Dutchie POS APIs to PostgreSQL with Redis caching.
+  version: 1.0.0
+  contact:
+    name: API Support
+
+servers:
+  - url: https://your-railway-url.up.railway.app
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Health
+    description: Service health endpoints
+  - name: Locations
+    description: Store location operations
+  - name: Inventory
+    description: Product inventory operations
+  - name: Discounts
+    description: Discount and promotion operations
+  - name: Reports
+    description: Sales and GL export reports
+  - name: Jobs
+    description: Background job management
+  - name: Admin
+    description: Administrative endpoints
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Returns service health status
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /admin/queues:
+    get:
+      tags:
+        - Admin
+      summary: Bull Board dashboard
+      description: Interactive web dashboard for monitoring job queues
+      security: []
+      responses:
+        '200':
+          description: HTML dashboard
+          content:
+            text/html:
+              schema:
+                type: string
+        '503':
+          description: Queue system not initialized
+
+  /api/locations:
+    get:
+      tags:
+        - Locations
+      summary: List all locations
+      description: Get all store locations with metadata
+      responses:
+        '200':
+          description: List of locations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /api/locations/{locationId}/inventory:
+    get:
+      tags:
+        - Inventory
+      summary: Get inventory for location
+      description: Get paginated inventory with optional filtering by category, brand, or search term
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+        - name: category
+          in: query
+          description: Filter by category name (case-insensitive)
+          schema:
+            type: string
+          example: Flower
+        - name: brand
+          in: query
+          description: Filter by brand name (partial match, case-insensitive)
+          schema:
+            type: string
+          example: Trulieve
+        - name: search
+          in: query
+          description: Search product name, brand, or strain
+          schema:
+            type: string
+          example: OG Kush
+        - name: limit
+          in: query
+          description: Items per page
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 1000
+        - name: offset
+          in: query
+          description: Pagination offset
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        '200':
+          description: Paginated inventory list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/locations/{locationId}/inventory/{sku}:
+    get:
+      tags:
+        - Inventory
+      summary: Get single inventory item
+      description: Get inventory item by SKU with applicable discounts
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+        - name: sku
+          in: path
+          required: true
+          description: Product SKU
+          schema:
+            type: string
+          example: SKU123
+      responses:
+        '200':
+          description: Inventory item with discounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItemResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/locations/{locationId}/categories:
+    get:
+      tags:
+        - Inventory
+      summary: Get categories
+      description: Get unique product categories for a location
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+      responses:
+        '200':
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/locations/{locationId}/brands:
+    get:
+      tags:
+        - Inventory
+      summary: Get brands
+      description: Get unique brand names for a location
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+      responses:
+        '200':
+          description: List of brands
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/locations/{locationId}/discounts:
+    get:
+      tags:
+        - Discounts
+      summary: Get discounts
+      description: Get all active discounts for a location
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+      responses:
+        '200':
+          description: List of discounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/locations/{locationId}/sync-status:
+    get:
+      tags:
+        - Locations
+      summary: Get sync status
+      description: Get last sync timestamp for a location
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+      responses:
+        '200':
+          description: Sync status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/reports/daily-sales:
+    get:
+      tags:
+        - Reports
+      summary: Generate GL journal export
+      description: Generate GL journal export for a specific date
+      parameters:
+        - name: date
+          in: query
+          description: Date for report (YYYY-MM-DD). Required unless using csvPath or jsonPath.
+          schema:
+            type: string
+            format: date
+          example: '2026-01-11'
+        - name: email
+          in: query
+          description: Email the report if "true"
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: csvPath
+          in: query
+          description: Use local CSV file instead of API
+          schema:
+            type: string
+        - name: jsonPath
+          in: query
+          description: Use local JSON file instead of API
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GL export generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailySalesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      tags:
+        - Reports
+      summary: Generate GL export from uploaded data
+      description: Generate GL journal export from uploaded CSV or JSON data
+      parameters:
+        - name: date
+          in: query
+          description: Date for report (auto-detected if omitted)
+          schema:
+            type: string
+            format: date
+        - name: email
+          in: query
+          description: Email the report if "true"
+          schema:
+            type: string
+            enum: ['true', 'false']
+      requestBody:
+        required: true
+        content:
+          text/csv:
+            schema:
+              type: string
+              description: CSV data
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DailySalesPostBody'
+      responses:
+        '200':
+          description: GL export generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailySalesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/reports/hourly-sales:
+    get:
+      tags:
+        - Reports
+      summary: Generate hourly sales report
+      description: Generate hourly sales aggregation report for a date range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+          example: '2026-01-06'
+        - name: endDate
+          in: query
+          description: End date (defaults to startDate + 6 days)
+          schema:
+            type: string
+            format: date
+          example: '2026-01-12'
+        - name: storeId
+          in: query
+          description: Filter to specific store
+          schema:
+            type: string
+        - name: view
+          in: query
+          description: Data view format
+          schema:
+            type: string
+            enum: [aggregated, detailed, both]
+            default: both
+      responses:
+        '200':
+          description: Hourly sales report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HourlySalesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/jobs/{queueName}/trigger:
+    post:
+      tags:
+        - Jobs
+      summary: Trigger a job
+      description: Manually trigger a background job
+      parameters:
+        - name: queueName
+          in: path
+          required: true
+          description: Queue name
+          schema:
+            type: string
+            enum: [inventory-sync, gl-export, banner-sync, hourly-sales]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: Optional job data
+      responses:
+        '200':
+          description: Job triggered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTriggerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/jobs/status:
+    get:
+      tags:
+        - Jobs
+      summary: Get job queue status
+      description: Get current status of all job queues
+      responses:
+        '200':
+          description: Queue status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key for authentication
+
+  parameters:
+    locationId:
+      name: locationId
+      in: path
+      required: true
+      description: Store location ID
+      schema:
+        type: string
+      example: store-1
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServiceUnavailable:
+      description: Service unavailable - cache/DB not ready
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: Resource not found
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        timestamp:
+          type: string
+          format: date-time
+          example: '2026-01-11T15:30:00.000Z'
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          example: store-1
+        name:
+          type: string
+          example: The Mint - Paradise
+        created_at:
+          type: string
+          format: date-time
+
+    LocationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+        count:
+          type: integer
+          example: 5
+
+    InventoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Composite ID (locationId_productId)
+          example: store-1_product-123
+        location_id:
+          type: string
+          example: store-1
+        product_id:
+          type: string
+          example: product-123
+        inventory_id:
+          type: string
+          example: inv-456
+        sku:
+          type: string
+          example: SKU123
+        product_name:
+          type: string
+          example: OG Kush
+        brand_name:
+          type: string
+          example: Premium Brand
+        category:
+          type: string
+          example: Flower
+        master_category:
+          type: string
+          example: Cannabis
+        strain:
+          type: string
+          example: OG Kush
+        strain_type:
+          type: string
+          enum: [Indica, Sativa, Hybrid, CBD]
+          example: Hybrid
+        price:
+          type: number
+          format: float
+          example: 45.99
+        med_price:
+          type: number
+          format: float
+          nullable: true
+        rec_price:
+          type: number
+          format: float
+          nullable: true
+        unit_cost:
+          type: number
+          format: float
+          nullable: true
+        quantity_available:
+          type: integer
+          example: 125
+        allocated_quantity:
+          type: integer
+          nullable: true
+        is_active:
+          type: boolean
+          example: true
+        images:
+          type: array
+          items:
+            type: string
+          description: Product images (from enrichment)
+        effects:
+          type: array
+          items:
+            type: string
+          description: Product effects (from enrichment)
+        tags:
+          type: array
+          items:
+            type: string
+          description: Product tags (from enrichment)
+        created_date:
+          type: string
+          format: date-time
+        last_modified_date_utc:
+          type: string
+          format: date-time
+
+    InventoryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InventoryItem'
+        total:
+          type: integer
+          example: 500
+        limit:
+          type: integer
+          example: 100
+        offset:
+          type: integer
+          example: 0
+
+    InventoryItemResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/InventoryItem'
+        discounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Discount'
+
+    CategoriesResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+          example: [Flower, Edibles, Concentrates, Tinctures]
+        masterCategories:
+          type: array
+          items:
+            type: string
+          example: [Cannabis, Hemp, Accessories]
+
+    BrandsResponse:
+      type: object
+      properties:
+        brands:
+          type: array
+          items:
+            type: string
+          example: [Trulieve, Surterra, The Grow, Stiiizy]
+
+    Discount:
+      type: object
+      properties:
+        id:
+          type: string
+          example: store-1_12345
+        location_id:
+          type: string
+          example: store-1
+        discount_id:
+          type: integer
+          example: 12345
+        discount_name:
+          type: string
+          example: Happy Hour - 20% Off
+        discount_code:
+          type: string
+          nullable: true
+          example: HAPPY20
+        discount_type:
+          type: string
+          enum: [PERCENT, DOLLAR, BOGO, BUNDLE]
+          example: PERCENT
+        discount_method:
+          type: string
+          example: ALL_ITEMS
+        discount_amount:
+          type: number
+          format: float
+          example: 0.20
+        calculation_method:
+          type: string
+          example: PERCENT_OFF
+        is_active:
+          type: boolean
+          example: true
+        valid_from:
+          type: string
+          format: date-time
+          nullable: true
+        valid_until:
+          type: string
+          format: date-time
+          nullable: true
+        first_time_customer_only:
+          type: boolean
+          example: false
+        stack_on_other_discounts:
+          type: boolean
+          example: false
+        products:
+          $ref: '#/components/schemas/EligibilityRule'
+        product_categories:
+          $ref: '#/components/schemas/EligibilityRule'
+        brands:
+          $ref: '#/components/schemas/EligibilityRule'
+        tags:
+          $ref: '#/components/schemas/EligibilityRule'
+        monday:
+          type: boolean
+        tuesday:
+          type: boolean
+        wednesday:
+          type: boolean
+        thursday:
+          type: boolean
+        friday:
+          type: boolean
+        saturday:
+          type: boolean
+        sunday:
+          type: boolean
+        start_time:
+          type: string
+          example: '08:00:00'
+        end_time:
+          type: string
+          example: '20:00:00'
+
+    EligibilityRule:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+          example: [123, 456, 789]
+        isExclusion:
+          type: boolean
+          example: false
+
+    DiscountsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Discount'
+        count:
+          type: integer
+          example: 8
+
+    SyncStatusResponse:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: store-1
+        lastSync:
+          type: string
+          format: date-time
+          example: '2026-01-11T15:30:45.123Z'
+        ageSeconds:
+          type: integer
+          example: 123
+
+    DailySalesPostBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          example: '2026-01-26'
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              Location Name:
+                type: string
+              Transaction Date:
+                type: string
+              Total Price:
+                type: string
+              Amount:
+                type: string
+              Total Tax:
+                type: string
+              Cash Paid:
+                type: string
+              Debit Paid:
+                type: string
+              Total Cost:
+                type: string
+
+    DailySalesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        date:
+          type: string
+          format: date
+          example: '2026-01-11'
+        source:
+          type: string
+          enum: [api, csv, json, post]
+          example: api
+        stores:
+          type: integer
+          example: 5
+        totalSales:
+          type: number
+          format: float
+          example: 125450.75
+        files:
+          type: object
+          properties:
+            tsv:
+              type: string
+              example: exports/gl_journal_2026-01-11.tsv
+            csv:
+              type: string
+              example: exports/gl_journal_2026-01-11.csv
+        email:
+          type: object
+          nullable: true
+          properties:
+            sent:
+              type: boolean
+            to:
+              type: string
+            subject:
+              type: string
+        failedStores:
+          type: array
+          items:
+            type: string
+
+    HourlySalesStore:
+      type: object
+      properties:
+        storeId:
+          type: string
+        storeName:
+          type: string
+        branchCode:
+          type: string
+        transactionCount:
+          type: integer
+        summary:
+          type: object
+          properties:
+            totalGrossSales:
+              type: number
+              format: float
+            totalDiscounts:
+              type: number
+              format: float
+            totalReturns:
+              type: number
+              format: float
+            totalNetSales:
+              type: number
+              format: float
+            totalTax:
+              type: number
+              format: float
+            totalCashPaid:
+              type: number
+              format: float
+            totalDebitPaid:
+              type: number
+              format: float
+        aggregatedHourly:
+          type: array
+          items:
+            type: object
+            properties:
+              hour:
+                type: string
+                example: '08:00'
+              grossSales:
+                type: number
+                format: float
+              discounts:
+                type: number
+                format: float
+              returns:
+                type: number
+                format: float
+              netSales:
+                type: number
+                format: float
+              transactionCount:
+                type: integer
+        detailedByDayHour:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+
+    HourlySalesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        dateRange:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+            endDate:
+              type: string
+              format: date
+        generatedAt:
+          type: string
+          format: date-time
+        view:
+          type: string
+          enum: [aggregated, detailed, both]
+        stores:
+          type: array
+          items:
+            $ref: '#/components/schemas/HourlySalesStore'
+        grandTotals:
+          type: object
+          properties:
+            totalGrossSales:
+              type: number
+              format: float
+            totalNetSales:
+              type: number
+              format: float
+            totalTransactions:
+              type: integer
+        files:
+          type: object
+          properties:
+            json:
+              type: string
+            csv:
+              type: string
+        failedStores:
+          type: array
+          items:
+            type: string
+
+    QueueStatus:
+      type: object
+      properties:
+        waiting:
+          type: integer
+        active:
+          type: integer
+        completed:
+          type: integer
+        failed:
+          type: integer
+
+    JobStatusResponse:
+      type: object
+      properties:
+        queues:
+          type: object
+          properties:
+            inventorySync:
+              $ref: '#/components/schemas/QueueStatus'
+            glExport:
+              $ref: '#/components/schemas/QueueStatus'
+            bannerSync:
+              $ref: '#/components/schemas/QueueStatus'
+            hourlySales:
+              $ref: '#/components/schemas/QueueStatus'
+
+    JobTriggerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Job triggered for inventory-sync
+        jobId:
+          type: string
+          example: abc-123-def-456
