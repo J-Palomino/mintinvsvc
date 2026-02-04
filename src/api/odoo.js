@@ -1,40 +1,46 @@
 /**
- * Odoo XML-RPC Client
+ * Odoo JSON-RPC Client
  *
- * Handles authentication and CRUD operations with Odoo via XML-RPC protocol.
- * Odoo uses XML-RPC endpoints at:
- *   - /xmlrpc/2/common - Authentication
- *   - /xmlrpc/2/object - Model operations (CRUD)
+ * Fast JSON-RPC client with batch operation support.
+ * Endpoints:
+ *   - /web/session/authenticate - Session auth
+ *   - /jsonrpc - JSON-RPC 2.0 operations
  */
 
-const http = require('http');
 const https = require('https');
+const http = require('http');
 
 class OdooClient {
   constructor(config = {}) {
     this.url = config.url || process.env.ODOO_URL;
     this.database = config.database || process.env.ODOO_DATABASE || 'odoo';
     this.username = config.username || process.env.ODOO_USERNAME;
-    this.password = config.password || process.env.ODOO_API_KEY; // API key or password
+    this.password = config.password || process.env.ODOO_API_KEY;
 
     this.uid = null;
     this.authenticated = false;
+    this.sessionId = null;
 
-    // Parse URL
     if (this.url) {
       const parsed = new URL(this.url);
       this.host = parsed.hostname;
       this.port = parsed.port || (parsed.protocol === 'https:' ? 443 : 80);
       this.protocol = parsed.protocol === 'https:' ? https : http;
+      this.baseUrl = this.url;
     }
   }
 
   /**
-   * Make an XML-RPC call to Odoo
+   * Make a JSON-RPC call
    */
-  async xmlRpcCall(endpoint, method, params) {
+  async jsonRpcCall(endpoint, service, method, args) {
     return new Promise((resolve, reject) => {
-      const xmlBody = this.buildXmlRpcRequest(method, params);
+      const body = JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'call',
+        params: { service, method, args },
+        id: Date.now(),
+      });
 
       const options = {
         hostname: this.host,
@@ -42,255 +48,47 @@ class OdooClient {
         path: endpoint,
         method: 'POST',
         headers: {
-          'Content-Type': 'text/xml',
-          'Content-Length': Buffer.byteLength(xmlBody),
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+          ...(this.sessionId && { Cookie: `session_id=${this.sessionId}` }),
         },
       };
 
       const req = this.protocol.request(options, (res) => {
+        // Capture session cookie
+        const cookies = res.headers['set-cookie'];
+        if (cookies) {
+          for (const cookie of cookies) {
+            const match = cookie.match(/session_id=([^;]+)/);
+            if (match) this.sessionId = match[1];
+          }
+        }
+
         let data = '';
         res.on('data', chunk => data += chunk);
         res.on('end', () => {
           try {
-            const result = this.parseXmlRpcResponse(data);
-            resolve(result);
+            const result = JSON.parse(data);
+            if (result.error) {
+              const errMsg = result.error.data?.message || result.error.message || JSON.stringify(result.error);
+              reject(new Error(errMsg));
+            } else {
+              resolve(result.result);
+            }
           } catch (error) {
-            reject(new Error(`XML-RPC parse error: ${error.message}`));
+            reject(new Error(`JSON parse error: ${error.message}`));
           }
         });
       });
 
       req.on('error', reject);
-      req.write(xmlBody);
+      req.setTimeout(30000, () => {
+        req.destroy();
+        reject(new Error('Request timeout'));
+      });
+      req.write(body);
       req.end();
     });
-  }
-
-  /**
-   * Build XML-RPC request body
-   */
-  buildXmlRpcRequest(method, params) {
-    const paramXml = params.map(p => `<param>${this.valueToXml(p)}</param>`).join('');
-    return `<?xml version="1.0"?>
-<methodCall>
-  <methodName>${method}</methodName>
-  <params>${paramXml}</params>
-</methodCall>`;
-  }
-
-  /**
-   * Convert JavaScript value to XML-RPC value
-   */
-  valueToXml(value) {
-    if (value === null || value === undefined) {
-      return '<value><boolean>0</boolean></value>';
-    }
-    if (typeof value === 'boolean') {
-      return `<value><boolean>${value ? 1 : 0}</boolean></value>`;
-    }
-    if (typeof value === 'number') {
-      if (Number.isInteger(value)) {
-        return `<value><int>${value}</int></value>`;
-      }
-      return `<value><double>${value}</double></value>`;
-    }
-    if (typeof value === 'string') {
-      const escaped = value
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      return `<value><string>${escaped}</string></value>`;
-    }
-    if (Array.isArray(value)) {
-      const items = value.map(v => this.valueToXml(v)).join('');
-      return `<value><array><data>${items}</data></array></value>`;
-    }
-    if (typeof value === 'object') {
-      const members = Object.entries(value)
-        .map(([k, v]) => `<member><name>${k}</name>${this.valueToXml(v)}</member>`)
-        .join('');
-      return `<value><struct>${members}</struct></value>`;
-    }
-    return `<value><string>${String(value)}</string></value>`;
-  }
-
-  /**
-   * Parse XML-RPC response
-   */
-  parseXmlRpcResponse(xml) {
-    // Check for fault
-    const faultMatch = xml.match(/<fault>[\s\S]*?<string>([^<]+)<\/string>/);
-    if (faultMatch) {
-      throw new Error(`Odoo fault: ${faultMatch[1]}`);
-    }
-
-    // Extract value from response
-    return this.extractValue(xml);
-  }
-
-  /**
-   * Extract value from XML using a simple recursive parser
-   * IMPORTANT: Check complex types (array, struct) BEFORE simple types
-   */
-  extractValue(xml) {
-    const trimmed = xml.trim();
-
-    // Check for array FIRST (before simple types that might be inside arrays)
-    if (trimmed.startsWith('<array>') || (trimmed.includes('<array>') && trimmed.indexOf('<array>') < trimmed.indexOf('<int>'))) {
-      const arrayStart = trimmed.indexOf('<data>');
-      const arrayEnd = trimmed.lastIndexOf('</data>');
-      if (arrayStart !== -1 && arrayEnd !== -1) {
-        const dataContent = trimmed.substring(arrayStart + 6, arrayEnd);
-        return this.parseArrayValues(dataContent);
-      }
-    }
-
-    // Struct - check before simple types
-    if (trimmed.startsWith('<struct>') || (trimmed.includes('<struct>') && !trimmed.includes('<array>'))) {
-      const structStart = trimmed.indexOf('<struct>');
-      const structEnd = trimmed.lastIndexOf('</struct>');
-      if (structStart !== -1 && structEnd !== -1) {
-        const structContent = trimmed.substring(structStart + 8, structEnd);
-        return this.parseStructMembers(structContent);
-      }
-    }
-
-    // Nil/None
-    if (trimmed.includes('<nil/>') || trimmed.includes('<nil />')) {
-      return null;
-    }
-
-    // Boolean
-    if (trimmed.startsWith('<boolean>') || trimmed.includes('<boolean>')) {
-      const match = trimmed.match(/<boolean>(\d)<\/boolean>/);
-      if (match) return match[1] === '1';
-    }
-
-    // Integer - only match if it's the primary type
-    if (trimmed.startsWith('<int>') || trimmed.startsWith('<i4>')) {
-      const match = trimmed.match(/<int>(-?\d+)<\/int>/) || trimmed.match(/<i4>(-?\d+)<\/i4>/);
-      if (match) return parseInt(match[1], 10);
-    }
-
-    // Double
-    if (trimmed.startsWith('<double>')) {
-      const match = trimmed.match(/<double>(-?[\d.]+)<\/double>/);
-      if (match) return parseFloat(match[1]);
-    }
-
-    // String
-    if (trimmed.startsWith('<string>')) {
-      const match = trimmed.match(/<string>([\s\S]*?)<\/string>/);
-      if (match) {
-        return match[1]
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&');
-      }
-    }
-
-    // Try to extract any remaining value types
-    const intMatch = trimmed.match(/<int>(-?\d+)<\/int>/);
-    if (intMatch) return parseInt(intMatch[1], 10);
-
-    const stringMatch = trimmed.match(/<string>([\s\S]*?)<\/string>/);
-    if (stringMatch) return stringMatch[1];
-
-    const valueMatch = trimmed.match(/<value>([^<]+)<\/value>/);
-    if (valueMatch) return valueMatch[1];
-
-    return null;
-  }
-
-  /**
-   * Parse array values from XML data content
-   */
-  parseArrayValues(dataContent) {
-    const values = [];
-    let depth = 0;
-    let valueStart = -1;
-    let i = 0;
-
-    while (i < dataContent.length) {
-      if (dataContent.substring(i, i + 7) === '<value>') {
-        if (depth === 0) valueStart = i + 7;
-        depth++;
-        i += 7;
-      } else if (dataContent.substring(i, i + 8) === '</value>') {
-        depth--;
-        if (depth === 0 && valueStart !== -1) {
-          const valueContent = dataContent.substring(valueStart, i);
-          values.push(this.extractValue(valueContent));
-          valueStart = -1;
-        }
-        i += 8;
-      } else {
-        i++;
-      }
-    }
-
-    return values;
-  }
-
-  /**
-   * Parse struct members from XML struct content
-   */
-  parseStructMembers(structContent) {
-    const obj = {};
-    let i = 0;
-
-    while (i < structContent.length) {
-      const memberStart = structContent.indexOf('<member>', i);
-      if (memberStart === -1) break;
-
-      const memberEnd = this.findClosingTag(structContent, memberStart, 'member');
-      if (memberEnd === -1) break;
-
-      const memberContent = structContent.substring(memberStart + 8, memberEnd);
-
-      // Extract name
-      const nameMatch = memberContent.match(/<name>([^<]+)<\/name>/);
-      if (nameMatch) {
-        const name = nameMatch[1];
-
-        // Extract value
-        const valueStart = memberContent.indexOf('<value>');
-        const valueEnd = memberContent.lastIndexOf('</value>');
-        if (valueStart !== -1 && valueEnd !== -1) {
-          const valueContent = memberContent.substring(valueStart + 7, valueEnd);
-          obj[name] = this.extractValue(valueContent);
-        }
-      }
-
-      i = memberEnd + 9;
-    }
-
-    return obj;
-  }
-
-  /**
-   * Find the closing tag position accounting for nesting
-   */
-  findClosingTag(xml, start, tagName) {
-    const openTag = `<${tagName}>`;
-    const closeTag = `</${tagName}>`;
-    let depth = 1;
-    let i = start + openTag.length;
-
-    while (i < xml.length && depth > 0) {
-      if (xml.substring(i, i + openTag.length) === openTag) {
-        depth++;
-        i += openTag.length;
-      } else if (xml.substring(i, i + closeTag.length) === closeTag) {
-        depth--;
-        if (depth === 0) return i;
-        i += closeTag.length;
-      } else {
-        i++;
-      }
-    }
-
-    return -1;
   }
 
   /**
@@ -298,33 +96,28 @@ class OdooClient {
    */
   async authenticate() {
     if (!this.url || !this.username || !this.password) {
-      throw new Error('Odoo credentials not configured. Set ODOO_URL, ODOO_USERNAME, ODOO_API_KEY');
+      throw new Error('Odoo credentials not configured');
     }
 
-    try {
-      const uid = await this.xmlRpcCall('/xmlrpc/2/common', 'authenticate', [
-        this.database,
-        this.username,
-        this.password,
-        {},
-      ]);
+    const uid = await this.jsonRpcCall('/jsonrpc', 'common', 'authenticate', [
+      this.database,
+      this.username,
+      this.password,
+      {},
+    ]);
 
-      if (!uid || uid === false) {
-        throw new Error('Authentication failed - invalid credentials');
-      }
-
-      this.uid = uid;
-      this.authenticated = true;
-      console.log(`Odoo authenticated: uid=${uid}, database=${this.database}`);
-      return uid;
-    } catch (error) {
-      this.authenticated = false;
-      throw new Error(`Odoo authentication failed: ${error.message}`);
+    if (!uid) {
+      throw new Error('Authentication failed');
     }
+
+    this.uid = uid;
+    this.authenticated = true;
+    console.log(`Odoo authenticated: uid=${uid}, database=${this.database}`);
+    return uid;
   }
 
   /**
-   * Ensure authenticated before operations
+   * Ensure authenticated
    */
   async ensureAuthenticated() {
     if (!this.authenticated) {
@@ -333,12 +126,11 @@ class OdooClient {
   }
 
   /**
-   * Execute a method on an Odoo model
+   * Execute a model method
    */
   async execute(model, method, args = [], kwargs = {}) {
     await this.ensureAuthenticated();
-
-    return this.xmlRpcCall('/xmlrpc/2/object', 'execute_kw', [
+    return this.jsonRpcCall('/jsonrpc', 'object', 'execute_kw', [
       this.database,
       this.uid,
       this.password,
@@ -352,7 +144,7 @@ class OdooClient {
   /**
    * Search for records
    */
-  async search(model, domain = [], options = {}) {
+  async search(model, domain, options = {}) {
     return this.execute(model, 'search', [domain], options);
   }
 
@@ -360,54 +152,44 @@ class OdooClient {
    * Read records by IDs
    */
   async read(model, ids, fields = []) {
-    const kwargs = fields.length > 0 ? { fields } : {};
-    return this.execute(model, 'read', [ids], kwargs);
+    return this.execute(model, 'read', [ids, fields]);
   }
 
   /**
    * Search and read in one call
    */
-  async searchRead(model, domain = [], fields = [], options = {}) {
-    const kwargs = { ...options };
-    if (fields.length > 0) {
-      kwargs.fields = fields;
-    }
-    return this.execute(model, 'search_read', [domain], kwargs);
+  async searchRead(model, domain, fields = [], options = {}) {
+    return this.execute(model, 'search_read', [domain], { fields, ...options });
   }
 
   /**
-   * Create a record
+   * Create a single record
    */
   async create(model, values) {
     return this.execute(model, 'create', [values]);
   }
 
   /**
-   * Update records
+   * Batch create multiple records - returns list of IDs
    */
-  async write(model, ids, values) {
-    const idArray = Array.isArray(ids) ? ids : [ids];
-    return this.execute(model, 'write', [idArray, values]);
+  async createBatch(model, valuesList) {
+    if (!valuesList || valuesList.length === 0) return [];
+    return this.execute(model, 'create', [valuesList]);
   }
 
   /**
-   * Delete records
+   * Update a single record
    */
-  async unlink(model, ids) {
-    const idArray = Array.isArray(ids) ? ids : [ids];
-    return this.execute(model, 'unlink', [idArray]);
+  async write(model, id, values) {
+    return this.execute(model, 'write', [[id], values]);
   }
 
   /**
-   * Search or create - find existing record or create new one
+   * Batch update multiple records with same values
    */
-  async searchOrCreate(model, domain, values) {
-    const existing = await this.search(model, domain, { limit: 1 });
-    if (existing && existing.length > 0) {
-      return { id: existing[0], created: false };
-    }
-    const newId = await this.create(model, values);
-    return { id: newId, created: true };
+  async writeBatch(model, ids, values) {
+    if (!ids || ids.length === 0) return true;
+    return this.execute(model, 'write', [ids, values]);
   }
 
   /**
@@ -424,10 +206,87 @@ class OdooClient {
   }
 
   /**
-   * Get version info (useful for testing connection)
+   * Batch upsert - efficient bulk create/update
+   * Returns { created: number, updated: number, ids: number[] }
+   */
+  async upsertBatch(model, records, matchField = 'name') {
+    if (!records || records.length === 0) {
+      return { created: 0, updated: 0, ids: [] };
+    }
+
+    // Get all match values
+    const matchValues = records.map(r => r[matchField]).filter(Boolean);
+
+    // Find existing records in one query
+    const existing = await this.searchRead(
+      model,
+      [[matchField, 'in', matchValues]],
+      ['id', matchField]
+    );
+
+    // Build lookup map
+    const existingMap = new Map();
+    for (const rec of existing) {
+      existingMap.set(rec[matchField], rec.id);
+    }
+
+    // Separate creates and updates
+    const toCreate = [];
+    const toUpdate = []; // { id, values }
+
+    for (const record of records) {
+      const matchValue = record[matchField];
+      const existingId = existingMap.get(matchValue);
+
+      if (existingId) {
+        toUpdate.push({ id: existingId, values: record });
+      } else {
+        toCreate.push(record);
+      }
+    }
+
+    const ids = [];
+    let created = 0;
+    let updated = 0;
+
+    // Batch create new records
+    if (toCreate.length > 0) {
+      const newIds = await this.createBatch(model, toCreate);
+      if (Array.isArray(newIds)) {
+        ids.push(...newIds);
+        created = newIds.length;
+      } else if (typeof newIds === 'number') {
+        ids.push(newIds);
+        created = 1;
+      }
+    }
+
+    // Update existing records (have to do individually for different values)
+    for (const { id, values } of toUpdate) {
+      try {
+        await this.write(model, id, values);
+        ids.push(id);
+        updated++;
+      } catch (e) {
+        console.error(`  Failed to update ${model} ${id}: ${e.message}`);
+      }
+    }
+
+    return { created, updated, ids };
+  }
+
+  /**
+   * Delete records
+   */
+  async unlink(model, ids) {
+    return this.execute(model, 'unlink', [ids]);
+  }
+
+  /**
+   * Get version info
    */
   async version() {
-    return this.xmlRpcCall('/xmlrpc/2/common', 'version', []);
+    return this.jsonRpcCall('/jsonrpc', 'common', 'version', []);
   }
 }
 
