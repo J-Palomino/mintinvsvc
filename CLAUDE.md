@@ -30,25 +30,31 @@ This is a multi-location inventory synchronization service that:
                     │   Dutchie POS   │
                     └────────┬────────┘
                              │
-              ┌──────────────┴──────────────┐
-              ↓ (every 10 min)              ↑ (every 15 min)
-              │ inventory-sync              │ dutchie-sync
-              │                             │
-              │    ┌─────────────────┐      │
-              └───→│   PostgreSQL    │──────┘
+                             ↓ (every 10 min)
+                             │ inventory-sync
+                             │
+                   ┌─────────────────┐
+                   │   PostgreSQL    │
                    │ (source=dutchie │
                    │  or source=odoo)│
                    └────────┬────────┘
                             │
-              ┌─────────────┴─────────────┐
-              ↓ (every 15 min)            ↓ (every 10 min)
-              │ odoo-sync                 │ cache-refresh
-              │                           │
-        ┌───────────┐              ┌───────────┐
-        │   Odoo    │              │   Redis   │
-        │   (ERP)   │              │  (cache)  │
-        └───────────┘              └───────────┘
+              ┌─────────────┼─────────────┐
+              ↓             ↓             ↓
+        (every 15 min) (every 10 min) (Phase 5)
+        odoo-sync      cache-refresh  odoo push
+              │             │             │
+        ┌─────↓─────┐ ┌─────↓─────┐ ┌─────↓─────┐
+        │   Odoo    │ │   Redis   │ │   Odoo    │
+        │ (pull in) │ │  (cache)  │ │ (push out)│
+        └───────────┘ └───────────┘ └───────────┘
 ```
+
+### Source Protection
+
+Each sync only updates records matching its source to prevent data overwrites:
+- **Dutchie sync** only updates where `source IS NULL OR source = 'dutchie'`
+- **Odoo sync** only updates where `source IS NULL OR source = 'odoo'`
 
 ### Dutchie → PostgreSQL (inventory-sync)
 
@@ -58,12 +64,15 @@ Every 10 minutes, orchestrated by BullMQ:
 2. **Phase 2 - Product Enrichment:** Calls Dutchie Plus GraphQL for effects, tags, images, potency data; matches by SKU
 3. **Phase 3 - Discount Sync:** Fetches from Dutchie v2 API with restriction data (product/brand/category eligibility)
 4. **Phase 4 - Cache Refresh:** Syncs PostgreSQL data to Redis
-5. **Phase 5 - Odoo Sync:** Pushes inventory to Odoo ERP (if configured)
+5. **Phase 5 - Odoo Sync:** Pushes Dutchie inventory to Odoo ERP (if configured)
 
-### Odoo ↔ PostgreSQL (Bidirectional)
+### Odoo → PostgreSQL (odoo-sync)
 
-- **odoo-sync** (`:05,:20,:35,:50`) - Pulls products from Odoo → PostgreSQL with `source='odoo'`
-- **dutchie-sync** (`:10,:25,:40,:55`) - Pushes Odoo-sourced products → Dutchie POS
+Every 15 minutes (`:05,:20,:35,:50`), pulls products from Odoo with `source='odoo'`
+
+### PostgreSQL → Dutchie (DISABLED)
+
+The `dutchie-sync` job is currently disabled because Dutchie's API does not support external product creation (405 Method Not Allowed) or updates (404 Not Found). Products must be created through Dutchie's compliance integration. The service file exists at `src/services/postgresToDutchieSync.js` and can be re-enabled if Dutchie adds write API support.
 
 ### Daily Scheduled Tasks
 
@@ -77,9 +86,9 @@ Every 10 minutes, orchestrated by BullMQ:
 | InventorySyncService | `src/services/inventorySync.js` | Dutchie POS → PostgreSQL (134-field mapping) |
 | DiscountSyncService | `src/services/discountSync.js` | POS discounts with eligibility restrictions → PostgreSQL |
 | ProductEnrichmentService | `src/services/productEnrichment.js` | GraphQL enrichment (effects, images, potency) |
-| OdooSyncService | `src/services/odooSync.js` | PostgreSQL → Odoo ERP (push products) |
-| OdooToPostgresSync | `src/services/odooToPostgresSync.js` | Odoo → PostgreSQL (pull products) |
-| PostgresToDutchieSync | `src/services/postgresToDutchieSync.js` | PostgreSQL → Dutchie POS (push Odoo products) |
+| OdooSyncService | `src/services/odooSync.js` | PostgreSQL → Odoo ERP (push Dutchie products) |
+| OdooToPostgresSync | `src/services/odooToPostgresSync.js` | Odoo → PostgreSQL (pull Odoo products) |
+| PostgresToDutchieSync | `src/services/postgresToDutchieSync.js` | **DISABLED** - Dutchie API doesn't support writes |
 | CacheSyncService | `src/services/cacheSync.js` | PostgreSQL → Redis cache |
 | BannerSyncService | `src/services/bannerSync.js` | Daily retailer banner → Strapi tickertape |
 | GLExportService | `src/services/glExportService.js` | Daily GL journal export for Accumatica (8 AM) |
