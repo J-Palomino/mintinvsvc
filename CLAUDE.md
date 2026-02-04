@@ -17,21 +17,56 @@ Tests are located in `tests/` and use Jest with mocking for database and API cli
 This is a multi-location inventory synchronization service that:
 1. Fetches store configurations from a Strapi backend
 2. Syncs inventory, discounts, and product enrichment data from Dutchie POS APIs to PostgreSQL
-3. Caches data in Redis for fast API responses
-4. Provides REST endpoints for frontend consumption
+3. Bidirectional sync with Odoo ERP (inventory master migration in progress)
+4. Caches data in Redis for fast API responses
+5. Provides REST endpoints for frontend consumption
 
-**Tech Stack:** Node.js, Express.js, PostgreSQL, Redis, Dutchie POS API, Dutchie Plus GraphQL
+**Tech Stack:** Node.js, Express.js, PostgreSQL, Redis, Dutchie POS API, Dutchie Plus GraphQL, Odoo ERP
 
 ## Sync Flow
 
-The main entry point (`src/index.js`) orchestrates sync in phases every 10 minutes (configurable):
+```
+                    ┌─────────────────┐
+                    │   Dutchie POS   │
+                    └────────┬────────┘
+                             │
+              ┌──────────────┴──────────────┐
+              ↓ (every 10 min)              ↑ (every 15 min)
+              │ inventory-sync              │ dutchie-sync
+              │                             │
+              │    ┌─────────────────┐      │
+              └───→│   PostgreSQL    │──────┘
+                   │ (source=dutchie │
+                   │  or source=odoo)│
+                   └────────┬────────┘
+                            │
+              ┌─────────────┴─────────────┐
+              ↓ (every 15 min)            ↓ (every 10 min)
+              │ odoo-sync                 │ cache-refresh
+              │                           │
+        ┌───────────┐              ┌───────────┐
+        │   Odoo    │              │   Redis   │
+        │   (ERP)   │              │  (cache)  │
+        └───────────┘              └───────────┘
+```
 
-1. **Phase 1 - Inventory Sync:** Fetches from Dutchie `/reporting/inventory`, transforms camelCase to snake_case, upserts to PostgreSQL
+### Dutchie → PostgreSQL (inventory-sync)
+
+Every 10 minutes, orchestrated by BullMQ:
+
+1. **Phase 1 - Inventory Sync:** Fetches from Dutchie `/reporting/inventory`, transforms camelCase to snake_case, upserts to PostgreSQL with `source='dutchie'`
 2. **Phase 2 - Product Enrichment:** Calls Dutchie Plus GraphQL for effects, tags, images, potency data; matches by SKU
 3. **Phase 3 - Discount Sync:** Fetches from Dutchie v2 API with restriction data (product/brand/category eligibility)
 4. **Phase 4 - Cache Refresh:** Syncs PostgreSQL data to Redis
+5. **Phase 5 - Odoo Sync:** Pushes inventory to Odoo ERP (if configured)
 
-**Daily Scheduled Tasks:**
+### Odoo ↔ PostgreSQL (Bidirectional)
+
+- **odoo-sync** (`:05,:20,:35,:50`) - Pulls products from Odoo → PostgreSQL with `source='odoo'`
+- **dutchie-sync** (`:10,:25,:40,:55`) - Pushes Odoo-sourced products → Dutchie POS
+
+### Daily Scheduled Tasks
+
 - **8:00 AM** - GL Journal Export: Generates accounting journal entries for previous day's transactions
 - **5:00 AM** - Banner Sync: Updates Strapi tickertape from Dutchie Plus retailer banner
 
@@ -39,11 +74,14 @@ The main entry point (`src/index.js`) orchestrates sync in phases every 10 minut
 
 | Service | File | Purpose |
 |---------|------|---------|
-| InventorySyncService | `src/services/inventorySync.js` | POS inventory → PostgreSQL (134-field mapping) |
+| InventorySyncService | `src/services/inventorySync.js` | Dutchie POS → PostgreSQL (134-field mapping) |
 | DiscountSyncService | `src/services/discountSync.js` | POS discounts with eligibility restrictions → PostgreSQL |
 | ProductEnrichmentService | `src/services/productEnrichment.js` | GraphQL enrichment (effects, images, potency) |
-| BannerSyncService | `src/services/bannerSync.js` | Daily retailer banner → Strapi tickertape |
+| OdooSyncService | `src/services/odooSync.js` | PostgreSQL → Odoo ERP (push products) |
+| OdooToPostgresSync | `src/services/odooToPostgresSync.js` | Odoo → PostgreSQL (pull products) |
+| PostgresToDutchieSync | `src/services/postgresToDutchieSync.js` | PostgreSQL → Dutchie POS (push Odoo products) |
 | CacheSyncService | `src/services/cacheSync.js` | PostgreSQL → Redis cache |
+| BannerSyncService | `src/services/bannerSync.js` | Daily retailer banner → Strapi tickertape |
 | GLExportService | `src/services/glExportService.js` | Daily GL journal export for Accumatica (8 AM) |
 | HourlySalesService | `src/services/hourlySalesService.js` | Weekly hourly sales aggregation by store |
 | StoreConfigService | `src/services/storeConfig.js` | Fetches location configs from Strapi backend |
@@ -74,6 +112,12 @@ Key tables:
 - `locations` - Store location records
 - `inventory` - ~200+ columns from Dutchie product data, keyed by `(location_id, inventory_id)`
 - `discounts` - Promotion data with JSONB restriction fields for product/brand/category eligibility
+- `sync_metadata` - Tracks last sync timestamps for bidirectional sync
+
+**Source Tracking Columns** (inventory table):
+- `source` - Origin system: `'dutchie'`, `'odoo'`, or `'manual'`
+- `source_synced_at` - Last sync timestamp from source
+- `source_external_id` - ID in source system (e.g., `odoo:product.product:123`)
 
 Composite IDs follow pattern: `{locationId}_{recordId}`
 
@@ -82,8 +126,9 @@ Composite IDs follow pattern: `{locationId}_{recordId}`
 **Architecture:** PostgreSQL (source of truth) → Redis (read cache)
 
 ```
-Dutchie APIs → PostgreSQL → Redis → API Responses
-              (Phase 1-3)   (Phase 4)
+Dutchie APIs ──→ PostgreSQL ──→ Redis ──→ API Responses
+                    ↑↓
+                   Odoo
 ```
 
 ### Redis Key Patterns
@@ -123,6 +168,13 @@ Optional:
 - `SYNC_INTERVAL_MINUTES` - Sync frequency (default: 10)
 - `PORT` / `API_PORT` - Server port (default: 3000)
 - `API_KEY` - API key for `/api/*` endpoints (default: `7d176bcd2ea77429918fa50c85ebfa5ee5c09cde2ff72850660d81c4a4b40bb3`)
+
+Odoo Integration (optional):
+- `ODOO_URL` - Odoo server URL (e.g., `https://mycompany.odoo.com`)
+- `ODOO_DATABASE` - Odoo database name (default: `odoo`)
+- `ODOO_USERNAME` - Odoo username/email
+- `ODOO_API_KEY` - Odoo API key or password
+- `ODOO_SYNC_STOCK` - Enable stock quantity sync (default: `false`)
 
 GL Export Email (optional):
 - `SMTP_HOST` - SMTP server hostname
