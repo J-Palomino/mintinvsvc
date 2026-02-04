@@ -12,6 +12,7 @@ const inventorySyncProcessor = require('./processors/inventorySync');
 const glExportProcessor = require('./processors/glExport');
 const bannerSyncProcessor = require('./processors/bannerSync');
 const hourlySalesProcessor = require('./processors/hourlySales');
+const odooSyncProcessor = require('./processors/odooSync');
 
 let workers = {};
 let context = null;
@@ -56,6 +57,13 @@ function initWorkers(connection, ctx) {
   workers.hourlySales = new Worker(
     QUEUE_NAMES.HOURLY_SALES,
     async (job) => hourlySalesProcessor.process(job, context),
+    workerOptions
+  );
+
+  // Odoo Sync Worker (Odoo → PostgreSQL)
+  workers.odooSync = new Worker(
+    QUEUE_NAMES.ODOO_SYNC,
+    async (job) => odooSyncProcessor.process(job, context),
     workerOptions
   );
 
