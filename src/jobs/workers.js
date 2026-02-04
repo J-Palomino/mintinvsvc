@@ -13,6 +13,7 @@ const glExportProcessor = require('./processors/glExport');
 const bannerSyncProcessor = require('./processors/bannerSync');
 const hourlySalesProcessor = require('./processors/hourlySales');
 const odooSyncProcessor = require('./processors/odooSync');
+const dutchieSyncProcessor = require('./processors/dutchieSync');
 
 let workers = {};
 let context = null;
@@ -64,6 +65,13 @@ function initWorkers(connection, ctx) {
   workers.odooSync = new Worker(
     QUEUE_NAMES.ODOO_SYNC,
     async (job) => odooSyncProcessor.process(job, context),
+    workerOptions
+  );
+
+  // Dutchie Sync Worker (PostgreSQL → Dutchie)
+  workers.dutchieSync = new Worker(
+    QUEUE_NAMES.DUTCHIE_SYNC,
+    async (job) => dutchieSyncProcessor.process(job, context),
     workerOptions
   );
 

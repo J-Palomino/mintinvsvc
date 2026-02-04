@@ -65,6 +65,96 @@ class DutchieClient {
     }
   }
 
+  // ==================== WRITE METHODS ====================
+
+  /**
+   * Create a new product in Dutchie
+   * @param {object} product - Product data
+   * @returns {object} Created product with ID
+   */
+  async createProduct(product) {
+    try {
+      console.log(`  Creating product: ${product.name}`);
+      const response = await this.client.post('/inventory', product);
+      return response.data;
+    } catch (error) {
+      this.handleError('createProduct', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update an existing product in Dutchie
+   * @param {string} productId - Dutchie product ID
+   * @param {object} updates - Fields to update
+   * @returns {object} Updated product
+   */
+  async updateProduct(productId, updates) {
+    try {
+      const response = await this.client.put(`/inventory/${productId}`, updates);
+      return response.data;
+    } catch (error) {
+      this.handleError('updateProduct', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Adjust inventory quantity for a product
+   * @param {string} productId - Dutchie product ID
+   * @param {number} quantity - New quantity (or adjustment amount)
+   * @param {string} reason - Reason for adjustment
+   * @returns {object} Adjustment result
+   */
+  async adjustInventory(productId, quantity, reason = 'Sync from Odoo') {
+    try {
+      const response = await this.client.post('/inventory/adjust', {
+        productId,
+        quantity,
+        reason
+      });
+      return response.data;
+    } catch (error) {
+      this.handleError('adjustInventory', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Batch update multiple products
+   * @param {array} products - Array of {id, ...updates}
+   * @returns {object} Batch result
+   */
+  async batchUpdateProducts(products) {
+    try {
+      console.log(`  Batch updating ${products.length} products`);
+      const response = await this.client.post('/inventory/batch', { products });
+      return response.data;
+    } catch (error) {
+      this.handleError('batchUpdateProducts', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Handle API errors consistently
+   */
+  handleError(method, error) {
+    if (error.response) {
+      console.error(`Dutchie ${method} Error:`, {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data
+      });
+    } else if (error.request) {
+      console.error(`No response from Dutchie (${method}):`, error.message);
+    } else {
+      console.error(`Error in ${method}:`, error.message);
+    }
+  }
+
+  // ==================== READ METHODS ====================
+
   /**
    * Get discounts using v2 API with full restriction/eligibility data
    * This endpoint provides calculationMethod, thresholdMin, and product restrictions

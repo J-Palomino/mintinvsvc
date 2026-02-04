@@ -13,7 +13,8 @@ const QUEUE_NAMES = {
   GL_EXPORT: 'gl-export',
   BANNER_SYNC: 'banner-sync',
   HOURLY_SALES: 'hourly-sales',
-  ODOO_SYNC: 'odoo-sync'  // Odoo → PostgreSQL sync
+  ODOO_SYNC: 'odoo-sync',      // Odoo → PostgreSQL sync
+  DUTCHIE_SYNC: 'dutchie-sync'  // PostgreSQL → Dutchie sync
 };
 
 // Default job options per queue type
@@ -62,6 +63,15 @@ const DEFAULT_OPTIONS = {
     },
     removeOnComplete: { count: 100 },
     removeOnFail: { count: 50 }
+  },
+  [QUEUE_NAMES.DUTCHIE_SYNC]: {
+    attempts: 3,
+    backoff: {
+      type: 'exponential',
+      delay: 60000
+    },
+    removeOnComplete: { count: 100 },
+    removeOnFail: { count: 50 }
   }
 };
 
@@ -81,6 +91,9 @@ const SCHEDULES = {
   },
   [QUEUE_NAMES.ODOO_SYNC]: {
     pattern: '5,20,35,50 * * * *' // Every 15 minutes, offset from inventory sync
+  },
+  [QUEUE_NAMES.DUTCHIE_SYNC]: {
+    pattern: '10,25,40,55 * * * *' // Every 15 minutes, 5 min after Odoo sync
   }
 };
 
@@ -98,7 +111,8 @@ function initQueues(connection) {
     glExport: new Queue(QUEUE_NAMES.GL_EXPORT, queueOptions),
     bannerSync: new Queue(QUEUE_NAMES.BANNER_SYNC, queueOptions),
     hourlySales: new Queue(QUEUE_NAMES.HOURLY_SALES, queueOptions),
-    odooSync: new Queue(QUEUE_NAMES.ODOO_SYNC, queueOptions)
+    odooSync: new Queue(QUEUE_NAMES.ODOO_SYNC, queueOptions),
+    dutchieSync: new Queue(QUEUE_NAMES.DUTCHIE_SYNC, queueOptions)
   };
 
   console.log('BullMQ queues initialized');
@@ -166,7 +180,7 @@ async function scheduleRepeatableJobs() {
   console.log('  - Hourly sales: top of each hour');
 
   // Schedule Odoo→Postgres sync every 15 minutes (offset from inventory sync)
-  const { odooSync } = queues;
+  const { odooSync, dutchieSync } = queues;
   await odooSync.add(
     'scheduled-sync',
     {},
@@ -176,6 +190,17 @@ async function scheduleRepeatableJobs() {
     }
   );
   console.log('  - Odoo sync: every 15 minutes (5,20,35,50)');
+
+  // Schedule Postgres→Dutchie sync every 15 minutes (after Odoo sync)
+  await dutchieSync.add(
+    'scheduled-sync',
+    {},
+    {
+      ...DEFAULT_OPTIONS[QUEUE_NAMES.DUTCHIE_SYNC],
+      repeat: SCHEDULES[QUEUE_NAMES.DUTCHIE_SYNC]
+    }
+  );
+  console.log('  - Dutchie sync: every 15 minutes (10,25,40,55)');
 }
 
 /**
@@ -199,7 +224,8 @@ async function addJob(queueName, data = {}, options = {}) {
     [QUEUE_NAMES.GL_EXPORT]: queues.glExport,
     [QUEUE_NAMES.BANNER_SYNC]: queues.bannerSync,
     [QUEUE_NAMES.HOURLY_SALES]: queues.hourlySales,
-    [QUEUE_NAMES.ODOO_SYNC]: queues.odooSync
+    [QUEUE_NAMES.ODOO_SYNC]: queues.odooSync,
+    [QUEUE_NAMES.DUTCHIE_SYNC]: queues.dutchieSync
   };
 
   const queue = queueMap[queueName];
