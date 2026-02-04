@@ -245,12 +245,13 @@ class OdooToPostgresSync {
 
     try {
       // Get the warehouse's stock location (lot_stock_id)
-      const warehouses = await this.odoo.read('stock.warehouse', [warehouseId], ['lot_stock_id']);
+      const warehouses = await this.odoo.read('stock.warehouse', [warehouseId], ['lot_stock_id', 'name']);
       if (!warehouses || warehouses.length === 0 || !warehouses[0].lot_stock_id) {
         console.log('    Warehouse not found or has no stock location');
         return { synced: 0, errors: 0 };
       }
       const stockLocationId = warehouses[0].lot_stock_id[0];
+      console.log(`    Warehouse: ${warehouses[0].name}, stock location ID: ${stockLocationId}`);
 
       // Get products with stock in this location (and child locations)
       const stockQuants = await this.odoo.searchRead(
@@ -259,11 +260,21 @@ class OdooToPostgresSync {
           ['location_id', 'child_of', stockLocationId],
           ['quantity', '>', 0],
         ],
-        ['product_id', 'quantity']
+        ['product_id', 'quantity', 'location_id']
       );
 
+      console.log(`    Found ${stockQuants?.length || 0} stock quants`);
+
       if (!stockQuants || stockQuants.length === 0) {
-        console.log('    No stock found in warehouse');
+        // Try alternative: get all products with on_hand_qty > 0
+        console.log('    Trying alternative: products with qty_available > 0...');
+        const products = await this.odoo.searchRead(
+          'product.product',
+          [['qty_available', '>', 0]],
+          ['id', 'default_code', 'name', 'qty_available'],
+          { limit: 5 }
+        );
+        console.log(`    Sample products with stock: ${JSON.stringify(products?.slice(0, 2))}`);
         return { synced: 0, errors: 0 };
       }
 
