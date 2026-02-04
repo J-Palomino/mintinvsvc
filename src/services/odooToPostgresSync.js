@@ -244,11 +244,19 @@ class OdooToPostgresSync {
     console.log(`  Syncing Odoo warehouse ${warehouseId} → location ${locationId}...`);
 
     try {
-      // Get products with stock in this warehouse
+      // Get the warehouse's stock location (lot_stock_id)
+      const warehouses = await this.odoo.read('stock.warehouse', [warehouseId], ['lot_stock_id']);
+      if (!warehouses || warehouses.length === 0 || !warehouses[0].lot_stock_id) {
+        console.log('    Warehouse not found or has no stock location');
+        return { synced: 0, errors: 0 };
+      }
+      const stockLocationId = warehouses[0].lot_stock_id[0];
+
+      // Get products with stock in this location (and child locations)
       const stockQuants = await this.odoo.searchRead(
         'stock.quant',
         [
-          ['warehouse_id', '=', warehouseId],
+          ['location_id', 'child_of', stockLocationId],
           ['quantity', '>', 0],
         ],
         ['product_id', 'quantity']
