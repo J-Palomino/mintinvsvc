@@ -190,7 +190,6 @@ class OdooToPostgresSync {
       product_name: odooProduct.name,
       price: odooProduct.list_price || 0,
       unit_cost: odooProduct.standard_price || 0,
-      barcode: odooProduct.barcode || null,
       net_weight: odooProduct.weight || null,
       description: odooProduct.description_sale || null,
       quantity_available: quantity || 0,
