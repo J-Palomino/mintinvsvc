@@ -29,8 +29,8 @@ const fieldMapping = {
   'net_weight': 'netWeight',
   'strain': 'strain',
   'strain_type': 'strainType',
-  'thc_content': 'thcContent',
-  'cbd_content': 'cbdContent',
+  'potency_thc_formatted': 'thcContent',
+  'potency_cbd_formatted': 'cbdContent',
   'is_active': 'isActive',
 };
 
@@ -83,7 +83,7 @@ class PostgresToDutchieSync {
       SELECT
         id, inventory_id, product_id, sku, product_name, brand_name,
         category, description, price, unit_cost, quantity_available,
-        net_weight, strain, strain_type, thc_content, cbd_content,
+        net_weight, strain, strain_type, potency_thc_formatted, potency_cbd_formatted,
         is_active, source, source_external_id, source_synced_at, synced_at
       FROM inventory
       WHERE location_id = $1
