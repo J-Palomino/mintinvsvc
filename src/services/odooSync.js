@@ -252,6 +252,12 @@ class OdooSyncService {
           }
         }
 
+        // Store Odoo ID back in PostgreSQL for bidirectional tracking
+        const odooVariantId = existing ? existing.id : variantMap.get(item.sku)?.id;
+        if (odooVariantId) {
+          await this.updateSourceExternalId(item.inventory_id, item.location_id, odooVariantId);
+        }
+
         synced++;
       } catch (e) {
         console.error(`      Error syncing ${item.sku}: ${e.message}`);
@@ -260,6 +266,23 @@ class OdooSyncService {
     }
 
     return { synced, errors };
+  }
+
+  /**
+   * Store Odoo product ID in PostgreSQL for bidirectional tracking
+   */
+  async updateSourceExternalId(inventoryId, locationId, odooProductId) {
+    try {
+      const id = `${locationId}_${inventoryId}`;
+      await db.query(`
+        UPDATE inventory
+        SET source_external_id = $1
+        WHERE id = $2
+      `, [`odoo:product.product:${odooProductId}`, id]);
+    } catch (e) {
+      // Non-fatal - just log
+      console.error(`      Failed to store Odoo ID for ${inventoryId}: ${e.message}`);
+    }
   }
 
   async fetchInventory(locationId) {

@@ -176,6 +176,10 @@ class InventorySyncService {
       transformed.id = `${this.locationId}_${transformed.inventory_id}`;
     }
 
+    // Track data source
+    transformed.source = 'dutchie';
+    transformed.source_synced_at = new Date().toISOString();
+
     return transformed;
   }
 
