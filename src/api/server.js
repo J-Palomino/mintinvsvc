@@ -665,6 +665,47 @@ app.get('/api/jobs/status', async (req, res) => {
   }
 });
 
+// Setup and run Odoo report imports
+// POST /api/odoo/setup-report-imports - Creates scheduled actions in Odoo
+// POST /api/odoo/import-reports - Run the import now
+app.post('/api/odoo/setup-report-imports', async (req, res) => {
+  try {
+    const OdooReportImportService = require('../services/odooReportImportService');
+    const service = new OdooReportImportService();
+
+    console.log('[API] Setting up Odoo report import scheduled actions...');
+    const result = await service.setupScheduledActions();
+
+    res.json({
+      success: true,
+      message: 'Scheduled actions created in Odoo',
+      ...result
+    });
+  } catch (error) {
+    console.error('[API] Odoo report import setup error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/odoo/import-reports', async (req, res) => {
+  try {
+    const OdooReportImportService = require('../services/odooReportImportService');
+    const service = new OdooReportImportService();
+
+    console.log('[API] Running Odoo report imports...');
+    const result = await service.runImportsNow();
+
+    res.json({
+      success: true,
+      message: 'Report imports executed',
+      ...result
+    });
+  } catch (error) {
+    console.error('[API] Odoo report import error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 function startServer() {
   return new Promise((resolve) => {
     app.listen(PORT, () => {
