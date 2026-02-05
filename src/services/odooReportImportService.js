@@ -446,13 +446,20 @@ class OdooReportImportService {
         const typeName = reportType === 'daily_sales_national' ? 'Daily Sales National' :
                         reportType === 'mel_report' ? 'Mel Report' : 'Report';
 
+        // Format imported_at for Odoo (YYYY-MM-DD HH:MM:SS)
+        let importedAt = reportData.imported_at || att.create_date;
+        if (importedAt && importedAt.includes('T')) {
+          // Convert ISO format to Odoo format
+          importedAt = importedAt.replace('T', ' ').replace(/\.\d{3}Z?$/, '').substring(0, 19);
+        }
+
         // Create the x_daily_report record
         const recordId = await this.odoo.create('x_daily_report', {
           x_name: `${typeName} - ${reportDate}`,
           x_report_type: reportType,
           x_report_date: reportDate,
           x_source_email_id: reportData.source_message_id || att.res_id || null,
-          x_imported_at: reportData.imported_at || att.create_date,
+          x_imported_at: importedAt,
           x_row_count: data.length,
           x_total_sales: totalSales,
           x_store_count: data.length,
