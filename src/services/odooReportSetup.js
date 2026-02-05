@@ -281,8 +281,6 @@ class OdooReportSetup {
   <filter string="Daily Sales" name="daily_sales" domain="[('x_report_type', '=', 'daily_sales_national')]"/>
   <filter string="Mel Report" name="mel_report" domain="[('x_report_type', '=', 'mel_report')]"/>
   <separator/>
-  <filter string="This Week" name="this_week" domain="[('x_report_date', '>=', (context_today() - relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
-  <filter string="This Month" name="this_month" domain="[('x_report_date', '>=', (context_today().replace(day=1)).strftime('%Y-%m-%d'))]"/>
   <group expand="0" string="Group By">
     <filter string="Report Type" name="group_type" context="{'group_by': 'x_report_type'}"/>
     <filter string="Report Date" name="group_date" context="{'group_by': 'x_report_date'}"/>
