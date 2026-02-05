@@ -278,14 +278,18 @@ class OdooReportSetup {
     );
 
     if (existing && existing.length > 0) {
-      console.log('  Action already exists (ID: ' + existing[0].id + ')');
+      // Update existing action to use 'list' instead of 'tree'
+      await this.odoo.write('ir.actions.act_window', existing[0].id, {
+        view_mode: 'list,form',
+      });
+      console.log('  Action already exists, updated view_mode (ID: ' + existing[0].id + ')');
       return existing[0].id;
     }
 
     const actionId = await this.odoo.create('ir.actions.act_window', {
       name: actionName,
       res_model: 'x_daily_report',
-      view_mode: 'tree,form',
+      view_mode: 'list,form',
       help: `<p class="o_view_nocontent_smiling_face">
         No reports imported yet
       </p>
