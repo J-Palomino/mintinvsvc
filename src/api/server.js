@@ -604,7 +604,7 @@ app.post('/api/jobs/:queueName/trigger', async (req, res) => {
     const { queueName } = req.params;
     const jobData = req.body.data || {};
 
-    const validQueues = ['inventory-sync', 'gl-export', 'banner-sync', 'hourly-sales'];
+    const validQueues = ['inventory-sync', 'gl-export', 'banner-sync', 'hourly-sales', 'report-import'];
     if (!validQueues.includes(queueName)) {
       return res.status(400).json({
         error: 'Invalid queue name',
@@ -617,7 +617,8 @@ app.post('/api/jobs/:queueName/trigger', async (req, res) => {
       'inventory-sync': QUEUE_NAMES.INVENTORY_SYNC,
       'gl-export': QUEUE_NAMES.GL_EXPORT,
       'banner-sync': QUEUE_NAMES.BANNER_SYNC,
-      'hourly-sales': QUEUE_NAMES.HOURLY_SALES
+      'hourly-sales': QUEUE_NAMES.HOURLY_SALES,
+      'report-import': QUEUE_NAMES.REPORT_IMPORT
     };
 
     const job = await addJob(queueNameMap[queueName], jobData, { priority: 1 });
