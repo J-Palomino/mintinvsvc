@@ -707,6 +707,27 @@ app.post('/api/odoo/import-reports', async (req, res) => {
   }
 });
 
+// Setup Odoo Reports module (model, views, menu)
+// POST /api/odoo/setup-reports-module
+app.post('/api/odoo/setup-reports-module', async (req, res) => {
+  try {
+    const OdooReportSetup = require('../services/odooReportSetup');
+    const setup = new OdooReportSetup();
+
+    console.log('[API] Setting up Odoo Reports module...');
+    const result = await setup.setup();
+
+    res.json({
+      success: true,
+      message: 'Reports module created in Odoo',
+      ...result
+    });
+  } catch (error) {
+    console.error('[API] Odoo Reports module setup error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 function startServer() {
   return new Promise((resolve) => {
     app.listen(PORT, () => {

@@ -228,6 +228,42 @@ class OdooReportImportService {
       });
 
       console.log(`  Created attachment ${attachmentId}: ${filename} (${data.length} rows)`);
+
+      // Calculate total sales if available
+      let totalSales = 0;
+      const salesKeys = ['net_sales', 'total_sales', 'sales', 'gross_sales', 'total_price'];
+      for (const row of data) {
+        for (const key of salesKeys) {
+          if (typeof row[key] === 'number') {
+            totalSales += row[key];
+            break;
+          }
+        }
+      }
+
+      // Create record in x_daily_report model (if it exists)
+      try {
+        const reportRecord = await this.odoo.create('x_daily_report', {
+          x_name: `${reportType === 'daily_sales_national' ? 'Daily Sales National' : 'Mel Report'} - ${reportDate}`,
+          x_report_type: reportType,
+          x_report_date: reportDate,
+          x_source_email_id: msg.id,
+          x_imported_at: new Date().toISOString().replace('T', ' ').substring(0, 19),
+          x_row_count: data.length,
+          x_total_sales: totalSales,
+          x_store_count: data.length,
+          x_data_json: jsonContent,
+          x_attachment_id: attachmentId,
+          x_status: 'imported',
+        });
+        console.log(`  Created report record ${reportRecord} in x_daily_report`);
+      } catch (e) {
+        // Model may not exist yet - that's ok
+        if (!e.message.includes('does not exist')) {
+          console.log(`  Note: Could not create x_daily_report record: ${e.message}`);
+        }
+      }
+
       processed++;
     }
 
