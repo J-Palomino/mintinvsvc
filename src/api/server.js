@@ -728,6 +728,52 @@ app.post('/api/odoo/migrate-reports', async (req, res) => {
   }
 });
 
+// Fix Odoo action view_mode
+// POST /api/odoo/fix-action
+app.post('/api/odoo/fix-action', async (req, res) => {
+  try {
+    const OdooClient = require('../api/odoo');
+    const odoo = new OdooClient();
+    await odoo.authenticate();
+
+    // Read current action
+    const actions = await odoo.searchRead(
+      'ir.actions.act_window',
+      [['res_model', '=', 'x_daily_report']],
+      ['id', 'name', 'res_model', 'view_mode', 'view_ids']
+    );
+
+    console.log('Current actions:', JSON.stringify(actions));
+
+    // Update all matching actions
+    for (const action of actions || []) {
+      if (action.view_mode && action.view_mode.includes('tree')) {
+        const newMode = action.view_mode.replace('tree', 'list');
+        await odoo.write('ir.actions.act_window', action.id, {
+          view_mode: newMode,
+        });
+        console.log(`Updated action ${action.id}: ${action.view_mode} -> ${newMode}`);
+      }
+    }
+
+    // Verify
+    const updated = await odoo.searchRead(
+      'ir.actions.act_window',
+      [['res_model', '=', 'x_daily_report']],
+      ['id', 'name', 'view_mode']
+    );
+
+    res.json({
+      success: true,
+      before: actions,
+      after: updated,
+    });
+  } catch (error) {
+    console.error('[API] Fix action error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Setup Odoo Reports module (model, views, menu)
 // POST /api/odoo/setup-reports-module
 app.post('/api/odoo/setup-reports-module', async (req, res) => {
