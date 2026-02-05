@@ -380,9 +380,7 @@ class OdooReportImportService {
         code: DAILY_SALES_PYTHON_CODE,
         interval_number: 1,
         interval_type: 'days',
-        numbercall: -1,
         active: true,
-        priority: 10,
       });
       results.dailySales = { id: cronId, status: 'created' };
       console.log(`  Created cron: ${dailySalesName} (ID: ${cronId})`);
@@ -406,9 +404,7 @@ class OdooReportImportService {
         code: MEL_REPORT_PYTHON_CODE,
         interval_number: 1,
         interval_type: 'days',
-        numbercall: -1,
         active: true,
-        priority: 10,
       });
       results.melReport = { id: cronId, status: 'created' };
       console.log(`  Created cron: ${melReportName} (ID: ${cronId})`);
