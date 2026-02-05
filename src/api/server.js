@@ -7,6 +7,7 @@ const { ExpressAdapter } = require('@bull-board/express');
 const cache = require('../cache');
 const GLExportService = require('../services/glExportService');
 const HourlySalesService = require('../services/hourlySalesService');
+const OdooGLService = require('../services/odooGLService');
 
 const app = express();
 const STORES_API_URL = process.env.STORES_API_URL || 'https://mintdealsbackend-production.up.railway.app/api/stores';
@@ -460,6 +461,18 @@ app.post('/api/reports/daily-sales', async (req, res) => {
       );
     }
 
+    // Post to Odoo if requested (&odoo=true)
+    let odooResult = null;
+    const { odoo } = req.query;
+    if (odoo === 'true' && result.success && result.storeData) {
+      const odooGLService = new OdooGLService();
+      odooResult = await odooGLService.postGLExport(
+        result.storeData,
+        result.date || date,
+        (storeName) => glExportService.getBranchCode(storeName)
+      );
+    }
+
     res.json({
       success: result.success,
       date: result.date || date || 'auto-detected',
@@ -470,7 +483,8 @@ app.post('/api/reports/daily-sales', async (req, res) => {
         tsv: result.tsvFilepath,
         csv: result.csvFilepath
       },
-      email: emailResult
+      email: emailResult,
+      odoo: odooResult
     });
   } catch (error) {
     console.error('[API] Daily sales POST error:', error.message);

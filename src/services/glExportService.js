@@ -971,7 +971,8 @@ class GLExportService {
       totalSales: grandSales,
       tsvFilepath,
       csvFilepath,
-      source: 'csv-upload'
+      source: 'csv-upload',
+      storeData  // Include for Odoo GL posting
     };
   }
 
@@ -1083,11 +1084,13 @@ class GLExportService {
 
     return {
       success: true,
+      date: reportDate,
       stores: storeData.size,
       totalSales: grandSales,
       tsvFilepath,
       csvFilepath,
-      source: 'csv'
+      source: 'csv',
+      storeData  // Include for Odoo GL posting
     };
   }
 
@@ -1292,11 +1295,13 @@ class GLExportService {
 
     return {
       success: true,
+      date: reportDate,
       stores: storeData.size,
       totalSales: grandSales,
       tsvFilepath,
       csvFilepath,
-      source: 'json'
+      source: 'json',
+      storeData  // Include for Odoo GL posting
     };
   }
 
@@ -1501,11 +1506,13 @@ class GLExportService {
 
     return {
       success: true,
+      date: reportDate,
       stores: storeData.size,
       totalSales: grandSales,
       tsvFilepath,
       csvFilepath,
-      source: 'post'
+      source: 'post',
+      storeData  // Include for Odoo GL posting
     };
   }
 
