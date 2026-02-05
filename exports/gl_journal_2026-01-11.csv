@@ -9,3 +9,313 @@ MID-KALAMA,Mint Kalamazoo,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,
 MID-KALAMA,Mint Kalamazoo,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,49.10
 MID-KALAMA,Mint Kalamazoo,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"2,059.44",0.00
 MID-KALAMA,Mint Kalamazoo,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"2,059.44"
+NVD-RAIN,Mint Spring Valley,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"5,078.05"
+NVD-RAIN,Mint Spring Valley,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,940.68",0.00
+NVD-RAIN,Mint Spring Valley,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-RAIN,Mint Spring Valley,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-RAIN,Mint Spring Valley,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,565.16
+NVD-RAIN,Mint Spring Valley,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"3,516.67",0.00
+NVD-RAIN,Mint Spring Valley,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-RAIN,Mint Spring Valley,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,185.86
+NVD-RAIN,Mint Spring Valley,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"2,047.67",0.00
+NVD-RAIN,Mint Spring Valley,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"2,047.67"
+MOD-MO4,Mint St. Peters,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"27,842.50"
+MOD-MO4,Mint St. Peters,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"9,454.25",0.00
+MOD-MO4,Mint St. Peters,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MOD-MO4,Mint St. Peters,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MOD-MO4,Mint St. Peters,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"3,063.43"
+MOD-MO4,Mint St. Peters,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"19,948.04",0.00
+MOD-MO4,Mint St. Peters,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MOD-MO4,Mint St. Peters,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"1,503.64"
+MOD-MO4,Mint St. Peters,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"13,636.79",0.00
+MOD-MO4,Mint St. Peters,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"13,636.79"
+AZD-4245IN,Mint Mesa ,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"46,326.98"
+AZD-4245IN,Mint Mesa ,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"17,756.92",0.00
+AZD-4245IN,Mint Mesa ,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-4245IN,Mint Mesa ,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-4245IN,Mint Mesa ,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"6,417.04"
+AZD-4245IN,Mint Mesa ,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"33,487.74",0.00
+AZD-4245IN,Mint Mesa ,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-4245IN,Mint Mesa ,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"1,499.36"
+AZD-4245IN,Mint Mesa ,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"15,098.58",0.00
+AZD-4245IN,Mint Mesa ,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"15,098.58"
+FLD-JA4332,Mint Jacksonville,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"2,590.98"
+FLD-JA4332,Mint Jacksonville,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,478.48",0.00
+FLD-JA4332,Mint Jacksonville,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-JA4332,Mint Jacksonville,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-JA4332,Mint Jacksonville,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-JA4332,Mint Jacksonville,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,532.50,0.00
+FLD-JA4332,Mint Jacksonville,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,500.00,0.00
+FLD-JA4332,Mint Jacksonville,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,80.00
+FLD-JA4332,Mint Jacksonville,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,568.93,0.00
+FLD-JA4332,Mint Jacksonville,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,568.93
+FLD-DELRAY,Mint Delray Beach,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"2,990.99"
+FLD-DELRAY,Mint Delray Beach,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,735.34",0.00
+FLD-DELRAY,Mint Delray Beach,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,395.65,0.00
+FLD-DELRAY,Mint Delray Beach,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,860.00,0.00
+FLD-DELRAY,Mint Delray Beach,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-DELRAY,Mint Delray Beach,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,710.77,0.00
+FLD-DELRAY,Mint Delray Beach,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,710.77
+FLD-SARASO,Mint Sarasota,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-SARASO,Mint Sarasota,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STUART,Mint Stuart,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,114.98"
+FLD-STUART,Mint Stuart,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,719.65",0.00
+FLD-STUART,Mint Stuart,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STUART,Mint Stuart,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STUART,Mint Stuart,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STUART,Mint Stuart,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,672.84,0.00
+FLD-STUART,Mint Stuart,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,590.00,0.00
+FLD-STUART,Mint Stuart,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,132.49
+FLD-STUART,Mint Stuart,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,810.03,0.00
+FLD-STUART,Mint Stuart,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,810.03
+FLD-BONITA,Mint Bonita Springs ,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"4,181.00"
+FLD-BONITA,Mint Bonita Springs ,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,218.50",0.00
+FLD-BONITA,Mint Bonita Springs ,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,872.50,0.00
+FLD-BONITA,Mint Bonita Springs ,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,"1,090.00",0.00
+FLD-BONITA,Mint Bonita Springs ,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BONITA,Mint Bonita Springs ,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"1,177.66",0.00
+FLD-BONITA,Mint Bonita Springs ,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"1,177.66"
+FLD-BRADEN,Mint Bradenton,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,696.99"
+FLD-BRADEN,Mint Bradenton,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,005.49",0.00
+FLD-BRADEN,Mint Bradenton,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRADEN,Mint Bradenton,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRADEN,Mint Bradenton,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRADEN,Mint Bradenton,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"1,031.50",0.00
+FLD-BRADEN,Mint Bradenton,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,660.00,0.00
+FLD-BRADEN,Mint Bradenton,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRADEN,Mint Bradenton,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,739.50,0.00
+FLD-BRADEN,Mint Bradenton,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,739.50
+FLD-MIAMI,Mint Miami,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,072.00"
+FLD-MIAMI,Mint Miami,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,471.35",0.00
+FLD-MIAMI,Mint Miami,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MIAMI,Mint Miami,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MIAMI,Mint Miami,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MIAMI,Mint Miami,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,535.65,0.00
+FLD-MIAMI,Mint Miami,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,"1,030.00",0.00
+FLD-MIAMI,Mint Miami,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,35.00
+FLD-MIAMI,Mint Miami,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,659.78,0.00
+FLD-MIAMI,Mint Miami,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,659.78
+FLD-O10615,Mint Orlando ,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,861.99"
+FLD-O10615,Mint Orlando ,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,471.44",0.00
+FLD-O10615,Mint Orlando ,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-O10615,Mint Orlando ,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-O10615,Mint Orlando ,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-O10615,Mint Orlando ,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,629.55,0.00
+FLD-O10615,Mint Orlando ,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,630.00,0.00
+FLD-O10615,Mint Orlando ,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,131.00
+FLD-O10615,Mint Orlando ,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,966.20,0.00
+FLD-O10615,Mint Orlando ,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,966.20
+AZD-UH,Mint Bell Road Phoenix,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"35,284.98"
+AZD-UH,Mint Bell Road Phoenix,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"12,740.41",0.00
+AZD-UH,Mint Bell Road Phoenix,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"5,329.60"
+AZD-UH,Mint Bell Road Phoenix,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"27,873.56",0.00
+AZD-UH,Mint Bell Road Phoenix,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-UH,Mint Bell Road Phoenix,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.61
+AZD-UH,Mint Bell Road Phoenix,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"12,900.70",0.00
+AZD-UH,Mint Bell Road Phoenix,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"12,900.70"
+MI-GB2,Mint Portage,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"10,571.16"
+MI-GB2,Mint Portage,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,409.21",0.00
+MI-GB2,Mint Portage,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MI-GB2,Mint Portage,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,206.64,0.00
+MI-GB2,Mint Portage,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"1,313.98"
+MI-GB2,Mint Portage,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"9,108.78",0.00
+MI-GB2,Mint Portage,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MI-GB2,Mint Portage,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,160.51
+MI-GB2,Mint Portage,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"4,927.42",0.00
+MI-GB2,Mint Portage,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"4,927.42"
+AZV-ENCANT,Mint 75th Ave Phoenix,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"24,992.50"
+AZV-ENCANT,Mint 75th Ave Phoenix,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"9,728.62",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"3,682.25"
+AZV-ENCANT,Mint 75th Ave Phoenix,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"17,610.44",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"1,335.69"
+AZV-ENCANT,Mint 75th Ave Phoenix,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"8,623.89",0.00
+AZV-ENCANT,Mint 75th Ave Phoenix,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"8,623.89"
+MID-ROSE,Mint Roseville,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"8,096.49"
+MID-ROSE,Mint Roseville,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,925.06",0.00
+MID-ROSE,Mint Roseville,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-ROSE,Mint Roseville,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,421.36,0.00
+MID-ROSE,Mint Roseville,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,953.70
+MID-ROSE,Mint Roseville,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"6,256.21",0.00
+MID-ROSE,Mint Roseville,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-ROSE,Mint Roseville,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,447.56
+MID-ROSE,Mint Roseville,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"3,753.03",0.00
+MID-ROSE,Mint Roseville,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"3,753.03"
+AZD-BUCK,Mint Buckeye/Verado,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"69,953.02"
+AZD-BUCK,Mint Buckeye/Verado,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"25,523.10",0.00
+AZD-BUCK,Mint Buckeye/Verado,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"9,746.09"
+AZD-BUCK,Mint Buckeye/Verado,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"54,176.47",0.00
+AZD-BUCK,Mint Buckeye/Verado,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-BUCK,Mint Buckeye/Verado,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.46,0.00
+AZD-BUCK,Mint Buckeye/Verado,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"38,078.76",0.00
+AZD-BUCK,Mint Buckeye/Verado,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"38,078.76"
+FLD-CAPECO,Mint Cape Coral,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,117.00"
+FLD-CAPECO,Mint Cape Coral,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,637.30",0.00
+FLD-CAPECO,Mint Cape Coral,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-CAPECO,Mint Cape Coral,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,794.70,0.00
+FLD-CAPECO,Mint Cape Coral,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,650.00,0.00
+FLD-CAPECO,Mint Cape Coral,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,35.00
+FLD-CAPECO,Mint Cape Coral,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,650.92,0.00
+FLD-CAPECO,Mint Cape Coral,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,650.92
+AZD-ELMIRA,Mint El Mirage,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"17,496.50"
+AZD-ELMIRA,Mint El Mirage,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"7,066.59",0.00
+AZD-ELMIRA,Mint El Mirage,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"2,625.06"
+AZD-ELMIRA,Mint El Mirage,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"13,055.77",0.00
+AZD-ELMIRA,Mint El Mirage,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZD-ELMIRA,Mint El Mirage,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.80,0.00
+AZD-ELMIRA,Mint El Mirage,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"8,781.65",0.00
+AZD-ELMIRA,Mint El Mirage,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"8,781.65"
+NVD-PARA,Mint Las Vegas Strip ,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"21,651.90"
+NVD-PARA,Mint Las Vegas Strip ,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"6,614.02",0.00
+NVD-PARA,Mint Las Vegas Strip ,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"2,715.84"
+NVD-PARA,Mint Las Vegas Strip ,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"17,461.86",0.00
+NVD-PARA,Mint Las Vegas Strip ,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+NVD-PARA,Mint Las Vegas Strip ,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,291.86
+NVD-PARA,Mint Las Vegas Strip ,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"7,730.43",0.00
+NVD-PARA,Mint Las Vegas Strip ,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"7,730.43"
+FLD-LONGWO,Mint Longwood,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"3,746.00"
+FLD-LONGWO,Mint Longwood,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,235.40",0.00
+FLD-LONGWO,Mint Longwood,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-LONGWO,Mint Longwood,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-LONGWO,Mint Longwood,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-LONGWO,Mint Longwood,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,594.30,0.00
+FLD-LONGWO,Mint Longwood,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,640.00,0.00
+FLD-LONGWO,Mint Longwood,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,276.30
+FLD-LONGWO,Mint Longwood,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,636.12,0.00
+FLD-LONGWO,Mint Longwood,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,636.12
+FLD-MELBOU,Mint Melbourne,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"7,270.98"
+FLD-MELBOU,Mint Melbourne,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"4,021.98",0.00
+FLD-MELBOU,Mint Melbourne,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MELBOU,Mint Melbourne,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MELBOU,Mint Melbourne,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MELBOU,Mint Melbourne,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"1,759.00",0.00
+FLD-MELBOU,Mint Melbourne,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,"1,490.00",0.00
+FLD-MELBOU,Mint Melbourne,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-MELBOU,Mint Melbourne,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"1,541.27",0.00
+FLD-MELBOU,Mint Melbourne,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"1,541.27"
+AZV-EBA,Mint Scottsdale,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"31,136.00"
+AZV-EBA,Mint Scottsdale,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"11,368.39",0.00
+AZV-EBA,Mint Scottsdale,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-EBA,Mint Scottsdale,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-EBA,Mint Scottsdale,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"4,525.93"
+AZV-EBA,Mint Scottsdale,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"22,883.43",0.00
+AZV-EBA,Mint Scottsdale,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-EBA,Mint Scottsdale,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"1,410.11"
+AZV-EBA,Mint Scottsdale,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"12,746.14",0.00
+AZV-EBA,Mint Scottsdale,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"12,746.14"
+ILD-WILLOW,Mint Willowbrook,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"13,006.23"
+ILD-WILLOW,Mint Willowbrook,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"4,064.35",0.00
+ILD-WILLOW,Mint Willowbrook,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"2,444.42"
+ILD-WILLOW,Mint Willowbrook,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"9,808.90",0.00
+ILD-WILLOW,Mint Willowbrook,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+ILD-WILLOW,Mint Willowbrook,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"1,577.40"
+ILD-WILLOW,Mint Willowbrook,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"6,429.83",0.00
+ILD-WILLOW,Mint Willowbrook,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"6,429.83"
+FLD-BRANDO,Mint Brandon,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"5,000.97"
+FLD-BRANDO,Mint Brandon,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,707.82",0.00
+FLD-BRANDO,Mint Brandon,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRANDO,Mint Brandon,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRANDO,Mint Brandon,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-BRANDO,Mint Brandon,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,713.20,0.00
+FLD-BRANDO,Mint Brandon,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,"1,470.00",0.00
+FLD-BRANDO,Mint Brandon,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,109.95
+FLD-BRANDO,Mint Brandon,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,906.57,0.00
+FLD-BRANDO,Mint Brandon,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,906.57
+MID-COLDWA,Mint Coldwater,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"21,867.27"
+MID-COLDWA,Mint Coldwater,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"6,667.64",0.00
+MID-COLDWA,Mint Coldwater,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-COLDWA,Mint Coldwater,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,494.71,0.00
+MID-COLDWA,Mint Coldwater,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"2,432.55"
+MID-COLDWA,Mint Coldwater,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"16,908.76",0.00
+MID-COLDWA,Mint Coldwater,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-COLDWA,Mint Coldwater,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,228.71
+MID-COLDWA,Mint Coldwater,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"10,055.60",0.00
+MID-COLDWA,Mint Coldwater,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"10,055.60"
+FLD-GAINES,Mint Gainesville,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"2,727.00"
+FLD-GAINES,Mint Gainesville,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"1,510.35",0.00
+FLD-GAINES,Mint Gainesville,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-GAINES,Mint Gainesville,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-GAINES,Mint Gainesville,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-GAINES,Mint Gainesville,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,260.65,0.00
+FLD-GAINES,Mint Gainesville,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,942.00,0.00
+FLD-GAINES,Mint Gainesville,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,14.00
+FLD-GAINES,Mint Gainesville,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,627.11,0.00
+FLD-GAINES,Mint Gainesville,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,627.11
+AZV-GTL,Mint Northern Phoenix,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"31,736.49"
+AZV-GTL,Mint Northern Phoenix,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"12,484.65",0.00
+AZV-GTL,Mint Northern Phoenix,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"4,597.00"
+AZV-GTL,Mint Northern Phoenix,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"22,999.61",0.00
+AZV-GTL,Mint Northern Phoenix,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-GTL,Mint Northern Phoenix,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,849.23
+AZV-GTL,Mint Northern Phoenix,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"10,909.65",0.00
+AZV-GTL,Mint Northern Phoenix,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"10,909.65"
+FLD-STAUGU,Mint St. Augustine,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"8,852.00"
+FLD-STAUGU,Mint St. Augustine,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"4,842.85",0.00
+FLD-STAUGU,Mint St. Augustine,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,0.00
+FLD-STAUGU,Mint St. Augustine,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"1,222.50",0.00
+FLD-STAUGU,Mint St. Augustine,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,"2,520.40",0.00
+FLD-STAUGU,Mint St. Augustine,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,266.25
+FLD-STAUGU,Mint St. Augustine,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"1,884.41",0.00
+FLD-STAUGU,Mint St. Augustine,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"1,884.41"
+MID-MONROE,Mint Monroe,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"11,409.75"
+MID-MONROE,Mint Monroe,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,159.57",0.00
+MID-MONROE,Mint Monroe,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-MONROE,Mint Monroe,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,322.32,0.00
+MID-MONROE,Mint Monroe,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"1,480.80"
+MID-MONROE,Mint Monroe,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"10,255.34",0.00
+MID-MONROE,Mint Monroe,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-MONROE,Mint Monroe,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,153.32
+MID-MONROE,Mint Monroe,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"4,924.50",0.00
+MID-MONROE,Mint Monroe,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"4,924.50"
+MID-NB,Mint New Buffalo,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"10,921.60"
+MID-NB,Mint New Buffalo,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"2,135.41",0.00
+MID-NB,Mint New Buffalo,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-NB,Mint New Buffalo,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,184.37,0.00
+MID-NB,Mint New Buffalo,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"1,427.62"
+MID-NB,Mint New Buffalo,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"10,029.44",0.00
+MID-NB,Mint New Buffalo,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-NB,Mint New Buffalo,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,0.00
+MID-NB,Mint New Buffalo,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"5,242.35",0.00
+MID-NB,Mint New Buffalo,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"5,242.35"
+AZV-SWT,Mint Tempe,40001,Retail Income: Retail Sales,00-00,2026-01-11 DS,1.00,,0.00,"85,764.73"
+AZV-SWT,Mint Tempe,40002,Retail Income: Retail: Discounts and Coupons,00-00,2026-01-11 DS,1.00,,"31,957.82",0.00
+AZV-SWT,Mint Tempe,40003,Retail Income: Sales Return,00-00,2026-01-11 DS,1.00,,25.25,0.00
+AZV-SWT,Mint Tempe,40004,Loyalty Discounts,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-SWT,Mint Tempe,23500,Taxes Payable - Sales & Use,00-00,2026-01-11 DS,1.00,,0.00,"14,108.04"
+AZV-SWT,Mint Tempe,10000,Cash on Hand,00-00,2026-01-11 DS,1.00,,"62,575.94",0.00
+AZV-SWT,Mint Tempe,11010,Debit Card Receivable,00-00,2026-01-11 DS,1.00,,0.00,0.00
+AZV-SWT,Mint Tempe,70260,Overage/Shortage: Cash Ledger Adj,00-00,2026-01-11 DS,1.00,,0.00,"5,313.76"
+AZV-SWT,Mint Tempe,50000,Retail - Consumable Products for Resale,00-00,2026-01-11 DS,1.00,,"41,221.85",0.00
+AZV-SWT,Mint Tempe,12250,Inventory - Finished Goods,00-00,2026-01-11 DS,1.00,,0.00,"41,221.85"

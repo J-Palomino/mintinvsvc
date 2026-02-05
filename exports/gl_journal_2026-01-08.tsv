@@ -1,38 +1,38 @@
 # GL Journal Export - 2026-01-08
 # Source of Truth: Dutchie POS API (/reporting/transactions)
-# Generated: 2026-01-17T00:32:47.414Z
-# Time basis: Local store time (per-store timezone conversion)
-# NOTE: Verify branch codes and account mappings match your accounting system.
+# Generated: 2026-01-23T21:14:38.419Z
+# NOTE: Transactions are fetched using local timezone boundaries (midnight-to-midnight).
+# Branch codes in this export are derived from Dutchie location names.
 #
 Branch	Dutchie Store Name	Account	Description	Subaccount	Ref. Number	Quantity	UOM	Debit Amount	Credit Amount
 MID-KALAMA	Mint Kalamazoo	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,271.77
-MID-KALAMA	Mint Kalamazoo	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		1,114.98	0.00
+MID-KALAMA	Mint Kalamazoo	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		1,016.36	0.00
 MID-KALAMA	Mint Kalamazoo	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-KALAMA	Mint Kalamazoo	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		98.62	0.00
 MID-KALAMA	Mint Kalamazoo	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	522.83
 MID-KALAMA	Mint Kalamazoo	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		3,569.90	0.00
-MID-KALAMA	Mint Kalamazoo	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MID-KALAMA	Mint Kalamazoo	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	11.10
-MID-KALAMA	Mint Kalamazoo	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,950.55	0.00
-MID-KALAMA	Mint Kalamazoo	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,950.55
+MID-KALAMA	Mint Kalamazoo	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		116.72	0.00
+MID-KALAMA	Mint Kalamazoo	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	7.00
+MID-KALAMA	Mint Kalamazoo	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,953.55	0.00
+MID-KALAMA	Mint Kalamazoo	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,953.55
 NVD-RAIN	Mint Spring Valley	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	3,583.51
 NVD-RAIN	Mint Spring Valley	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		1,071.77	0.00
 NVD-RAIN	Mint Spring Valley	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 NVD-RAIN	Mint Spring Valley	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 NVD-RAIN	Mint Spring Valley	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	460.20
 NVD-RAIN	Mint Spring Valley	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		2,913.22	0.00
-NVD-RAIN	Mint Spring Valley	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-NVD-RAIN	Mint Spring Valley	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	58.72
+NVD-RAIN	Mint Spring Valley	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		58.72	0.00
+NVD-RAIN	Mint Spring Valley	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-0.00
 NVD-RAIN	Mint Spring Valley	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,496.22	0.00
 NVD-RAIN	Mint Spring Valley	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,496.22
-MOD-MO4	Mint St. Peters	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	25,665.50
+MOD-MO4	Mint St. Peters	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	25,574.50
 MOD-MO4	Mint St. Peters	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		8,144.02	0.00
-MOD-MO4	Mint St. Peters	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		106.45	0.00
-MOD-MO4	Mint St. Peters	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
+MOD-MO4	Mint St. Peters	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
+MOD-MO4	Mint St. Peters	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		209.97	0.00
 MOD-MO4	Mint St. Peters	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	2,903.31
 MOD-MO4	Mint St. Peters	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		19,701.14	0.00
-MOD-MO4	Mint St. Peters	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MOD-MO4	Mint St. Peters	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	617.20
+MOD-MO4	Mint St. Peters	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		789.39	0.00
+MOD-MO4	Mint St. Peters	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	366.71
 MOD-MO4	Mint St. Peters	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		12,072.76	0.00
 MOD-MO4	Mint St. Peters	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	12,072.76
 AZD-4245IN	Mint Mesa 	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	47,735.01
@@ -41,8 +41,8 @@ AZD-4245IN	Mint Mesa 	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00
 AZD-4245IN	Mint Mesa 	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZD-4245IN	Mint Mesa 	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	6,677.26
 AZD-4245IN	Mint Mesa 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		35,300.23	0.00
-AZD-4245IN	Mint Mesa 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZD-4245IN	Mint Mesa 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	1,334.58
+AZD-4245IN	Mint Mesa 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,334.65	0.00
+AZD-4245IN	Mint Mesa 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.07
 AZD-4245IN	Mint Mesa 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		15,922.05	0.00
 AZD-4245IN	Mint Mesa 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	15,922.05
 FLD-JA4332	Mint Jacksonville	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,408.00
@@ -50,9 +50,9 @@ FLD-JA4332	Mint Jacksonville	40002	Retail Income: Retail: Discounts and Coupons	
 FLD-JA4332	Mint Jacksonville	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-JA4332	Mint Jacksonville	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-JA4332	Mint Jacksonville	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-JA4332	Mint Jacksonville	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		709.60	0.00
+FLD-JA4332	Mint Jacksonville	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		774.60	0.00
 FLD-JA4332	Mint Jacksonville	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,120.00	0.00
-FLD-JA4332	Mint Jacksonville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-JA4332	Mint Jacksonville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	65.00
 FLD-JA4332	Mint Jacksonville	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		746.76	0.00
 FLD-JA4332	Mint Jacksonville	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	746.76
 FLD-DELRAY	Mint Delray Beach	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	5,622.00
@@ -60,9 +60,9 @@ FLD-DELRAY	Mint Delray Beach	40002	Retail Income: Retail: Discounts and Coupons	
 FLD-DELRAY	Mint Delray Beach	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-DELRAY	Mint Delray Beach	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-DELRAY	Mint Delray Beach	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-DELRAY	Mint Delray Beach	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,164.00	0.00
+FLD-DELRAY	Mint Delray Beach	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,212.00	0.00
 FLD-DELRAY	Mint Delray Beach	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,540.00	0.00
-FLD-DELRAY	Mint Delray Beach	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-DELRAY	Mint Delray Beach	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	48.00
 FLD-DELRAY	Mint Delray Beach	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,267.00	0.00
 FLD-DELRAY	Mint Delray Beach	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,267.00
 FLD-SARASO	Mint Sarasota	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	5,699.00
@@ -70,9 +70,9 @@ FLD-SARASO	Mint Sarasota	40002	Retail Income: Retail: Discounts and Coupons	00-0
 FLD-SARASO	Mint Sarasota	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-SARASO	Mint Sarasota	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-SARASO	Mint Sarasota	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-SARASO	Mint Sarasota	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,643.00	0.00
-FLD-SARASO	Mint Sarasota	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		770.00	0.00
-FLD-SARASO	Mint Sarasota	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	42.75
+FLD-SARASO	Mint Sarasota	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,690.10	0.00
+FLD-SARASO	Mint Sarasota	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		812.75	0.00
+FLD-SARASO	Mint Sarasota	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	47.10
 FLD-SARASO	Mint Sarasota	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,168.04	0.00
 FLD-SARASO	Mint Sarasota	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,168.04
 FLD-STUART	Mint Stuart	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,339.00
@@ -80,29 +80,29 @@ FLD-STUART	Mint Stuart	40002	Retail Income: Retail: Discounts and Coupons	00-00	
 FLD-STUART	Mint Stuart	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-STUART	Mint Stuart	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-STUART	Mint Stuart	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-STUART	Mint Stuart	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,391.90	0.00
-FLD-STUART	Mint Stuart	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		530.00	0.00
-FLD-STUART	Mint Stuart	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	30.00
+FLD-STUART	Mint Stuart	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,426.95	0.00
+FLD-STUART	Mint Stuart	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		560.00	0.00
+FLD-STUART	Mint Stuart	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	35.05
 FLD-STUART	Mint Stuart	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,083.37	0.00
 FLD-STUART	Mint Stuart	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,083.37
-FLD-BONITA	Mint Bonita Springs 	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	3,639.00
-FLD-BONITA	Mint Bonita Springs 	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,073.75	0.00
+FLD-BONITA	Mint Bonita Springs 	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	3,589.00
+FLD-BONITA	Mint Bonita Springs 	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,048.75	0.00
 FLD-BONITA	Mint Bonita Springs 	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BONITA	Mint Bonita Springs 	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BONITA	Mint Bonita Springs 	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-BONITA	Mint Bonita Springs 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		685.25	0.00
+FLD-BONITA	Mint Bonita Springs 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		727.50	0.00
 FLD-BONITA	Mint Bonita Springs 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		880.00	0.00
-FLD-BONITA	Mint Bonita Springs 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-BONITA	Mint Bonita Springs 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		2,332.14	0.00
-FLD-BONITA	Mint Bonita Springs 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	2,332.14
+FLD-BONITA	Mint Bonita Springs 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	67.25
+FLD-BONITA	Mint Bonita Springs 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		967.14	0.00
+FLD-BONITA	Mint Bonita Springs 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	967.14
 FLD-BRADEN	Mint Bradenton	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,517.00
 FLD-BRADEN	Mint Bradenton	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,657.05	0.00
 FLD-BRADEN	Mint Bradenton	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BRADEN	Mint Bradenton	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BRADEN	Mint Bradenton	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-BRADEN	Mint Bradenton	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,221.95	0.00
-FLD-BRADEN	Mint Bradenton	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		550.00	0.00
-FLD-BRADEN	Mint Bradenton	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	88.00
+FLD-BRADEN	Mint Bradenton	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,241.50	0.00
+FLD-BRADEN	Mint Bradenton	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		638.00	0.00
+FLD-BRADEN	Mint Bradenton	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	19.55
 FLD-BRADEN	Mint Bradenton	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,072.63	0.00
 FLD-BRADEN	Mint Bradenton	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,072.63
 FLD-MIAMI	Mint Miami	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,393.00
@@ -110,21 +110,21 @@ FLD-MIAMI	Mint Miami	40002	Retail Income: Retail: Discounts and Coupons	00-00	20
 FLD-MIAMI	Mint Miami	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-MIAMI	Mint Miami	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-MIAMI	Mint Miami	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-MIAMI	Mint Miami	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		742.30	0.00
-FLD-MIAMI	Mint Miami	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,060.00	0.00
-FLD-MIAMI	Mint Miami	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	30.00
-FLD-MIAMI	Mint Miami	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		2,490.94	0.00
-FLD-MIAMI	Mint Miami	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	2,490.94
+FLD-MIAMI	Mint Miami	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		856.75	0.00
+FLD-MIAMI	Mint Miami	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,090.00	0.00
+FLD-MIAMI	Mint Miami	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	114.45
+FLD-MIAMI	Mint Miami	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		739.69	0.00
+FLD-MIAMI	Mint Miami	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	739.69
 FLD-O10615	Mint Orlando 	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	5,516.00
 FLD-O10615	Mint Orlando 	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		3,164.75	0.00
 FLD-O10615	Mint Orlando 	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-O10615	Mint Orlando 	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-O10615	Mint Orlando 	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-O10615	Mint Orlando 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,086.25	0.00
-FLD-O10615	Mint Orlando 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,170.00	0.00
-FLD-O10615	Mint Orlando 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	95.00
-FLD-O10615	Mint Orlando 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		6,598.95	0.00
-FLD-O10615	Mint Orlando 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	6,598.95
+FLD-O10615	Mint Orlando 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,138.50	0.00
+FLD-O10615	Mint Orlando 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,265.00	0.00
+FLD-O10615	Mint Orlando 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	52.25
+FLD-O10615	Mint Orlando 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,243.95	0.00
+FLD-O10615	Mint Orlando 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,243.95
 AZD-UH	Mint Bell Road Phoenix	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	38,261.00
 AZD-UH	Mint Bell Road Phoenix	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		13,728.92	0.00
 AZD-UH	Mint Bell Road Phoenix	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
@@ -132,17 +132,17 @@ AZD-UH	Mint Bell Road Phoenix	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		
 AZD-UH	Mint Bell Road Phoenix	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	5,734.48
 AZD-UH	Mint Bell Road Phoenix	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		30,265.90	0.00
 AZD-UH	Mint Bell Road Phoenix	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZD-UH	Mint Bell Road Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.66
+AZD-UH	Mint Bell Road Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-0.66
 AZD-UH	Mint Bell Road Phoenix	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		13,429.22	0.00
 AZD-UH	Mint Bell Road Phoenix	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	13,429.22
 MI-GB2	Mint Portage	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	15,459.63
-MI-GB2	Mint Portage	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		4,451.58	0.00
+MI-GB2	Mint Portage	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		4,123.81	0.00
 MI-GB2	Mint Portage	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MI-GB2	Mint Portage	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		327.77	0.00
 MI-GB2	Mint Portage	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	1,824.13
 MI-GB2	Mint Portage	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		12,514.21	0.00
-MI-GB2	Mint Portage	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MI-GB2	Mint Portage	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		9.80	0.00
+MI-GB2	Mint Portage	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		338.97	0.00
+MI-GB2	Mint Portage	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	21.00
 MI-GB2	Mint Portage	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		7,503.12	0.00
 MI-GB2	Mint Portage	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	7,503.12
 AZV-ENCANT	Mint 75th Ave Phoenix	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	26,806.00
@@ -151,18 +151,18 @@ AZV-ENCANT	Mint 75th Ave Phoenix	40003	Retail Income: Sales Return	00-00	2026-01
 AZV-ENCANT	Mint 75th Ave Phoenix	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZV-ENCANT	Mint 75th Ave Phoenix	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	3,811.31
 AZV-ENCANT	Mint 75th Ave Phoenix	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		18,588.18	0.00
-AZV-ENCANT	Mint 75th Ave Phoenix	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZV-ENCANT	Mint 75th Ave Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	1,424.28
-AZV-ENCANT	Mint 75th Ave Phoenix	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		27,914.79	0.00
-AZV-ENCANT	Mint 75th Ave Phoenix	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	27,914.79
-MID-ROSE	Mint Roseville	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	9,289.76
-MID-ROSE	Mint Roseville	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,170.36	0.00
+AZV-ENCANT	Mint 75th Ave Phoenix	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,423.85	0.00
+AZV-ENCANT	Mint 75th Ave Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-0.43
+AZV-ENCANT	Mint 75th Ave Phoenix	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		8,783.32	0.00
+AZV-ENCANT	Mint 75th Ave Phoenix	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	8,783.32
+MID-ROSE	Mint Roseville	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	9,289.77
+MID-ROSE	Mint Roseville	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,017.93	0.00
 MID-ROSE	Mint Roseville	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-ROSE	Mint Roseville	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		152.43	0.00
 MID-ROSE	Mint Roseville	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	1,174.68
 MID-ROSE	Mint Roseville	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		7,995.73	0.00
-MID-ROSE	Mint Roseville	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MID-ROSE	Mint Roseville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	145.92
+MID-ROSE	Mint Roseville	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		319.35	0.00
+MID-ROSE	Mint Roseville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	21.00
 MID-ROSE	Mint Roseville	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		4,210.62	0.00
 MID-ROSE	Mint Roseville	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	4,210.62
 AZD-BUCK	Mint Buckeye/Verado	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	67,017.51
@@ -172,17 +172,17 @@ AZD-BUCK	Mint Buckeye/Verado	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0
 AZD-BUCK	Mint Buckeye/Verado	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	9,959.79
 AZD-BUCK	Mint Buckeye/Verado	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		54,918.63	0.00
 AZD-BUCK	Mint Buckeye/Verado	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZD-BUCK	Mint Buckeye/Verado	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.04	0.00
-AZD-BUCK	Mint Buckeye/Verado	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		78,975.35	0.00
-AZD-BUCK	Mint Buckeye/Verado	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	78,975.35
+AZD-BUCK	Mint Buckeye/Verado	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.04
+AZD-BUCK	Mint Buckeye/Verado	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		34,943.31	0.00
+AZD-BUCK	Mint Buckeye/Verado	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	34,943.31
 FLD-CAPECO	Mint Cape Coral	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	3,949.00
 FLD-CAPECO	Mint Cape Coral	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,207.00	0.00
 FLD-CAPECO	Mint Cape Coral	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-CAPECO	Mint Cape Coral	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-CAPECO	Mint Cape Coral	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-CAPECO	Mint Cape Coral	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		742.00	0.00
+FLD-CAPECO	Mint Cape Coral	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		783.75	0.00
 FLD-CAPECO	Mint Cape Coral	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,000.00	0.00
-FLD-CAPECO	Mint Cape Coral	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-CAPECO	Mint Cape Coral	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	41.75
 FLD-CAPECO	Mint Cape Coral	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		985.46	0.00
 FLD-CAPECO	Mint Cape Coral	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	985.46
 AZD-ELMIRA	Mint El Mirage	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	14,707.00
@@ -192,17 +192,17 @@ AZD-ELMIRA	Mint El Mirage	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00
 AZD-ELMIRA	Mint El Mirage	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	2,260.57
 AZD-ELMIRA	Mint El Mirage	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		11,211.52	0.00
 AZD-ELMIRA	Mint El Mirage	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZD-ELMIRA	Mint El Mirage	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.10
-AZD-ELMIRA	Mint El Mirage	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		8,148.74	0.00
-AZD-ELMIRA	Mint El Mirage	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	8,148.74
+AZD-ELMIRA	Mint El Mirage	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-0.10
+AZD-ELMIRA	Mint El Mirage	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		7,837.61	0.00
+AZD-ELMIRA	Mint El Mirage	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	7,837.61
 NVD-PARA	Mint Las Vegas Strip 	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	24,833.25
 NVD-PARA	Mint Las Vegas Strip 	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		8,383.41	0.00
 NVD-PARA	Mint Las Vegas Strip 	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 NVD-PARA	Mint Las Vegas Strip 	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 NVD-PARA	Mint Las Vegas Strip 	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	2,962.09
 NVD-PARA	Mint Las Vegas Strip 	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		18,994.82	0.00
-NVD-PARA	Mint Las Vegas Strip 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-NVD-PARA	Mint Las Vegas Strip 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	417.11
+NVD-PARA	Mint Las Vegas Strip 	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		417.05	0.00
+NVD-PARA	Mint Las Vegas Strip 	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-0.06
 NVD-PARA	Mint Las Vegas Strip 	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		8,507.09	0.00
 NVD-PARA	Mint Las Vegas Strip 	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	8,507.09
 FLD-LONGWO	Mint Longwood	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	3,759.00
@@ -210,9 +210,9 @@ FLD-LONGWO	Mint Longwood	40002	Retail Income: Retail: Discounts and Coupons	00-0
 FLD-LONGWO	Mint Longwood	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-LONGWO	Mint Longwood	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-LONGWO	Mint Longwood	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-LONGWO	Mint Longwood	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		534.95	0.00
+FLD-LONGWO	Mint Longwood	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		593.75	0.00
 FLD-LONGWO	Mint Longwood	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,020.00	0.00
-FLD-LONGWO	Mint Longwood	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-LONGWO	Mint Longwood	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	58.80
 FLD-LONGWO	Mint Longwood	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		582.03	0.00
 FLD-LONGWO	Mint Longwood	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	582.03
 FLD-MELBOU	Mint Melbourne	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,483.00
@@ -220,9 +220,9 @@ FLD-MELBOU	Mint Melbourne	40002	Retail Income: Retail: Discounts and Coupons	00-
 FLD-MELBOU	Mint Melbourne	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-MELBOU	Mint Melbourne	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-MELBOU	Mint Melbourne	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-MELBOU	Mint Melbourne	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,133.45	0.00
+FLD-MELBOU	Mint Melbourne	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,166.70	0.00
 FLD-MELBOU	Mint Melbourne	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		730.00	0.00
-FLD-MELBOU	Mint Melbourne	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-MELBOU	Mint Melbourne	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	33.25
 FLD-MELBOU	Mint Melbourne	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		694.99	0.00
 FLD-MELBOU	Mint Melbourne	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	694.99
 AZV-EBA	Mint Scottsdale	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	40,146.56
@@ -231,18 +231,18 @@ AZV-EBA	Mint Scottsdale	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.
 AZV-EBA	Mint Scottsdale	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZV-EBA	Mint Scottsdale	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	5,771.60
 AZV-EBA	Mint Scottsdale	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		30,144.71	0.00
-AZV-EBA	Mint Scottsdale	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZV-EBA	Mint Scottsdale	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	1,533.59
+AZV-EBA	Mint Scottsdale	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,627.45	0.00
+AZV-EBA	Mint Scottsdale	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	93.86
 AZV-EBA	Mint Scottsdale	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		14,431.26	0.00
 AZV-EBA	Mint Scottsdale	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	14,431.26
 ILD-WILLOW	Mint Willowbrook	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	12,358.60
 ILD-WILLOW	Mint Willowbrook	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		3,886.47	0.00
 ILD-WILLOW	Mint Willowbrook	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
-ILD-WILLOW	Mint Willowbrook	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
+ILD-WILLOW	Mint Willowbrook	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		10.00	0.00
 ILD-WILLOW	Mint Willowbrook	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	2,305.68
 ILD-WILLOW	Mint Willowbrook	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		9,435.26	0.00
-ILD-WILLOW	Mint Willowbrook	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-ILD-WILLOW	Mint Willowbrook	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	1,342.55
+ILD-WILLOW	Mint Willowbrook	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,350.55	0.00
+ILD-WILLOW	Mint Willowbrook	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	18.00
 ILD-WILLOW	Mint Willowbrook	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		5,951.54	0.00
 ILD-WILLOW	Mint Willowbrook	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	5,951.54
 FLD-BRANDO	Mint Brandon	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	4,684.00
@@ -250,19 +250,19 @@ FLD-BRANDO	Mint Brandon	40002	Retail Income: Retail: Discounts and Coupons	00-00
 FLD-BRANDO	Mint Brandon	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BRANDO	Mint Brandon	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-BRANDO	Mint Brandon	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-BRANDO	Mint Brandon	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,667.80	0.00
-FLD-BRANDO	Mint Brandon	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		198.00	0.00
-FLD-BRANDO	Mint Brandon	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	206.00
+FLD-BRANDO	Mint Brandon	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,677.30	0.00
+FLD-BRANDO	Mint Brandon	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		404.00	0.00
+FLD-BRANDO	Mint Brandon	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	9.50
 FLD-BRANDO	Mint Brandon	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		847.82	0.00
 FLD-BRANDO	Mint Brandon	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	847.82
 MID-COLDWA	Mint Coldwater	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	11,586.18
-MID-COLDWA	Mint Coldwater	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,891.86	0.00
+MID-COLDWA	Mint Coldwater	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,528.53	0.00
 MID-COLDWA	Mint Coldwater	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-COLDWA	Mint Coldwater	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		363.33	0.00
 MID-COLDWA	Mint Coldwater	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	1,438.39
 MID-COLDWA	Mint Coldwater	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		10,132.71	0.00
 MID-COLDWA	Mint Coldwater	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MID-COLDWA	Mint Coldwater	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		363.33	0.00
+MID-COLDWA	Mint Coldwater	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-COLDWA	Mint Coldwater	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		5,567.80	0.00
 MID-COLDWA	Mint Coldwater	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	5,567.80
 FLD-GAINES	Mint Gainesville	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	2,802.00
@@ -270,9 +270,9 @@ FLD-GAINES	Mint Gainesville	40002	Retail Income: Retail: Discounts and Coupons	0
 FLD-GAINES	Mint Gainesville	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-GAINES	Mint Gainesville	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-GAINES	Mint Gainesville	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-GAINES	Mint Gainesville	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		899.75	0.00
-FLD-GAINES	Mint Gainesville	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		230.00	0.00
-FLD-GAINES	Mint Gainesville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	59.00
+FLD-GAINES	Mint Gainesville	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		922.75	0.00
+FLD-GAINES	Mint Gainesville	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		289.00	0.00
+FLD-GAINES	Mint Gainesville	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	23.00
 FLD-GAINES	Mint Gainesville	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		650.89	0.00
 FLD-GAINES	Mint Gainesville	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	650.89
 AZV-GTL	Mint Northern Phoenix	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	31,373.00
@@ -281,47 +281,47 @@ AZV-GTL	Mint Northern Phoenix	40003	Retail Income: Sales Return	00-00	2026-01-08
 AZV-GTL	Mint Northern Phoenix	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZV-GTL	Mint Northern Phoenix	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	4,725.76
 AZV-GTL	Mint Northern Phoenix	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		23,708.48	0.00
-AZV-GTL	Mint Northern Phoenix	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZV-GTL	Mint Northern Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	963.80
-AZV-GTL	Mint Northern Phoenix	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		10,237.41	0.00
-AZV-GTL	Mint Northern Phoenix	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	10,237.41
+AZV-GTL	Mint Northern Phoenix	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		962.44	0.00
+AZV-GTL	Mint Northern Phoenix	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	-1.36
+AZV-GTL	Mint Northern Phoenix	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		9,992.22	0.00
+AZV-GTL	Mint Northern Phoenix	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	9,992.22
 FLD-STAUGU	Mint St. Augustine	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	5,930.99
 FLD-STAUGU	Mint St. Augustine	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		3,283.05	0.00
 FLD-STAUGU	Mint St. Augustine	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-STAUGU	Mint St. Augustine	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 FLD-STAUGU	Mint St. Augustine	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	0.00
-FLD-STAUGU	Mint St. Augustine	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		947.94	0.00
+FLD-STAUGU	Mint St. Augustine	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		1,045.70	0.00
 FLD-STAUGU	Mint St. Augustine	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		1,700.00	0.00
-FLD-STAUGU	Mint St. Augustine	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	0.00
+FLD-STAUGU	Mint St. Augustine	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	97.76
 FLD-STAUGU	Mint St. Augustine	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		1,220.75	0.00
 FLD-STAUGU	Mint St. Augustine	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	1,220.75
-MID-MONROE	Mint Monroe	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	13,310.81
-MID-MONROE	Mint Monroe	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,911.55	0.00
+MID-MONROE	Mint Monroe	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	13,310.83
+MID-MONROE	Mint Monroe	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		2,524.19	0.00
 MID-MONROE	Mint Monroe	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-MONROE	Mint Monroe	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		387.36	0.00
 MID-MONROE	Mint Monroe	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	1,718.56
 MID-MONROE	Mint Monroe	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		12,091.77	0.00
-MID-MONROE	Mint Monroe	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MID-MONROE	Mint Monroe	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		361.31	0.00
+MID-MONROE	Mint Monroe	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		29.55	0.00
+MID-MONROE	Mint Monroe	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	3.49
 MID-MONROE	Mint Monroe	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		5,733.93	0.00
 MID-MONROE	Mint Monroe	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	5,733.93
 MID-NB	Mint New Buffalo	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	6,695.28
-MID-NB	Mint New Buffalo	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		1,990.86	0.00
+MID-NB	Mint New Buffalo	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		1,781.90	0.00
 MID-NB	Mint New Buffalo	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 MID-NB	Mint New Buffalo	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		208.96	0.00
 MID-NB	Mint New Buffalo	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	777.92
 MID-NB	Mint New Buffalo	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		5,320.27	0.00
-MID-NB	Mint New Buffalo	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-MID-NB	Mint New Buffalo	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		46.89	0.00
+MID-NB	Mint New Buffalo	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		165.57	0.00
+MID-NB	Mint New Buffalo	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	3.50
 MID-NB	Mint New Buffalo	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		3,058.64	0.00
 MID-NB	Mint New Buffalo	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	3,058.64
-AZV-SWT	Mint Tempe	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	88,147.20
+AZV-SWT	Mint Tempe	40001	Retail Income: Retail Sales	00-00	2026-01-08 DS	1.00		0.00	88,147.19
 AZV-SWT	Mint Tempe	40002	Retail Income: Retail: Discounts and Coupons	00-00	2026-01-08 DS	1.00		29,342.71	0.00
 AZV-SWT	Mint Tempe	40003	Retail Income: Sales Return	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZV-SWT	Mint Tempe	40004	Loyalty Discounts	00-00	2026-01-08 DS	1.00		0.00	0.00
 AZV-SWT	Mint Tempe	23500	Taxes Payable - Sales & Use	00-00	2026-01-08 DS	1.00		0.00	15,375.09
 AZV-SWT	Mint Tempe	10000	Cash on Hand	00-00	2026-01-08 DS	1.00		67,844.66	0.00
-AZV-SWT	Mint Tempe	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		0.00	0.00
-AZV-SWT	Mint Tempe	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	6,334.92
+AZV-SWT	Mint Tempe	11010	Debit Card Receivable	00-00	2026-01-08 DS	1.00		6,407.42	0.00
+AZV-SWT	Mint Tempe	70260	Overage/Shortage: Cash Ledger Adj	00-00	2026-01-08 DS	1.00		0.00	72.51
 AZV-SWT	Mint Tempe	50000	Retail - Consumable Products for Resale	00-00	2026-01-08 DS	1.00		41,238.17	0.00
 AZV-SWT	Mint Tempe	12250	Inventory - Finished Goods	00-00	2026-01-08 DS	1.00		0.00	41,238.17
