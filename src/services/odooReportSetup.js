@@ -182,7 +182,7 @@ class OdooReportSetup {
     const viewId = await this.odoo.create('ir.ui.view', {
       name: viewName,
       model: 'x_daily_report',
-      type: 'tree',
+      type: 'list',
       arch: arch,
     });
 
