@@ -344,6 +344,141 @@ class OdooReportImportService {
       howToSchedule: 'Add to BullMQ scheduler or call POST /api/odoo/import-reports',
     };
   }
+
+  /**
+   * Migrate existing attachments to x_daily_report model
+   */
+  async migrateExistingAttachments() {
+    if (!this.enabled) {
+      return { success: false, error: 'Odoo not configured' };
+    }
+
+    if (!this.odoo.authenticated) {
+      const ok = await this.initialize();
+      if (!ok) return { success: false, error: 'Initialization failed' };
+    }
+
+    console.log('\n=== Migrating Existing Attachments to x_daily_report ===');
+
+    // Find all JSON report attachments
+    const attachments = await this.odoo.searchRead(
+      'ir.attachment',
+      [
+        ['mimetype', '=', 'application/json'],
+        '|',
+        ['name', 'ilike', 'daily_sales'],
+        ['name', 'ilike', 'mel_report'],
+      ],
+      ['id', 'name', 'datas', 'res_model', 'res_id', 'create_date'],
+      { order: 'create_date desc', limit: 50 }
+    );
+
+    if (!attachments || attachments.length === 0) {
+      console.log('  No report attachments found');
+      return { success: true, migrated: 0, message: 'No attachments found' };
+    }
+
+    console.log(`  Found ${attachments.length} report attachments`);
+
+    let migrated = 0;
+    let skipped = 0;
+    let errors = 0;
+
+    for (const att of attachments) {
+      try {
+        // Check if already migrated (record exists with this attachment)
+        const existing = await this.odoo.searchRead(
+          'x_daily_report',
+          [['x_attachment_id', '=', att.id]],
+          ['id'],
+          { limit: 1 }
+        );
+
+        if (existing && existing.length > 0) {
+          console.log(`  Skipping ${att.name} - already migrated`);
+          skipped++;
+          continue;
+        }
+
+        // Decode and parse the JSON content
+        if (!att.datas) {
+          console.log(`  Skipping ${att.name} - no data`);
+          skipped++;
+          continue;
+        }
+
+        const jsonContent = Buffer.from(att.datas, 'base64').toString('utf-8');
+        let reportData;
+        try {
+          reportData = JSON.parse(jsonContent);
+        } catch (e) {
+          console.log(`  Skipping ${att.name} - invalid JSON`);
+          skipped++;
+          continue;
+        }
+
+        // Determine report type from filename or data
+        let reportType = 'other';
+        if (att.name.includes('daily_sales') || reportData.report_type === 'daily_sales_national') {
+          reportType = 'daily_sales_national';
+        } else if (att.name.includes('mel_report') || reportData.report_type === 'mel_report') {
+          reportType = 'mel_report';
+        }
+
+        // Extract date from filename (e.g., mel_report_2026-02-05.json)
+        const dateMatch = att.name.match(/(\d{4}-\d{2}-\d{2})/);
+        const reportDate = dateMatch ? dateMatch[1] : att.create_date.split(' ')[0];
+
+        // Calculate total sales
+        let totalSales = 0;
+        const data = reportData.data || [];
+        const salesKeys = ['net_sales', 'total_sales', 'sales', 'gross_sales', 'total_price'];
+        for (const row of data) {
+          for (const key of salesKeys) {
+            if (typeof row[key] === 'number') {
+              totalSales += row[key];
+              break;
+            }
+          }
+        }
+
+        // Create friendly name
+        const typeName = reportType === 'daily_sales_national' ? 'Daily Sales National' :
+                        reportType === 'mel_report' ? 'Mel Report' : 'Report';
+
+        // Create the x_daily_report record
+        const recordId = await this.odoo.create('x_daily_report', {
+          x_name: `${typeName} - ${reportDate}`,
+          x_report_type: reportType,
+          x_report_date: reportDate,
+          x_source_email_id: reportData.source_message_id || att.res_id || null,
+          x_imported_at: reportData.imported_at || att.create_date,
+          x_row_count: data.length,
+          x_total_sales: totalSales,
+          x_store_count: data.length,
+          x_data_json: jsonContent,
+          x_attachment_id: att.id,
+          x_status: 'imported',
+        });
+
+        console.log(`  Migrated ${att.name} → x_daily_report ID ${recordId}`);
+        migrated++;
+      } catch (e) {
+        console.error(`  Error migrating ${att.name}: ${e.message}`);
+        errors++;
+      }
+    }
+
+    console.log(`\n=== Migration Complete: ${migrated} migrated, ${skipped} skipped, ${errors} errors ===\n`);
+
+    return {
+      success: true,
+      migrated,
+      skipped,
+      errors,
+      message: `Migrated ${migrated} attachments to x_daily_report`,
+    };
+  }
 }
 
 module.exports = OdooReportImportService;

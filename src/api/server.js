@@ -707,6 +707,27 @@ app.post('/api/odoo/import-reports', async (req, res) => {
   }
 });
 
+// Migrate existing attachments to x_daily_report model
+// POST /api/odoo/migrate-reports
+app.post('/api/odoo/migrate-reports', async (req, res) => {
+  try {
+    const OdooReportImportService = require('../services/odooReportImportService');
+    const service = new OdooReportImportService();
+
+    console.log('[API] Migrating existing report attachments...');
+    const result = await service.migrateExistingAttachments();
+
+    res.json({
+      success: true,
+      message: 'Migration completed',
+      ...result
+    });
+  } catch (error) {
+    console.error('[API] Migration error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Setup Odoo Reports module (model, views, menu)
 // POST /api/odoo/setup-reports-module
 app.post('/api/odoo/setup-reports-module', async (req, res) => {
