@@ -1,300 +1,14 @@
 /**
  * Odoo Report Import Service
  *
- * Creates scheduled actions in Odoo to import daily reports:
+ * Imports daily reports from Odoo inbox:
  * - Daily Sales National Report
  * - Mel Report
  *
- * These run nightly within Odoo itself.
+ * Runs as a Railway job, stores results as JSON attachments in Odoo.
  */
 
 const OdooClient = require('../api/odoo');
-
-// Python code for Daily Sales National Report import
-const DAILY_SALES_PYTHON_CODE = `
-# Daily Sales Report Import - Runs nightly in Odoo
-import json
-import re
-import base64
-from datetime import datetime, timedelta
-from html.parser import HTMLParser
-
-class TableParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.rows = []
-        self.current_row = []
-        self.current_cell = ""
-        self.in_cell = False
-        self.headers = []
-        self.in_header = False
-
-    def handle_starttag(self, tag, attrs):
-        if tag in ('th', 'td'):
-            self.in_cell = True
-            self.current_cell = ""
-            if tag == 'th':
-                self.in_header = True
-
-    def handle_endtag(self, tag):
-        if tag in ('th', 'td'):
-            self.in_cell = False
-            cell_value = self.current_cell.strip()
-            self.current_row.append(cell_value)
-            if tag == 'th':
-                self.in_header = False
-        elif tag == 'tr':
-            if self.current_row:
-                if not self.headers or len(self.current_row) == len(self.headers):
-                    if not self.headers:
-                        self.headers = self.current_row
-                    else:
-                        self.rows.append(self.current_row)
-            self.current_row = []
-
-    def handle_data(self, data):
-        if self.in_cell:
-            self.current_cell += data
-
-def parse_value(val):
-    """Parse currency/number strings"""
-    if not val or not isinstance(val, str):
-        return val
-    val = val.strip()
-    if val.startswith('$'):
-        try:
-            return float(val.replace('$', '').replace(',', ''))
-        except:
-            return val
-    if val.endswith('%'):
-        try:
-            return float(val.replace('%', ''))
-        except:
-            return val
-    if re.match(r'^[\\d,.-]+$', val):
-        try:
-            return float(val.replace(',', ''))
-        except:
-            return val
-    return val
-
-def normalize_key(key):
-    """Convert header to snake_case"""
-    key = key.lower()
-    key = re.sub(r'[^a-z0-9]+', '_', key)
-    return key.strip('_')
-
-# Find recent Daily Sales National Report emails
-Message = env['mail.message']
-Attachment = env['ir.attachment']
-
-date_from = (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d')
-messages = Message.search([
-    ('subject', 'ilike', 'Daily Sales National'),
-    ('message_type', '=', 'email'),
-    ('date', '>=', date_from),
-], order='date desc', limit=5)
-
-for msg in messages:
-    if not msg.body:
-        continue
-
-    existing = Attachment.search([
-        ('res_model', '=', 'mail.message'),
-        ('res_id', '=', msg.id),
-        ('name', 'ilike', 'daily_sales_national'),
-        ('mimetype', '=', 'application/json'),
-    ], limit=1)
-
-    if existing:
-        continue
-
-    parser = TableParser()
-    try:
-        parser.feed(msg.body)
-    except:
-        continue
-
-    if not parser.headers or not parser.rows:
-        continue
-
-    data = []
-    for row in parser.rows:
-        row_dict = {}
-        for i, val in enumerate(row):
-            if i < len(parser.headers):
-                key = normalize_key(parser.headers[i])
-                row_dict[key] = parse_value(val)
-        if row_dict:
-            data.append(row_dict)
-
-    if not data:
-        continue
-
-    report_date = msg.date.strftime('%Y-%m-%d') if msg.date else datetime.now().strftime('%Y-%m-%d')
-    report = {
-        'report_type': 'daily_sales_national',
-        'source_message_id': msg.id,
-        'source_date': str(msg.date),
-        'imported_at': datetime.now().isoformat(),
-        'row_count': len(data),
-        'columns': parser.headers,
-        'data': data,
-    }
-
-    json_content = json.dumps(report, indent=2, default=str)
-    filename = f"daily_sales_national_{report_date}.json"
-
-    Attachment.create({
-        'name': filename,
-        'type': 'binary',
-        'datas': base64.b64encode(json_content.encode('utf-8')),
-        'mimetype': 'application/json',
-        'res_model': 'mail.message',
-        'res_id': msg.id,
-        'description': f'Daily Sales National Report imported from email',
-    })
-
-    env.cr.commit()
-`;
-
-// Python code for Mel Report import
-const MEL_REPORT_PYTHON_CODE = `
-# Mel Report Import - Runs nightly in Odoo
-import json
-import re
-import base64
-from datetime import datetime, timedelta
-from html.parser import HTMLParser
-
-class TableParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.rows = []
-        self.current_row = []
-        self.current_cell = ""
-        self.in_cell = False
-        self.headers = []
-
-    def handle_starttag(self, tag, attrs):
-        if tag in ('th', 'td'):
-            self.in_cell = True
-            self.current_cell = ""
-
-    def handle_endtag(self, tag):
-        if tag in ('th', 'td'):
-            self.in_cell = False
-            self.current_row.append(self.current_cell.strip())
-        elif tag == 'tr':
-            if self.current_row:
-                if not self.headers:
-                    self.headers = self.current_row
-                else:
-                    self.rows.append(self.current_row)
-            self.current_row = []
-
-    def handle_data(self, data):
-        if self.in_cell:
-            self.current_cell += data
-
-def parse_value(val):
-    if not val or not isinstance(val, str):
-        return val
-    val = val.strip()
-    if val.startswith('$'):
-        try:
-            return float(val.replace('$', '').replace(',', ''))
-        except:
-            return val
-    if val.endswith('%'):
-        try:
-            return float(val.replace('%', ''))
-        except:
-            return val
-    if re.match(r'^[\\d,.-]+$', val):
-        try:
-            return float(val.replace(',', ''))
-        except:
-            return val
-    return val
-
-def normalize_key(key):
-    key = key.lower()
-    key = re.sub(r'[^a-z0-9]+', '_', key)
-    return key.strip('_')
-
-Message = env['mail.message']
-Attachment = env['ir.attachment']
-
-date_from = (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d')
-messages = Message.search([
-    ('subject', 'ilike', 'mel'),
-    ('message_type', '=', 'email'),
-    ('date', '>=', date_from),
-], order='date desc', limit=5)
-
-for msg in messages:
-    if not msg.body:
-        continue
-
-    existing = Attachment.search([
-        ('res_model', '=', 'mail.message'),
-        ('res_id', '=', msg.id),
-        ('name', 'ilike', 'mel_report'),
-        ('mimetype', '=', 'application/json'),
-    ], limit=1)
-
-    if existing:
-        continue
-
-    parser = TableParser()
-    try:
-        parser.feed(msg.body)
-    except:
-        continue
-
-    if not parser.headers or not parser.rows:
-        continue
-
-    data = []
-    for row in parser.rows:
-        row_dict = {}
-        for i, val in enumerate(row):
-            if i < len(parser.headers):
-                key = normalize_key(parser.headers[i])
-                row_dict[key] = parse_value(val)
-        if row_dict:
-            data.append(row_dict)
-
-    if not data:
-        continue
-
-    report_date = msg.date.strftime('%Y-%m-%d') if msg.date else datetime.now().strftime('%Y-%m-%d')
-    report = {
-        'report_type': 'mel_report',
-        'source_message_id': msg.id,
-        'source_date': str(msg.date),
-        'imported_at': datetime.now().isoformat(),
-        'row_count': len(data),
-        'columns': parser.headers,
-        'data': data,
-    }
-
-    json_content = json.dumps(report, indent=2, default=str)
-    filename = f"mel_report_{report_date}.json"
-
-    Attachment.create({
-        'name': filename,
-        'type': 'binary',
-        'datas': base64.b64encode(json_content.encode('utf-8')),
-        'mimetype': 'application/json',
-        'res_model': 'mail.message',
-        'res_id': msg.id,
-        'description': f'Mel Report imported from email',
-    })
-
-    env.cr.commit()
-`;
 
 class OdooReportImportService {
   constructor() {
@@ -322,200 +36,246 @@ class OdooReportImportService {
   }
 
   /**
-   * Create or update scheduled actions in Odoo
+   * Parse HTML table from Looker report email
    */
-  async setupScheduledActions() {
-    if (!this.enabled) {
-      return { success: false, error: 'Odoo not configured' };
+  parseHtmlTable(html) {
+    const rows = [];
+
+    // Extract table content
+    const tableMatch = html.match(/<table[^>]*>([\s\S]*?)<\/table>/i);
+    if (!tableMatch) {
+      return { headers: [], rows: [] };
     }
 
+    const tableContent = tableMatch[1];
+
+    // Extract headers from thead or first row
+    let headers = [];
+    const theadMatch = tableContent.match(/<thead[^>]*>([\s\S]*?)<\/thead>/i);
+    if (theadMatch) {
+      const headerCells = theadMatch[1].match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
+      headers = headerCells.map(cell => cell.replace(/<[^>]+>/g, '').trim());
+    }
+
+    // Extract data rows from tbody or table
+    const tbodyMatch = tableContent.match(/<tbody[^>]*>([\s\S]*?)<\/tbody>/i);
+    const rowsHtml = tbodyMatch ? tbodyMatch[1] : tableContent;
+    const rowMatches = rowsHtml.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi) || [];
+
+    for (let i = 0; i < rowMatches.length; i++) {
+      const rowHtml = rowMatches[i];
+      const cellMatches = rowHtml.match(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi) || [];
+      const cellValues = cellMatches.map(cell => cell.replace(/<[^>]+>/g, '').trim());
+
+      // First row becomes headers if we don't have them
+      if (headers.length === 0 && i === 0) {
+        headers = cellValues;
+        continue;
+      }
+
+      if (cellValues.length > 0) {
+        rows.push(cellValues);
+      }
+    }
+
+    return { headers, rows };
+  }
+
+  /**
+   * Parse value (currency, percentage, number)
+   */
+  parseValue(val) {
+    if (!val || typeof val !== 'string') return val;
+    val = val.trim();
+
+    // Currency
+    if (val.startsWith('$')) {
+      const num = parseFloat(val.replace(/[$,]/g, ''));
+      return isNaN(num) ? val : num;
+    }
+
+    // Percentage
+    if (val.endsWith('%')) {
+      const num = parseFloat(val.replace('%', ''));
+      return isNaN(num) ? val : num;
+    }
+
+    // Plain number
+    if (/^[\d,.-]+$/.test(val) && val !== '') {
+      const num = parseFloat(val.replace(/,/g, ''));
+      return isNaN(num) ? val : num;
+    }
+
+    return val;
+  }
+
+  /**
+   * Normalize header to snake_case
+   */
+  normalizeKey(key) {
+    return key.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_|_$/g, '');
+  }
+
+  /**
+   * Import a specific report type from inbox
+   */
+  async importReport(subjectFilter, reportType) {
     if (!this.odoo.authenticated) {
       const ok = await this.initialize();
       if (!ok) return { success: false, error: 'Initialization failed' };
     }
 
-    console.log('Setting up Odoo scheduled actions for report imports...');
+    console.log(`Importing ${reportType} reports...`);
 
-    const results = {
-      dailySales: null,
-      melReport: null,
-    };
+    // Search for recent emails matching the subject
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .replace('T', ' ')
+      .substring(0, 19);
 
-    // Get base model ID for mail.message
-    const models = await this.odoo.searchRead(
-      'ir.model',
-      [['model', '=', 'mail.message']],
-      ['id']
-    );
-    const modelId = models[0]?.id;
-
-    if (!modelId) {
-      return { success: false, error: 'Could not find mail.message model' };
-    }
-
-    // Check for existing crons
-    const existingCrons = await this.odoo.searchRead(
-      'ir.cron',
-      [['name', 'in', ['Import Daily Sales Report (Nightly)', 'Import Mel Report (Nightly)']]],
-      ['id', 'name']
+    const messages = await this.odoo.searchRead(
+      'mail.message',
+      [
+        ['subject', 'ilike', subjectFilter],
+        ['message_type', '=', 'email'],
+        ['date', '>=', twoDaysAgo],
+      ],
+      ['id', 'subject', 'date', 'body'],
+      { order: 'date desc', limit: 5 }
     );
 
-    const existingCronNames = new Map(existingCrons.map(c => [c.name, c.id]));
-
-    // Create/update Daily Sales cron
-    const dailySalesName = 'Import Daily Sales Report (Nightly)';
-    if (existingCronNames.has(dailySalesName)) {
-      const cronId = existingCronNames.get(dailySalesName);
-      await this.odoo.write('ir.cron', cronId, {
-        code: DAILY_SALES_PYTHON_CODE,
-        active: true,
-      });
-      results.dailySales = { id: cronId, status: 'updated' };
-      console.log(`  Updated cron: ${dailySalesName} (ID: ${cronId})`);
-    } else {
-      const cronId = await this.odoo.create('ir.cron', {
-        name: dailySalesName,
-        model_id: modelId,
-        state: 'code',
-        code: DAILY_SALES_PYTHON_CODE,
-        interval_number: 1,
-        interval_type: 'days',
-        active: true,
-      });
-      results.dailySales = { id: cronId, status: 'created' };
-      console.log(`  Created cron: ${dailySalesName} (ID: ${cronId})`);
+    if (!messages || messages.length === 0) {
+      console.log(`  No ${reportType} emails found in last 2 days`);
+      return { success: true, processed: 0, message: 'No emails found' };
     }
 
-    // Create/update Mel Report cron
-    const melReportName = 'Import Mel Report (Nightly)';
-    if (existingCronNames.has(melReportName)) {
-      const cronId = existingCronNames.get(melReportName);
-      await this.odoo.write('ir.cron', cronId, {
-        code: MEL_REPORT_PYTHON_CODE,
-        active: true,
-      });
-      results.melReport = { id: cronId, status: 'updated' };
-      console.log(`  Updated cron: ${melReportName} (ID: ${cronId})`);
-    } else {
-      const cronId = await this.odoo.create('ir.cron', {
-        name: melReportName,
-        model_id: modelId,
-        state: 'code',
-        code: MEL_REPORT_PYTHON_CODE,
-        interval_number: 1,
-        interval_type: 'days',
-        active: true,
-      });
-      results.melReport = { id: cronId, status: 'created' };
-      console.log(`  Created cron: ${melReportName} (ID: ${cronId})`);
-    }
+    console.log(`  Found ${messages.length} emails`);
 
-    console.log('Scheduled actions setup complete');
+    let processed = 0;
+    let skipped = 0;
+
+    for (const msg of messages) {
+      // Check if already processed
+      const existing = await this.odoo.searchRead(
+        'ir.attachment',
+        [
+          ['res_model', '=', 'mail.message'],
+          ['res_id', '=', msg.id],
+          ['name', 'ilike', reportType],
+          ['mimetype', '=', 'application/json'],
+        ],
+        ['id'],
+        { limit: 1 }
+      );
+
+      if (existing && existing.length > 0) {
+        console.log(`  Skipping message ${msg.id} - already processed`);
+        skipped++;
+        continue;
+      }
+
+      if (!msg.body) {
+        console.log(`  Skipping message ${msg.id} - no body`);
+        continue;
+      }
+
+      // Parse the HTML table
+      const { headers, rows } = this.parseHtmlTable(msg.body);
+
+      if (headers.length === 0 || rows.length === 0) {
+        console.log(`  Skipping message ${msg.id} - no table data found`);
+        continue;
+      }
+
+      // Convert to JSON objects
+      const data = rows.map(row => {
+        const obj = {};
+        row.forEach((val, i) => {
+          if (i < headers.length) {
+            const key = this.normalizeKey(headers[i]);
+            obj[key] = this.parseValue(val);
+          }
+        });
+        return obj;
+      });
+
+      // Build report structure
+      const reportDate = msg.date.split(' ')[0];
+      const report = {
+        report_type: reportType,
+        source_message_id: msg.id,
+        source_date: msg.date,
+        imported_at: new Date().toISOString(),
+        row_count: data.length,
+        columns: headers,
+        data: data,
+      };
+
+      const jsonContent = JSON.stringify(report, null, 2);
+      const filename = `${reportType}_${reportDate}.json`;
+
+      // Create attachment in Odoo
+      const attachmentId = await this.odoo.create('ir.attachment', {
+        name: filename,
+        type: 'binary',
+        datas: Buffer.from(jsonContent).toString('base64'),
+        mimetype: 'application/json',
+        res_model: 'mail.message',
+        res_id: msg.id,
+        description: `${reportType} imported from email`,
+      });
+
+      console.log(`  Created attachment ${attachmentId}: ${filename} (${data.length} rows)`);
+      processed++;
+    }
 
     return {
       success: true,
-      scheduledActions: results,
-      message: 'Nightly imports scheduled in Odoo',
+      processed,
+      skipped,
+      message: `Imported ${processed} reports, skipped ${skipped} already processed`,
     };
   }
 
   /**
-   * Run the imports now (one-time execution)
+   * Run all report imports
    */
   async runImportsNow() {
     if (!this.enabled) {
       return { success: false, error: 'Odoo not configured' };
     }
 
-    if (!this.odoo.authenticated) {
-      const ok = await this.initialize();
-      if (!ok) return { success: false, error: 'Initialization failed' };
-    }
-
-    console.log('Running Odoo report imports now...');
+    console.log('\n=== Odoo Report Import ===');
 
     const results = {
       dailySales: null,
       melReport: null,
-      attachments: [],
     };
 
-    // Find or create server actions
-    const existingActions = await this.odoo.searchRead(
-      'ir.actions.server',
-      [['name', 'in', ['Import Daily Sales Report', 'Import Mel Report']]],
-      ['id', 'name']
-    );
-
-    const actionMap = new Map(existingActions.map(a => [a.name, a.id]));
-
-    // Get model ID
-    const models = await this.odoo.searchRead(
-      'ir.model',
-      [['model', '=', 'mail.message']],
-      ['id']
-    );
-    const modelId = models[0]?.id;
-
-    if (!modelId) {
-      return { success: false, error: 'Could not find mail.message model' };
-    }
-
-    // Create/get Daily Sales server action
-    let dailySalesActionId = actionMap.get('Import Daily Sales Report');
-    if (!dailySalesActionId) {
-      dailySalesActionId = await this.odoo.create('ir.actions.server', {
-        name: 'Import Daily Sales Report',
-        model_id: modelId,
-        state: 'code',
-        code: DAILY_SALES_PYTHON_CODE,
-      });
-      console.log(`  Created server action: Import Daily Sales Report (ID: ${dailySalesActionId})`);
-    } else {
-      await this.odoo.write('ir.actions.server', dailySalesActionId, {
-        code: DAILY_SALES_PYTHON_CODE,
-      });
-      console.log(`  Updated server action: Import Daily Sales Report (ID: ${dailySalesActionId})`);
-    }
-
-    // Create/get Mel Report server action
-    let melReportActionId = actionMap.get('Import Mel Report');
-    if (!melReportActionId) {
-      melReportActionId = await this.odoo.create('ir.actions.server', {
-        name: 'Import Mel Report',
-        model_id: modelId,
-        state: 'code',
-        code: MEL_REPORT_PYTHON_CODE,
-      });
-      console.log(`  Created server action: Import Mel Report (ID: ${melReportActionId})`);
-    } else {
-      await this.odoo.write('ir.actions.server', melReportActionId, {
-        code: MEL_REPORT_PYTHON_CODE,
-      });
-      console.log(`  Updated server action: Import Mel Report (ID: ${melReportActionId})`);
-    }
-
-    // Execute the server actions
+    // Import Daily Sales National Report
     try {
-      await this.odoo.execute('ir.actions.server', 'run', [[dailySalesActionId]]);
-      results.dailySales = { status: 'executed', actionId: dailySalesActionId };
-      console.log('  Daily Sales Report import executed');
+      results.dailySales = await this.importReport('Daily Sales National', 'daily_sales_national');
     } catch (e) {
-      results.dailySales = { status: 'error', error: e.message };
-      console.log('  Daily Sales Report: ' + e.message);
+      console.error('Daily Sales import error:', e.message);
+      results.dailySales = { success: false, error: e.message };
     }
 
+    // Import Mel Report
     try {
-      await this.odoo.execute('ir.actions.server', 'run', [[melReportActionId]]);
-      results.melReport = { status: 'executed', actionId: melReportActionId };
-      console.log('  Mel Report import executed');
+      results.melReport = await this.importReport('mel', 'mel_report');
     } catch (e) {
-      results.melReport = { status: 'error', error: e.message };
-      console.log('  Mel Report: ' + e.message);
+      console.error('Mel Report import error:', e.message);
+      results.melReport = { success: false, error: e.message };
     }
 
-    // Check for created attachments
-    const oneHourAgo = new Date(Date.now() - 3600000).toISOString().replace('T', ' ').substring(0, 19);
+    // Get recent attachments for verification
+    const oneHourAgo = new Date(Date.now() - 3600000)
+      .toISOString()
+      .replace('T', ' ')
+      .substring(0, 19);
+
     const recentAttachments = await this.odoo.searchRead(
       'ir.attachment',
       [
@@ -529,13 +289,23 @@ class OdooReportImportService {
       { order: 'create_date desc', limit: 10 }
     );
 
-    results.attachments = recentAttachments || [];
-    console.log(`  Found ${results.attachments.length} recent JSON attachments`);
+    console.log('=== Import Complete ===\n');
 
     return {
       success: true,
       imports: results,
-      message: 'Report imports completed',
+      recentAttachments: recentAttachments || [],
+    };
+  }
+
+  /**
+   * Setup info (no longer creates Odoo crons, runs on Railway instead)
+   */
+  async setupScheduledActions() {
+    return {
+      success: true,
+      message: 'Report imports run as Railway job (not Odoo cron due to Python restrictions)',
+      howToSchedule: 'Add to BullMQ scheduler or call POST /api/odoo/import-reports',
     };
   }
 }
