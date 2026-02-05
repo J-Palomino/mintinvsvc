@@ -354,6 +354,47 @@ class OdooReportSetup {
   }
 
   /**
+   * Create access rights for the model
+   */
+  async createAccessRights(modelId) {
+    console.log('Creating access rights...');
+
+    // Check if access rights already exist
+    const existing = await this.odoo.searchRead(
+      'ir.model.access',
+      [['model_id', '=', modelId]],
+      ['id', 'name']
+    );
+
+    if (existing && existing.length > 0) {
+      console.log('  Access rights already exist');
+      return existing.map(a => a.id);
+    }
+
+    // Get the base user group (all employees)
+    const groups = await this.odoo.searchRead(
+      'res.groups',
+      [['name', '=', 'User']],
+      ['id'],
+      { limit: 1 }
+    );
+
+    // Create full access for all users
+    const accessId = await this.odoo.create('ir.model.access', {
+      name: 'access_x_daily_report_all',
+      model_id: modelId,
+      group_id: groups && groups.length > 0 ? groups[0].id : false,
+      perm_read: true,
+      perm_write: true,
+      perm_create: true,
+      perm_unlink: true,
+    });
+
+    console.log('  Created access rights (ID: ' + accessId + ')');
+    return [accessId];
+  }
+
+  /**
    * Run full setup
    */
   async setup() {
@@ -363,6 +404,9 @@ class OdooReportSetup {
 
     // Create model
     const modelId = await this.createModel();
+
+    // Create access rights
+    await this.createAccessRights(modelId);
 
     // Create fields
     await this.createFields(modelId);
