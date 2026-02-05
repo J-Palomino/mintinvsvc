@@ -256,47 +256,12 @@ class OdooReportSetup {
   }
 
   /**
-   * Create search view
+   * Create search view (optional - Odoo provides default)
    */
   async createSearchView(modelId) {
-    console.log('Creating search view...');
-
-    const viewName = 'x_daily_report.search';
-    const existing = await this.odoo.searchRead(
-      'ir.ui.view',
-      [['name', '=', viewName]],
-      ['id']
-    );
-
-    if (existing && existing.length > 0) {
-      console.log('  Search view already exists (ID: ' + existing[0].id + ')');
-      return existing[0].id;
-    }
-
-    const arch = `<?xml version="1.0"?>
-<search string="Search Reports">
-  <field name="x_name"/>
-  <field name="x_report_type"/>
-  <field name="x_report_date"/>
-  <filter string="Daily Sales" name="daily_sales" domain="[('x_report_type', '=', 'daily_sales_national')]"/>
-  <filter string="Mel Report" name="mel_report" domain="[('x_report_type', '=', 'mel_report')]"/>
-  <separator/>
-  <group expand="0" string="Group By">
-    <filter string="Report Type" name="group_type" context="{'group_by': 'x_report_type'}"/>
-    <filter string="Report Date" name="group_date" context="{'group_by': 'x_report_date'}"/>
-    <filter string="Status" name="group_status" context="{'group_by': 'x_status'}"/>
-  </group>
-</search>`;
-
-    const viewId = await this.odoo.create('ir.ui.view', {
-      name: viewName,
-      model: 'x_daily_report',
-      type: 'search',
-      arch: arch,
-    });
-
-    console.log('  Created search view (ID: ' + viewId + ')');
-    return viewId;
+    console.log('Skipping search view (using Odoo default)...');
+    // Odoo 19 generates a default search view automatically
+    return null;
   }
 
   /**
