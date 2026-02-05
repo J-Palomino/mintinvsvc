@@ -168,16 +168,16 @@ class OdooReportSetup {
     }
 
     const arch = `<?xml version="1.0"?>
-<tree string="Daily Reports">
+<list string="Daily Reports">
   <field name="x_name"/>
   <field name="x_report_type"/>
   <field name="x_report_date"/>
   <field name="x_store_count"/>
-  <field name="x_total_sales" widget="monetary"/>
+  <field name="x_total_sales"/>
   <field name="x_row_count"/>
   <field name="x_status"/>
   <field name="x_imported_at"/>
-</tree>`;
+</list>`;
 
     const viewId = await this.odoo.create('ir.ui.view', {
       name: viewName,
