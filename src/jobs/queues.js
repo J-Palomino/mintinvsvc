@@ -14,7 +14,8 @@ const QUEUE_NAMES = {
   BANNER_SYNC: 'banner-sync',
   HOURLY_SALES: 'hourly-sales',
   ODOO_SYNC: 'odoo-sync',      // Odoo → PostgreSQL sync
-  DUTCHIE_SYNC: 'dutchie-sync'  // PostgreSQL → Dutchie sync
+  DUTCHIE_SYNC: 'dutchie-sync',  // PostgreSQL → Dutchie sync
+  REPORT_IMPORT: 'report-import'  // Import reports from Odoo inbox
 };
 
 // Default job options per queue type
@@ -72,6 +73,15 @@ const DEFAULT_OPTIONS = {
     },
     removeOnComplete: { count: 100 },
     removeOnFail: { count: 50 }
+  },
+  [QUEUE_NAMES.REPORT_IMPORT]: {
+    attempts: 2,
+    backoff: {
+      type: 'exponential',
+      delay: 60000
+    },
+    removeOnComplete: { count: 30 },
+    removeOnFail: { count: 30 }
   }
 };
 
@@ -94,6 +104,9 @@ const SCHEDULES = {
   },
   [QUEUE_NAMES.DUTCHIE_SYNC]: {
     pattern: '10,25,40,55 * * * *' // Every 15 minutes, 5 min after Odoo sync
+  },
+  [QUEUE_NAMES.REPORT_IMPORT]: {
+    pattern: '0 6 * * *' // 6:00 AM daily
   }
 };
 
@@ -112,7 +125,8 @@ function initQueues(connection) {
     bannerSync: new Queue(QUEUE_NAMES.BANNER_SYNC, queueOptions),
     hourlySales: new Queue(QUEUE_NAMES.HOURLY_SALES, queueOptions),
     odooSync: new Queue(QUEUE_NAMES.ODOO_SYNC, queueOptions),
-    dutchieSync: new Queue(QUEUE_NAMES.DUTCHIE_SYNC, queueOptions)
+    dutchieSync: new Queue(QUEUE_NAMES.DUTCHIE_SYNC, queueOptions),
+    reportImport: new Queue(QUEUE_NAMES.REPORT_IMPORT, queueOptions)
   };
 
   console.log('BullMQ queues initialized');
@@ -201,6 +215,18 @@ async function scheduleRepeatableJobs() {
     }
   );
   console.log('  - Dutchie sync: every 15 minutes (10,25,40,55)');
+
+  // Schedule report import at 6 AM daily
+  const { reportImport } = queues;
+  await reportImport.add(
+    'scheduled-import',
+    {},
+    {
+      ...DEFAULT_OPTIONS[QUEUE_NAMES.REPORT_IMPORT],
+      repeat: SCHEDULES[QUEUE_NAMES.REPORT_IMPORT]
+    }
+  );
+  console.log('  - Report import: 6:00 AM daily');
 }
 
 /**
@@ -225,7 +251,8 @@ async function addJob(queueName, data = {}, options = {}) {
     [QUEUE_NAMES.BANNER_SYNC]: queues.bannerSync,
     [QUEUE_NAMES.HOURLY_SALES]: queues.hourlySales,
     [QUEUE_NAMES.ODOO_SYNC]: queues.odooSync,
-    [QUEUE_NAMES.DUTCHIE_SYNC]: queues.dutchieSync
+    [QUEUE_NAMES.DUTCHIE_SYNC]: queues.dutchieSync,
+    [QUEUE_NAMES.REPORT_IMPORT]: queues.reportImport
   };
 
   const queue = queueMap[queueName];

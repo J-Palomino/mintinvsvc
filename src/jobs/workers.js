@@ -14,6 +14,7 @@ const bannerSyncProcessor = require('./processors/bannerSync');
 const hourlySalesProcessor = require('./processors/hourlySales');
 const odooSyncProcessor = require('./processors/odooSync');
 const dutchieSyncProcessor = require('./processors/dutchieSync');
+const reportImportProcessor = require('./processors/reportImport');
 
 let workers = {};
 let context = null;
@@ -72,6 +73,13 @@ function initWorkers(connection, ctx) {
   workers.dutchieSync = new Worker(
     QUEUE_NAMES.DUTCHIE_SYNC,
     async (job) => dutchieSyncProcessor.process(job, context),
+    workerOptions
+  );
+
+  // Report Import Worker (Odoo inbox → JSON attachments)
+  workers.reportImport = new Worker(
+    QUEUE_NAMES.REPORT_IMPORT,
+    async (job) => reportImportProcessor(job, context),
     workerOptions
   );
 
